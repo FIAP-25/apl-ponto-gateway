@@ -1,7 +1,9 @@
-import { ClienteEntity } from '@/infrastructure/entity/cliente.entity';
 import { Module } from '@nestjs/common';
+import ApplicationModule from './application/application.module';
+import DomainModule from './domain/domain.module';
+import InfrastructureModule from './infrastructure/infrastructure.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ClienteModule } from './application/controller/cliente/cliente.module';
+import { ClienteEntity } from './infrastructure/entity/cliente.entity';
 
 @Module({
   imports: [
@@ -15,7 +17,9 @@ import { ClienteModule } from './application/controller/cliente/cliente.module';
       entities: [ClienteEntity],
       synchronize: true,
     }),
-    ClienteModule,
+    DomainModule,
+    ApplicationModule,
+    InfrastructureModule,
   ],
 })
 export class AppModule {}
