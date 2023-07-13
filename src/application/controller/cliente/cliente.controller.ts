@@ -1,12 +1,19 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { ClienteService } from './cliente.service';
+import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
+import { Response } from 'express';
+import { ClienteUseCase } from '@/domain/port/usecase/cliente.usecase';
 
-@Controller('cliente')
+@Controller('clientes')
 export class ClienteController {
-  constructor(private readonly clienteService: ClienteService) {}
+  constructor(private readonly clienteUseCase: ClienteUseCase) {}
 
-  @Get(':cpf')
-  obterClientePorCPF(@Param() params: any): string {
-    return this.clienteService.obterClientePorCpf(params.cpf);
+  @Post()
+  async adicionarCliente(@Body() body: any, @Res() res: Response) {
+    const cliente = body;
+
+    const clienteAdicionado = await this.clienteUseCase.adicionarCliente(
+      cliente,
+    );
+
+    return res.status(HttpStatus.CREATED).send();
   }
 }
