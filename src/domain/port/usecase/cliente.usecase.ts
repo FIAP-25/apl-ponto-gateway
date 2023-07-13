@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { mapper } from '@/application/mapper/base.mapper';
 import { Cliente } from '@/domain/entity/cliente.model';
+import { ClienteService } from '@/infrastructure/repository/cliente/cliente.service';
 import { AutoMap } from '@automapper/classes';
 import { createMap } from '@automapper/core';
-import { mapper } from '@/application/mapper/base.mapper';
-import { IClienteService } from '@/domain/port/repository/cliente.interface';
+import { Injectable } from '@nestjs/common';
 
 export class Input {
   @AutoMap()
@@ -32,21 +32,16 @@ createMap(mapper, Cliente, Output);
 
 @Injectable()
 export class ClienteUseCase {
-  constructor(private readonly clienteService: IClienteService) {}
+  constructor(private clienteService: ClienteService) {}
 
   async adicionarCliente(input: Input): Promise<Output> {
     const cliente: Cliente = mapper.map(input, Input, Cliente);
-
     cliente.validarClienteAdicionar();
-
-    // const clienteExiste = await this.clienteService.findByCPF(cliente.cpf);
-
+    const clienteExiste = await this.clienteService.findByCPF(cliente.cpf);
     // if (clienteExiste) {
     //   throw new ErroNegocio('cliente-cpf-cadastrado');
     // }
-
     const clienteAdicionado = await this.clienteService.save(cliente);
-
     return mapper.map(clienteAdicionado, Cliente, Output);
   }
 }

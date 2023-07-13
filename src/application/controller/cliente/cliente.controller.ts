@@ -2,9 +2,9 @@ import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { ClienteUseCase } from '@/domain/port/usecase/cliente.usecase';
 
-@Controller('clientes')
+@Controller('api/clientes')
 export class ClienteController {
-  constructor(private readonly clienteUseCase: ClienteUseCase) {}
+  constructor(private clienteUseCase: ClienteUseCase) {}
 
   @Post()
   async adicionarCliente(@Body() body: any, @Res() res: Response) {
