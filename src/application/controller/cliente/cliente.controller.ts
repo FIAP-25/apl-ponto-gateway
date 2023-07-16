@@ -1,6 +1,7 @@
 import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { ClienteUseCase } from '@/domain/port/usecase/cliente.usecase';
+import { created } from '@/application/helper/http.helper';
 
 @Controller('api/clientes')
 export class ClienteController {
@@ -14,6 +15,6 @@ export class ClienteController {
       cliente,
     );
 
-    return res.status(HttpStatus.CREATED).send();
+    return created(clienteAdicionado, res);
   }
 }
