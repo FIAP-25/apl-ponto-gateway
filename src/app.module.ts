@@ -9,11 +9,11 @@ import { ClienteEntity } from './infrastructure/entity/cliente.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'mysql',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'fiap',
+      host: process.env.DATABASE_HOST,
+      port: Number(process.env.DATABASE_PORT),
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_SCHEMA,
       entities: [ClienteEntity],
       synchronize: true,
     }),
