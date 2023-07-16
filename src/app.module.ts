@@ -9,7 +9,7 @@ import { ClienteEntity } from './infrastructure/entity/cliente.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'mysql',
       port: 3306,
       username: 'root',
       password: 'root',
