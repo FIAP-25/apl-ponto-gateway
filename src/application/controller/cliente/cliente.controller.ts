@@ -63,4 +63,11 @@ export class ClienteController {
 
     return ok(cliente, res);
   }
+
+  @Get()
+  async obterClientes(@Res() res: Response): Promise<any> {
+    const cliente = await this.clienteUseCase.obterClientes();
+
+    return ok(cliente, res);
+  }
 }

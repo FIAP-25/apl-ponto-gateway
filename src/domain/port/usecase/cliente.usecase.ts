@@ -80,4 +80,10 @@ export class ClienteUseCase {
 
     return mapper.map(cliente, Cliente, Output);
   }
+
+  async obterClientes(): Promise<Output[]> {
+    const cliente = await this.clienteService.find();
+
+    return mapper.mapArray(cliente, Cliente, Output);
+  }
 }
