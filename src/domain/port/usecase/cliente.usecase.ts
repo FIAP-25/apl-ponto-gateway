@@ -70,4 +70,14 @@ export class ClienteUseCase {
 
     return mapper.map(produtoAtualizado, Cliente, Output);
   }
+
+  async obterClientePorCPF(cpf: string): Promise<Output> {
+    const cliente = await this.clienteService.findByCPF(cpf);
+
+    if (!cliente) {
+      throw new ErroNegocio('cliente-nao-cadastrado');
+    }
+
+    return mapper.map(cliente, Cliente, Output);
+  }
 }
