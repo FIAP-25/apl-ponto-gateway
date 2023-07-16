@@ -44,4 +44,9 @@ export class ClienteUseCase {
     const clienteAdicionado = await this.clienteService.save(cliente);
     return mapper.map(clienteAdicionado, Cliente, Output);
   }
+
+  async removerClientePorCPF(cpf: string): Promise<void> {
+    console.log('chegou cpf: ', cpf);
+    await this.clienteService.remove(cpf);
+  }
 }

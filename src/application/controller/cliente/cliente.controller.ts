@@ -1,7 +1,7 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
-import { Response } from 'express';
+import { created, noContent } from '@/application/helper/http.helper';
 import { ClienteUseCase } from '@/domain/port/usecase/cliente.usecase';
-import { created } from '@/application/helper/http.helper';
+import { Body, Controller, Delete, Param, Post, Res } from '@nestjs/common';
+import { Response } from 'express';
 
 @Controller('api/clientes')
 export class ClienteController {
@@ -16,5 +16,15 @@ export class ClienteController {
     );
 
     return created(clienteAdicionado, res);
+  }
+
+  @Delete(':cpf')
+  async removerClientePorCPF(
+    @Param('cpf') cpf: string,
+    @Res() res: Response,
+  ): Promise<any> {
+    await this.clienteUseCase.removerClientePorCPF(cpf);
+
+    return noContent(res);
   }
 }
