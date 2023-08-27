@@ -1,11 +1,14 @@
 import { created, noContent, ok } from '@/application/helper/http.helper';
 import { PedidoUseCase } from '@/domain/port/usecase/pedido.usecase';
+import { adicionarPedidoInput } from '@/infrastructure/dto/pedido/adicionarPedido.dto';
+import { atualizarStatusPedidoInput } from '@/infrastructure/dto/pedido/atualizarPedido.dto';
 import {
   Body,
   Controller,
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Res,
@@ -17,7 +20,7 @@ export class ClienteController {
   constructor(private pedidoUseCase: PedidoUseCase) {}
 
   @Post()
-  async adicionarPedido(@Body() body: any, @Res() res: Response) {
+  async adicionarPedido(@Body() body: adicionarPedidoInput, @Res() res: Response) {
     const pedido = body;
     const pedidoAdicionado = await this.pedidoUseCase.adicionarPedido(pedido);
 
@@ -34,16 +37,14 @@ export class ClienteController {
     return noContent(res);
   }
 
-  @Put(':id')
+  @Patch(':id')
   async atualizarPedidoStatusPorId(
     @Param('id') id: string,
-    @Body() body: any,
+    @Body() body: atualizarStatusPedidoInput,
     @Res() res: Response,
   ): Promise<any> {
-    const pedido = body;
-    pedido.id = id;
     const pedidoAtualizado =
-      await this.pedidoUseCase.atualizarPedidoStatusPorId(body);
+      await this.pedidoUseCase.atualizarPedidoStatusPorId(id, body);
 
     return ok(pedidoAtualizado, res);
   }
@@ -55,19 +56,19 @@ export class ClienteController {
     return ok(pedidos, res);
   }
 
-  @Get()
-  async obterPedidosFila(@Res() res: Response): Promise<any> {
-    const pedidos = await this.pedidoUseCase.obterPedidosFila();
+  // @Get()
+  // async obterPedidosFila(@Res() res: Response): Promise<any> {
+  //   const pedidos = await this.pedidoUseCase.obterPedidosFila();
 
-    return ok(pedidos, res);
-  }
+  //   return ok(pedidos, res);
+  // }
 
   @Get(':id')
   async obterPedidoPorId(
     @Param('id') id: string,
     @Res() res: Response,
   ): Promise<any> {
-    const cliente = await this.pedidoUseCase.obterPedidoPorId({ id });
+    const cliente = await this.pedidoUseCase.obterPedidoPorId(id);
 
     return ok(cliente, res);
   }

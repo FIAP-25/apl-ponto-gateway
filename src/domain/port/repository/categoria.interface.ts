@@ -1,5 +1,4 @@
 import { Categoria } from '@/domain/entity/categoria.model';
-import { Cliente } from '@/domain/entity/cliente.model';
 
 export interface ICategoriaService {
   find(): Promise<Categoria[]>;
