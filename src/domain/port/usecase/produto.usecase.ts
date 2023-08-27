@@ -6,19 +6,16 @@ import {
   AdicionarProdutoOutput,
 } from '@/infrastructure/dto/produto/adicionarProduto.dto';
 import {
-  AtualizarProdutoInput,
-  AtualizarProdutoOutput,
-} from '@/infrastructure/dto/produto/atualizarProduto.dto';
+  AtualizarProdutoPorIdInput,
+  AtualizarProdutoPorIdOutput,
+} from '@/infrastructure/dto/produto/atualizarProdutoPorId.dto';
+
 import { ObterProdutoPorCategoriaOutput } from '@/infrastructure/dto/produto/obterProdutoPorCategoria.dto';
 import { ObterProdutoPorIdOutput } from '@/infrastructure/dto/produto/obterProdutoPorId.dto';
 import { ObterProdutosOutput } from '@/infrastructure/dto/produto/obterProdutos.dto';
 import { CategoriaService } from '@/infrastructure/repository/categoria/categoria.service';
 import { ProdutoService } from '@/infrastructure/repository/produto/produto.service';
-import { createMap } from '@automapper/core';
 import { Injectable } from '@nestjs/common';
-
-createMap(mapper, AdicionarProdutoInput, Produto);
-createMap(mapper, Produto, AdicionarProdutoOutput);
 
 @Injectable()
 export class ProdutoUseCase {
@@ -57,8 +54,8 @@ export class ProdutoUseCase {
   }
 
   async atualizarProdutoPorId(
-    input: AtualizarProdutoInput,
-  ): Promise<AtualizarProdutoOutput> {
+    input: AtualizarProdutoPorIdInput,
+  ): Promise<AtualizarProdutoPorIdOutput> {
     if (!input.categoriaId) {
       throw new ErroNegocio('produto-categoria-nao-existe');
     }
@@ -71,14 +68,18 @@ export class ProdutoUseCase {
       throw new ErroNegocio('produto-categoria-nao-existe');
     }
 
-    const produto: Produto = mapper.map(input, AtualizarProdutoInput, Produto);
+    const produto: Produto = mapper.map(
+      input,
+      AtualizarProdutoPorIdInput,
+      Produto,
+    );
     produto.categoria = categoriaProduto;
 
     produto.validarProduto();
 
     const produtoAtualizado = await this.produtoService.save(produto);
 
-    return mapper.map(produtoAtualizado, Produto, AtualizarProdutoOutput);
+    return mapper.map(produtoAtualizado, Produto, AtualizarProdutoPorIdOutput);
   }
 
   async obterProdutoPorId(id: string): Promise<ObterProdutoPorIdOutput> {

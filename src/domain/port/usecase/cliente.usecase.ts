@@ -12,30 +12,7 @@ import {
 import { ObterClientePorCpfOutput } from '@/infrastructure/dto/cliente/obterClientePorCpf.dto';
 import { ObterClientesOutput } from '@/infrastructure/dto/cliente/obterClientes.dto';
 import { ClienteService } from '@/infrastructure/repository/cliente/cliente.service';
-import { AutoMap } from '@automapper/classes';
 import { Injectable } from '@nestjs/common';
-
-export class Input {
-  @AutoMap()
-  cpf: string;
-
-  @AutoMap()
-  email: string;
-
-  @AutoMap()
-  nomeCompleto: string;
-}
-
-export class Output {
-  @AutoMap()
-  cpf: string;
-
-  @AutoMap()
-  email: string;
-
-  @AutoMap()
-  nomeCompleto: string;
-}
 
 @Injectable()
 export class ClienteUseCase {

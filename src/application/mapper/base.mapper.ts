@@ -11,6 +11,17 @@ import {
 } from '@/infrastructure/dto/cliente/atualizarClientePorCpf.dto';
 import { ObterClientePorCpfOutput } from '@/infrastructure/dto/cliente/obterClientePorCpf.dto';
 import { ObterClientesOutput } from '@/infrastructure/dto/cliente/obterClientes.dto';
+import {
+  AdicionarProdutoInput,
+  AdicionarProdutoOutput,
+} from '@/infrastructure/dto/produto/adicionarProduto.dto';
+import {
+  AtualizarProdutoPorIdInput,
+  AtualizarProdutoPorIdOutput,
+} from '@/infrastructure/dto/produto/atualizarProdutoPorId.dto';
+import { ObterProdutoPorCategoriaOutput } from '@/infrastructure/dto/produto/obterProdutoPorCategoria.dto';
+import { ObterProdutoPorIdOutput } from '@/infrastructure/dto/produto/obterProdutoPorId.dto';
+import { ObterProdutosOutput } from '@/infrastructure/dto/produto/obterProdutos.dto';
 import { CategoriaEntity } from '@/infrastructure/entity/categoria.entity';
 import { ClienteEntity } from '@/infrastructure/entity/cliente.entity';
 import { ProdutoEntity } from '@/infrastructure/entity/produto.entity';
@@ -152,4 +163,16 @@ createMap(
     mapFrom((source) => source.categoria),
   ),
 );
+
+createMap(mapper, AdicionarProdutoInput, Produto);
+createMap(mapper, Produto, AdicionarProdutoOutput);
+
+createMap(mapper, AtualizarProdutoPorIdInput, Produto);
+createMap(mapper, Produto, AtualizarProdutoPorIdOutput);
+
+createMap(mapper, Produto, ObterProdutoPorCategoriaOutput);
+
+createMap(mapper, Produto, ObterProdutoPorIdOutput);
+
+createMap(mapper, Produto, ObterProdutosOutput);
 // #endregion

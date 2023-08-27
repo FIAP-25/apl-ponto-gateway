@@ -1,7 +1,7 @@
 import { Categoria } from '@/domain/entity/categoria.model';
 import { AutoMap } from '@automapper/classes';
 
-export class AtualizarProdutoInput {
+export class AtualizarProdutoPorIdInput {
   @AutoMap()
   id: string;
 
@@ -14,7 +14,7 @@ export class AtualizarProdutoInput {
   preco: number;
 }
 
-export class AtualizarProdutoOutput {
+export class AtualizarProdutoPorIdOutput {
   @AutoMap()
   id: string;
 
