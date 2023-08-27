@@ -1,6 +1,6 @@
 import { Cliente } from '@/domain/entity/cliente.model';
 
-export interface IClienteService {
+export interface IClienteRepository {
   find(): Promise<Cliente[]>;
   findByCPF(cpf: string): Promise<Cliente>;
   save(cliente: Cliente): Promise<Cliente>;

@@ -1,6 +1,6 @@
 import { Categoria } from '@/domain/entity/categoria.model';
 
-export interface ICategoriaService {
+export interface ICategoriaRepository {
   find(): Promise<Categoria[]>;
   findById(id: string): Promise<Categoria>;
   save(categoria: Categoria): Promise<Categoria>;

@@ -13,15 +13,15 @@ import {
 import { ObterProdutoPorCategoriaOutput } from '@/infrastructure/dto/produto/obterProdutoPorCategoria.dto';
 import { ObterProdutoPorIdOutput } from '@/infrastructure/dto/produto/obterProdutoPorId.dto';
 import { ObterProdutosOutput } from '@/infrastructure/dto/produto/obterProdutos.dto';
-import { CategoriaService } from '@/infrastructure/repository/categoria/categoria.service';
-import { ProdutoService } from '@/infrastructure/repository/produto/produto.service';
+import { CategoriaRepository } from '@/infrastructure/repository/categoria/categoria.repository';
+import { ProdutoRepository } from '@/infrastructure/repository/produto/produto.service';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ProdutoUseCase {
   constructor(
-    private categoriaService: CategoriaService,
-    private produtoService: ProdutoService,
+    private categoriaRepository: CategoriaRepository,
+    private produtoRepository: ProdutoRepository,
   ) {}
 
   async adicionarProduto(
@@ -31,7 +31,7 @@ export class ProdutoUseCase {
       throw new ErroNegocio('produto-categoria-nao-existe');
     }
 
-    const categoriaProduto = await this.categoriaService.findById(
+    const categoriaProduto = await this.categoriaRepository.findById(
       input.categoriaId,
     );
 
@@ -44,13 +44,13 @@ export class ProdutoUseCase {
 
     produto.validarProduto();
 
-    const produtoAdicionado = await this.produtoService.save(produto);
+    const produtoAdicionado = await this.produtoRepository.save(produto);
 
     return mapper.map(produtoAdicionado, Produto, AdicionarProdutoOutput);
   }
 
   async removerProdutoPorId(id: string): Promise<void> {
-    await this.produtoService.remove(id);
+    await this.produtoRepository.remove(id);
   }
 
   async atualizarProdutoPorId(
@@ -60,7 +60,7 @@ export class ProdutoUseCase {
       throw new ErroNegocio('produto-categoria-nao-existe');
     }
 
-    const categoriaProduto = await this.categoriaService.findById(
+    const categoriaProduto = await this.categoriaRepository.findById(
       input.categoriaId,
     );
 
@@ -77,13 +77,13 @@ export class ProdutoUseCase {
 
     produto.validarProduto();
 
-    const produtoAtualizado = await this.produtoService.save(produto);
+    const produtoAtualizado = await this.produtoRepository.save(produto);
 
     return mapper.map(produtoAtualizado, Produto, AtualizarProdutoPorIdOutput);
   }
 
   async obterProdutoPorId(id: string): Promise<ObterProdutoPorIdOutput> {
-    const produto = await this.produtoService.findById(id);
+    const produto = await this.produtoRepository.findById(id);
 
     if (!produto) {
       throw new ErroNegocio('produto-nao-existe');
@@ -93,7 +93,7 @@ export class ProdutoUseCase {
   }
 
   async obterProdutos(): Promise<ObterProdutosOutput[]> {
-    const produtos = await this.produtoService.find();
+    const produtos = await this.produtoRepository.find();
 
     return mapper.mapArray(produtos, Produto, ObterProdutosOutput);
   }
@@ -101,7 +101,7 @@ export class ProdutoUseCase {
   async obterProdutosPorCategoria(
     id: string,
   ): Promise<ObterProdutoPorCategoriaOutput[]> {
-    const produtos = await this.produtoService.findBy({
+    const produtos = await this.produtoRepository.findBy({
       categoria: {
         id: id,
       },
