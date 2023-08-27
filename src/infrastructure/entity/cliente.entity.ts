@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { PedidoEntity } from './pedido.entity';
+import { ProdutoEntity } from './produto.entity';
 
 @Entity('cliente')
 export class ClienteEntity {
@@ -12,14 +14,14 @@ export class ClienteEntity {
   nomeCompleto: string;
 
   // Relação para indicar os pedidos desse cliente
-  // @OneToMany(() => PedidoEntity, (produto) => produto.cliente)
-  // pedidos: ProdutoEntity[];
+  @OneToMany(() => PedidoEntity, (produto) => produto.cliente)
+  pedidos: ProdutoEntity[];
 
-  //   validarClienteAdicionar(): boolean {
-  //     return true;
-  //   }
+  validarClienteAdicionar(): boolean {
+    return true;
+  }
 
-  //   validarClienteAtualizar(): boolean {
-  //     return true;
-  //   }
+  validarClienteAtualizar(): boolean {
+    return true;
+  }
 }

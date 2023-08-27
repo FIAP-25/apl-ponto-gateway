@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ProdutoEntity } from './produto.entity';
 
 @Entity('categoria')
 export class CategoriaEntity {
@@ -8,8 +9,8 @@ export class CategoriaEntity {
   @Column({ unique: true })
   descricao: string;
 
-  // @OneToMany(() => ProdutoEntity, (produto) => produto.categoria)
-  // produtos: ProdutoEntity[];
+  @OneToMany(() => ProdutoEntity, (produto) => produto.categoria)
+  produtos: ProdutoEntity[];
 
   validarCategoria(): boolean {
     return true;
