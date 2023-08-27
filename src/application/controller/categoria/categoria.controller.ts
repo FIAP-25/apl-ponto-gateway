@@ -1,6 +1,5 @@
 import { created, noContent, ok } from '@/application/helper/http.helper';
 import { CategoriaUseCase } from '@/domain/port/usecase/categoria.usecase';
-import { ClienteUseCase } from '@/domain/port/usecase/cliente.usecase';
 import {
   Body,
   Controller,

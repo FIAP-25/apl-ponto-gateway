@@ -24,7 +24,7 @@ export class CategoriaService implements ICategoriaService {
   async findById(id: string): Promise<Categoria> {
     const categorias = await this.categoriaRepository.findOneBy({ id: id });
     return mapper.map(categorias, CategoriaEntity, Categoria);
-}
+  }
 
   async save(categoria: Categoria): Promise<Categoria> {
     const resultado = await this.categoriaRepository.save(categoria);
@@ -39,6 +39,4 @@ export class CategoriaService implements ICategoriaService {
   async remove(id: string): Promise<void> {
     await this.categoriaRepository.delete(id);
   }
-
-  
 }
