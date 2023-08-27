@@ -2,6 +2,16 @@ import { Categoria } from '@/domain/entity/categoria.model';
 import { Cliente } from '@/domain/entity/cliente.model';
 import { Produto } from '@/domain/entity/produto.model';
 import {
+  AdicionarCategoriaInput,
+  AdicionarCategoriaOutput,
+} from '@/infrastructure/dto/categoria/adicionarCategoria.dto';
+import {
+  AtualizarCategoriaPorIdInput,
+  AtualizarCategoriaPorIdOutput,
+} from '@/infrastructure/dto/categoria/atualizarCategoriaPorId.dto';
+import { ObterCategoriaPorIdOutput } from '@/infrastructure/dto/categoria/obterCategoriaPorId.dto';
+import { ObterCategoriasOutput } from '@/infrastructure/dto/categoria/obterCategorias.dto';
+import {
   AdicionarClienteInput,
   AdicionarClienteOutput,
 } from '@/infrastructure/dto/cliente/adicionarCliente.dto';
@@ -109,6 +119,17 @@ createMap(
     mapFrom((source) => source.descricao),
   ),
 );
+
+createMap(mapper, AdicionarCategoriaInput, Categoria);
+createMap(mapper, Categoria, AdicionarCategoriaOutput);
+
+createMap(mapper, AtualizarCategoriaPorIdInput, Categoria);
+createMap(mapper, Categoria, AtualizarCategoriaPorIdOutput);
+
+createMap(mapper, Categoria, ObterCategoriaPorIdOutput);
+
+createMap(mapper, Categoria, ObterCategoriasOutput);
+
 // #endregion
 
 // #region Produto
