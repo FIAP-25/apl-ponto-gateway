@@ -1,9 +1,18 @@
 import { mapper } from '@/application/mapper/base.mapper';
 import { Cliente } from '@/domain/entity/cliente.model';
 import { ErroNegocio } from '@/domain/exception/erro.module';
+import {
+  AdicionarClienteInput,
+  AdicionarClienteOutput,
+} from '@/infrastructure/dto/cliente/adicionarCliente.dto';
+import {
+  AtualizarClientePorCpfInput,
+  AtualizarClientePorCpfOutput,
+} from '@/infrastructure/dto/cliente/atualizarClientePorCpf.dto';
+import { ObterClientePorCpfOutput } from '@/infrastructure/dto/cliente/obterClientePorCpf.dto';
+import { ObterClientesOutput } from '@/infrastructure/dto/cliente/obterClientes.dto';
 import { ClienteService } from '@/infrastructure/repository/cliente/cliente.service';
 import { AutoMap } from '@automapper/classes';
-import { createMap } from '@automapper/core';
 import { Injectable } from '@nestjs/common';
 
 export class Input {
@@ -28,15 +37,14 @@ export class Output {
   nomeCompleto: string;
 }
 
-createMap(mapper, Input, Cliente);
-createMap(mapper, Cliente, Output);
-
 @Injectable()
 export class ClienteUseCase {
   constructor(private clienteService: ClienteService) {}
 
-  async adicionarCliente(input: Input): Promise<Output> {
-    const cliente: Cliente = mapper.map(input, Input, Cliente);
+  async adicionarCliente(
+    input: AdicionarClienteInput,
+  ): Promise<AdicionarClienteOutput> {
+    const cliente: Cliente = mapper.map(input, AdicionarClienteInput, Cliente);
 
     cliente.validarClienteAdicionar();
 
@@ -47,15 +55,21 @@ export class ClienteUseCase {
     }
 
     const clienteAdicionado = await this.clienteService.save(cliente);
-    return mapper.map(clienteAdicionado, Cliente, Output);
+    return mapper.map(clienteAdicionado, Cliente, AdicionarClienteOutput);
   }
 
-  async removerClientePorCPF(cpf: string): Promise<void> {
+  async removerClientePorCpf(cpf: string): Promise<void> {
     await this.clienteService.remove(cpf);
   }
 
-  async atualizarClientePorCPF(input: Input): Promise<Output> {
-    const cliente: Cliente = mapper.map(input, Input, Cliente);
+  async atualizarClientePorCpf(
+    input: AtualizarClientePorCpfInput,
+  ): Promise<AtualizarClientePorCpfOutput> {
+    const cliente: Cliente = mapper.map(
+      input,
+      AtualizarClientePorCpfInput,
+      Cliente,
+    );
 
     cliente.validarClienteAtualizar();
 
@@ -68,22 +82,22 @@ export class ClienteUseCase {
     cliente.cpf = clienteExiste.cpf;
     const produtoAtualizado = await this.clienteService.save(cliente);
 
-    return mapper.map(produtoAtualizado, Cliente, Output);
+    return mapper.map(produtoAtualizado, Cliente, AtualizarClientePorCpfOutput);
   }
 
-  async obterClientePorCPF(cpf: string): Promise<Output> {
+  async obterClientePorCpf(cpf: string): Promise<ObterClientePorCpfOutput> {
     const cliente = await this.clienteService.findByCPF(cpf);
 
     if (!cliente) {
       throw new ErroNegocio('cliente-nao-cadastrado');
     }
 
-    return mapper.map(cliente, Cliente, Output);
+    return mapper.map(cliente, Cliente, ObterClientePorCpfOutput);
   }
 
-  async obterClientes(): Promise<Output[]> {
+  async obterClientes(): Promise<ObterClientesOutput[]> {
     const cliente = await this.clienteService.find();
 
-    return mapper.mapArray(cliente, Cliente, Output);
+    return mapper.mapArray(cliente, Cliente, ObterClientesOutput);
   }
 }

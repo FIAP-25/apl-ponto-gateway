@@ -1,6 +1,16 @@
 import { Categoria } from '@/domain/entity/categoria.model';
 import { Cliente } from '@/domain/entity/cliente.model';
 import { Produto } from '@/domain/entity/produto.model';
+import {
+  AdicionarClienteInput,
+  AdicionarClienteOutput,
+} from '@/infrastructure/dto/cliente/adicionarCliente.dto';
+import {
+  AtualizarClientePorCpfInput,
+  AtualizarClientePorCpfOutput,
+} from '@/infrastructure/dto/cliente/atualizarClientePorCpf.dto';
+import { ObterClientePorCpfOutput } from '@/infrastructure/dto/cliente/obterClientePorCpf.dto';
+import { ObterClientesOutput } from '@/infrastructure/dto/cliente/obterClientes.dto';
 import { CategoriaEntity } from '@/infrastructure/entity/categoria.entity';
 import { ClienteEntity } from '@/infrastructure/entity/cliente.entity';
 import { ProdutoEntity } from '@/infrastructure/entity/produto.entity';
@@ -47,6 +57,17 @@ createMap(
     mapFrom((source) => source.nomeCompleto),
   ),
 );
+
+createMap(mapper, AdicionarClienteInput, Cliente);
+createMap(mapper, Cliente, AdicionarClienteOutput);
+
+createMap(mapper, AtualizarClientePorCpfInput, Cliente);
+createMap(mapper, Cliente, AtualizarClientePorCpfOutput);
+
+createMap(mapper, Cliente, ObterClientePorCpfOutput);
+
+createMap(mapper, Cliente, ObterClientesOutput);
+
 // #endregion
 
 // #region Categoria
