@@ -1,6 +1,8 @@
 import { created, noContent, ok } from '@/application/helper/http.helper';
 import { CategoriaUseCase } from '@/domain/port/usecase/categoria.usecase';
 import { ProdutoUseCase } from '@/domain/port/usecase/produto.usecase';
+import { AdicionarProdutoInput } from '@/infrastructure/dto/produto/adicionarProduto.dto';
+import { AtualizarProdutoPorIdInput } from '@/infrastructure/dto/produto/atualizarProdutoPorId.dto';
 import {
   Body,
   Controller,
@@ -18,7 +20,10 @@ export class ProdutoController {
   constructor(private produtoUseCase: ProdutoUseCase) {}
 
   @Post()
-  async adicionarProduto(@Body() body: any, @Res() res: Response) {
+  async adicionarProduto(
+    @Body() body: AdicionarProdutoInput,
+    @Res() res: Response,
+  ) {
     const produto = body;
 
     const produtoAdicionado = await this.produtoUseCase.adicionarProduto(
@@ -41,7 +46,7 @@ export class ProdutoController {
   @Put(':id')
   async atualizarProdutoPorId(
     @Param('id') id: string,
-    @Body() body: any,
+    @Body() body: AtualizarProdutoPorIdInput,
     @Res() res: Response,
   ): Promise<any> {
     const produto = body;

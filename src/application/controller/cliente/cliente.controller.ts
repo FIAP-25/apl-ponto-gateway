@@ -32,7 +32,7 @@ export class ClienteController {
     @Param('cpf') cpf: string,
     @Res() res: Response,
   ): Promise<any> {
-    await this.clienteUseCase.removerClientePorCPF(cpf);
+    await this.clienteUseCase.removerClientePorCpf(cpf);
 
     return noContent(res);
   }
@@ -47,7 +47,7 @@ export class ClienteController {
 
     cliente.cpf = cpf;
 
-    const clienteAtualizado = await this.clienteUseCase.atualizarClientePorCPF(
+    const clienteAtualizado = await this.clienteUseCase.atualizarClientePorCpf(
       cliente,
     );
 
@@ -66,7 +66,7 @@ export class ClienteController {
     @Param('cpf') cpf: string,
     @Res() res: Response,
   ): Promise<any> {
-    const cliente = await this.clienteUseCase.obterClientePorCPF(cpf);
+    const cliente = await this.clienteUseCase.obterClientePorCpf(cpf);
 
     return ok(cliente, res);
   }

@@ -1,5 +1,7 @@
 import { created, noContent, ok } from '@/application/helper/http.helper';
 import { CategoriaUseCase } from '@/domain/port/usecase/categoria.usecase';
+import { AdicionarCategoriaInput } from '@/infrastructure/dto/categoria/adicionarCategoria.dto';
+import { AtualizarCategoriaPorIdInput } from '@/infrastructure/dto/categoria/atualizarCategoriaPorId.dto';
 import {
   Body,
   Controller,
@@ -17,11 +19,12 @@ export class CategoriaController {
   constructor(private categoriaUseCase: CategoriaUseCase) {}
 
   @Post()
-  async adicionarCategoria(@Body() body: any, @Res() res: Response) {
-    const categoria = body;
-
+  async adicionarCategoria(
+    @Body() body: AdicionarCategoriaInput,
+    @Res() res: Response,
+  ) {
     const categoriaAdicionada = await this.categoriaUseCase.adicionarCategoria(
-      categoria,
+      body,
     );
 
     return created(categoriaAdicionada, res);
@@ -40,15 +43,11 @@ export class CategoriaController {
   @Put(':id')
   async atualizarCategoriaPorId(
     @Param('id') id: string,
-    @Body() body: any,
+    @Body() body: AtualizarCategoriaPorIdInput,
     @Res() res: Response,
   ): Promise<any> {
-    const categoria = body;
-
-    categoria.id = id;
-
     const categoriaAtualizada =
-      await this.categoriaUseCase.atualizarCategoriaPorId(categoria);
+      await this.categoriaUseCase.atualizarCategoriaPorId(id, body);
 
     return ok(categoriaAtualizada, res);
   }

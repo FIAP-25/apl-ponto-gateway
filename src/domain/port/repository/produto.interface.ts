@@ -2,7 +2,7 @@ import { Produto } from '@/domain/entity/produto.model';
 import { ProdutoEntity } from '@/infrastructure/entity/produto.entity';
 import { FindOptionsWhere } from 'typeorm';
 
-export interface IProdutoService {
+export interface IProdutoRepository {
   find(): Promise<Produto[]>;
   findById(id: string): Promise<Produto>;
   findBy(where: FindOptionsWhere<ProdutoEntity>): Promise<Produto[]>;

@@ -1,59 +1,37 @@
 import { mapper } from '@/application/mapper/base.mapper';
-import { Categoria } from '@/domain/entity/categoria.model';
 import { Produto } from '@/domain/entity/produto.model';
 import { ErroNegocio } from '@/domain/exception/erro.module';
-import { CategoriaService } from '@/infrastructure/repository/categoria/categoria.service';
-import { ProdutoService } from '@/infrastructure/repository/produto/produto.service';
-import { AutoMap } from '@automapper/classes';
-import { createMap } from '@automapper/core';
+import {
+  AdicionarProdutoInput,
+  AdicionarProdutoOutput,
+} from '@/infrastructure/dto/produto/adicionarProduto.dto';
+import {
+  AtualizarProdutoPorIdInput,
+  AtualizarProdutoPorIdOutput,
+} from '@/infrastructure/dto/produto/atualizarProdutoPorId.dto';
+
+import { ObterProdutoPorCategoriaOutput } from '@/infrastructure/dto/produto/obterProdutoPorCategoria.dto';
+import { ObterProdutoPorIdOutput } from '@/infrastructure/dto/produto/obterProdutoPorId.dto';
+import { ObterProdutosOutput } from '@/infrastructure/dto/produto/obterProdutos.dto';
+import { CategoriaRepository } from '@/infrastructure/repository/categoria/categoria.repository';
+import { ProdutoRepository } from '@/infrastructure/repository/produto/produto.service';
 import { Injectable } from '@nestjs/common';
-
-class Input {
-  @AutoMap()
-  descricao: string;
-
-  @AutoMap()
-  nome: string;
-
-  categoriaId: string;
-
-  @AutoMap()
-  preco: number;
-}
-
-class Output {
-  @AutoMap()
-  id: string;
-
-  @AutoMap()
-  descricao: string;
-
-  @AutoMap()
-  nome: string;
-
-  @AutoMap()
-  categoria: Categoria;
-
-  @AutoMap()
-  preco: number;
-}
-
-createMap(mapper, Input, Produto);
-createMap(mapper, Produto, Output);
 
 @Injectable()
 export class ProdutoUseCase {
   constructor(
-    private categoriaService: CategoriaService,
-    private produtoService: ProdutoService,
+    private categoriaRepository: CategoriaRepository,
+    private produtoRepository: ProdutoRepository,
   ) {}
 
-  async adicionarProduto(input: Input): Promise<Output> {
+  async adicionarProduto(
+    input: AdicionarProdutoInput,
+  ): Promise<AdicionarProdutoOutput> {
     if (!input.categoriaId) {
       throw new ErroNegocio('produto-categoria-nao-existe');
     }
 
-    const categoriaProduto = await this.categoriaService.findById(
+    const categoriaProduto = await this.categoriaRepository.findById(
       input.categoriaId,
     );
 
@@ -61,26 +39,28 @@ export class ProdutoUseCase {
       throw new ErroNegocio('produto-categoria-nao-existe');
     }
 
-    const produto: Produto = mapper.map(input, Input, Produto);
+    const produto: Produto = mapper.map(input, AdicionarProdutoInput, Produto);
     produto.categoria = categoriaProduto;
 
     produto.validarProduto();
 
-    const produtoAdicionado = await this.produtoService.save(produto);
+    const produtoAdicionado = await this.produtoRepository.save(produto);
 
-    return mapper.map(produtoAdicionado, Produto, Output);
+    return mapper.map(produtoAdicionado, Produto, AdicionarProdutoOutput);
   }
 
   async removerProdutoPorId(id: string): Promise<void> {
-    await this.produtoService.remove(id);
+    await this.produtoRepository.remove(id);
   }
 
-  async atualizarProdutoPorId(input: Input): Promise<Output> {
+  async atualizarProdutoPorId(
+    input: AtualizarProdutoPorIdInput,
+  ): Promise<AtualizarProdutoPorIdOutput> {
     if (!input.categoriaId) {
       throw new ErroNegocio('produto-categoria-nao-existe');
     }
 
-    const categoriaProduto = await this.categoriaService.findById(
+    const categoriaProduto = await this.categoriaRepository.findById(
       input.categoriaId,
     );
 
@@ -88,39 +68,45 @@ export class ProdutoUseCase {
       throw new ErroNegocio('produto-categoria-nao-existe');
     }
 
-    const produto: Produto = mapper.map(input, Input, Produto);
+    const produto: Produto = mapper.map(
+      input,
+      AtualizarProdutoPorIdInput,
+      Produto,
+    );
     produto.categoria = categoriaProduto;
 
     produto.validarProduto();
 
-    const produtoAtualizado = await this.produtoService.save(produto);
+    const produtoAtualizado = await this.produtoRepository.save(produto);
 
-    return mapper.map(produtoAtualizado, Produto, Output);
+    return mapper.map(produtoAtualizado, Produto, AtualizarProdutoPorIdOutput);
   }
 
-  async obterProdutoPorId(id: string): Promise<Output> {
-    const produto = await this.produtoService.findById(id);
+  async obterProdutoPorId(id: string): Promise<ObterProdutoPorIdOutput> {
+    const produto = await this.produtoRepository.findById(id);
 
     if (!produto) {
       throw new ErroNegocio('produto-nao-existe');
     }
 
-    return mapper.map(produto, Produto, Output);
+    return mapper.map(produto, Produto, ObterProdutoPorIdOutput);
   }
 
-  async obterProdutos(): Promise<Output[]> {
-    const produtos = await this.produtoService.find();
+  async obterProdutos(): Promise<ObterProdutosOutput[]> {
+    const produtos = await this.produtoRepository.find();
 
-    return mapper.mapArray(produtos, Produto, Output);
+    return mapper.mapArray(produtos, Produto, ObterProdutosOutput);
   }
 
-  async obterProdutosPorCategoria(id: string): Promise<Output[]> {
-    const produtos = await this.produtoService.findBy({
+  async obterProdutosPorCategoria(
+    id: string,
+  ): Promise<ObterProdutoPorCategoriaOutput[]> {
+    const produtos = await this.produtoRepository.findBy({
       categoria: {
         id: id,
       },
     });
 
-    return mapper.mapArray(produtos, Produto, Output);
+    return mapper.mapArray(produtos, Produto, ObterProdutoPorCategoriaOutput);
   }
 }

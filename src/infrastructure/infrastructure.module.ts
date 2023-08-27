@@ -1,4 +1,3 @@
-import { ClienteService } from '@/infrastructure/repository/cliente/cliente.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoriaEntity } from './entity/categoria.entity';
@@ -7,9 +6,10 @@ import { PedidoProdutoEntity } from './entity/pedido-produto.entity';
 import { PedidoStatusEntity } from './entity/pedido-status.entity';
 import { PedidoEntity } from './entity/pedido.entity';
 import { ProdutoEntity } from './entity/produto.entity';
-import { CategoriaService } from './repository/categoria/categoria.service';
+import { CategoriaRepository } from './repository/categoria/categoria.repository';
+import { ClienteRepository } from './repository/cliente/cliente.repository';
 import { ConnectionModule } from './repository/helper/connection.module';
-import { ProdutoService } from './repository/produto/produto.service';
+import { ProdutoRepository } from './repository/produto/produto.service';
 
 @Module({
   imports: [
@@ -23,7 +23,12 @@ import { ProdutoService } from './repository/produto/produto.service';
     ]),
     ConnectionModule,
   ],
-  providers: [ClienteService, CategoriaService, ProdutoService],
-  exports: [ClienteService, CategoriaService, ProdutoService, ConnectionModule],
+  providers: [ClienteRepository, CategoriaRepository, ProdutoRepository],
+  exports: [
+    ClienteRepository,
+    CategoriaRepository,
+    ProdutoRepository,
+    ConnectionModule,
+  ],
 })
 export default class InfrastructureModule {}
