@@ -54,19 +54,19 @@ export class ClienteController {
     return ok(clienteAtualizado, res);
   }
 
+  @Get()
+  async obterClientes(@Res() res: Response): Promise<any> {
+    const cliente = await this.clienteUseCase.obterClientes();
+
+    return ok(cliente, res);
+  }
+
   @Get(':cpf')
   async obterClientePorCPF(
     @Param('cpf') cpf: string,
     @Res() res: Response,
   ): Promise<any> {
     const cliente = await this.clienteUseCase.obterClientePorCPF(cpf);
-
-    return ok(cliente, res);
-  }
-
-  @Get()
-  async obterClientes(@Res() res: Response): Promise<any> {
-    const cliente = await this.clienteUseCase.obterClientes();
 
     return ok(cliente, res);
   }

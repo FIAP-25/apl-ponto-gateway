@@ -1,3 +1,4 @@
+import { CategoriaEntity } from '@/infrastructure/entity/categoria.entity';
 import { ClienteEntity } from '@/infrastructure/entity/cliente.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -11,7 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       password: 'root',
       database: 'fiap',
       port: 3306,
-      entities: [ClienteEntity],
+      entities: [ClienteEntity, CategoriaEntity],
       synchronize: true,
     }),
   ],

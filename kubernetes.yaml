@@ -55,12 +55,24 @@ spec:
           mountPath: /app/app-dist
   volumes:
     - name: node-persistent-storage
-      emptyDir: {}
+      persistentVolumeClaim:
+        claimName: pvc-node
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pvc-mysql
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-node
 spec:
   accessModes:
     - ReadWriteOnce
