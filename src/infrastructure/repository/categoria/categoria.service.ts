@@ -1,11 +1,8 @@
 import { mapper } from '@/application/mapper/base.mapper';
 import { Categoria } from '@/domain/entity/categoria.model';
-import { Cliente } from '@/domain/entity/cliente.model';
 import { ICategoriaService } from '@/domain/port/repository/categoria.interface';
-import { IClienteService } from '@/domain/port/repository/cliente.interface';
 import { CategoriaEntity } from '@/infrastructure/entity/categoria.entity';
-import { ClienteEntity } from '@/infrastructure/entity/cliente.entity';
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 
@@ -22,8 +19,8 @@ export class CategoriaService implements ICategoriaService {
   }
 
   async findById(id: string): Promise<Categoria> {
-    const categorias = await this.categoriaRepository.findOneBy({ id: id });
-    return mapper.map(categorias, CategoriaEntity, Categoria);
+    const categoria = await this.categoriaRepository.findOneBy({ id: id });
+    return mapper.map(categoria, CategoriaEntity, Categoria);
   }
 
   async save(categoria: Categoria): Promise<Categoria> {

@@ -1,7 +1,9 @@
 import { Categoria } from '@/domain/entity/categoria.model';
 import { Cliente } from '@/domain/entity/cliente.model';
+import { Produto } from '@/domain/entity/produto.model';
 import { CategoriaEntity } from '@/infrastructure/entity/categoria.entity';
 import { ClienteEntity } from '@/infrastructure/entity/cliente.entity';
+import { ProdutoEntity } from '@/infrastructure/entity/produto.entity';
 import { classes } from '@automapper/classes';
 import { createMap, createMapper, forMember, mapFrom } from '@automapper/core';
 
@@ -73,6 +75,60 @@ createMap(
   forMember(
     (destination) => destination.descricao,
     mapFrom((source) => source.descricao),
+  ),
+);
+// #endregion
+
+// #region Produto
+createMap(
+  mapper,
+  ProdutoEntity,
+  Produto,
+  forMember(
+    (destination) => destination.id,
+    mapFrom((source) => source.id),
+  ),
+  forMember(
+    (destination) => destination.nome,
+    mapFrom((source) => source.nome),
+  ),
+  forMember(
+    (destination) => destination.descricao,
+    mapFrom((source) => source.descricao),
+  ),
+  forMember(
+    (destination) => destination.preco,
+    mapFrom((source) => source.preco),
+  ),
+  forMember(
+    (destination) => destination.categoria,
+    mapFrom((source) => source.categoria),
+  ),
+);
+
+createMap(
+  mapper,
+  Produto,
+  ProdutoEntity,
+  forMember(
+    (destination) => destination.id,
+    mapFrom((source) => source.id),
+  ),
+  forMember(
+    (destination) => destination.nome,
+    mapFrom((source) => source.nome),
+  ),
+  forMember(
+    (destination) => destination.descricao,
+    mapFrom((source) => source.descricao),
+  ),
+  forMember(
+    (destination) => destination.preco,
+    mapFrom((source) => source.preco),
+  ),
+  forMember(
+    (destination) => destination.categoria,
+    mapFrom((source) => source.categoria),
   ),
 );
 // #endregion

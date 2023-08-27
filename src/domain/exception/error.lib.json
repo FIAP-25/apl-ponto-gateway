@@ -23,6 +23,10 @@
     "mensagem": "Nome inválido.",
     "mensagemDetalhe": "O nome informado é inválido."
   },
+  "produto-nao-existe": {
+    "mensagem": "O produto não existe.",
+    "mensagemDetalhe": "O produto não existe na base da dados."
+  },
   "produto-categoria-nao-existe": {
     "mensagem": "A categoria do produto não existe.",
     "mensagemDetalhe": "A categoria de produto não existe na base da dados."
