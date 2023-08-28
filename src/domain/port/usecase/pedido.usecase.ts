@@ -6,9 +6,11 @@ import { Pedido } from '@/domain/entity/pedido.model';
 import { ErroNegocio } from '@/domain/exception/erro.module';
 import { adicionarPedidoInput } from '@/infrastructure/dto/pedido/adicionarPedido.dto';
 import { atualizarStatusPedidoInput } from '@/infrastructure/dto/pedido/atualizarPedido.dto';
-import { ClienteService } from '@/infrastructure/repository/cliente/cliente.service';
-import { PedidoService } from '@/infrastructure/repository/pedido/pedido.service';
-import { ProdutoService } from '@/infrastructure/repository/produto/produto.service';
+import { ClienteRepository } from '@/infrastructure/repository/cliente/cliente.repository';
+import { PedidoProdutoRepository } from '@/infrastructure/repository/pedido-produto/pedido-produto.repository';
+import { PedidoStatusRepository } from '@/infrastructure/repository/pedido-status/pedido-status.repository';
+import { PedidoRepository } from '@/infrastructure/repository/pedido/pedido.repository';
+import { ProdutoRepository } from '@/infrastructure/repository/produto/produto.service';
 import { AutoMap } from '@automapper/classes';
 import { createMap } from '@automapper/core';
 import { Injectable } from '@nestjs/common';
@@ -50,11 +52,11 @@ createMap(mapper, Cliente, Output);
 @Injectable()
 export class PedidoUseCase {
   constructor(
-    private clienteService: ClienteService,
-    private pedidoService: PedidoService,
-    private pedidoStatusService: PedidoStatusService,
-    private pedidoProdutoService: PedidoProdutoService,
-    private produtoService: ProdutoService,
+    private clienteService: ClienteRepository,
+    private pedidoService: PedidoRepository,
+    private pedidoStatusService: PedidoStatusRepository,
+    private pedidoProdutoService: PedidoProdutoRepository,
+    private produtoService: ProdutoRepository,
   ) {}
 
   async adicionarPedido(input: adicionarPedidoInput): Promise<Output> {

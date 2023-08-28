@@ -3,7 +3,7 @@ import { Produto } from '@/domain/entity/produto.model';
 import { ProdutoEntity } from '@/infrastructure/entity/produto.entity';
 import { FindOptionsWhere } from 'typeorm';
 
-export interface IPedidoProdutoService {
+export interface IPedidoProdutoRepository {
     find(): Promise<Pedido[]>;
     findById(id: string): Promise<Pedido>;
     save(pedido: Pedido): Promise<Pedido>;

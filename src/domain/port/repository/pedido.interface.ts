@@ -1,6 +1,6 @@
 import { Pedido } from '@/domain/entity/pedido.model';
 
-export interface IPedidoService {
+export interface IPedidoRepository {
 
   find(): Promise<Pedido[]>;
   findById(id: string): Promise<Pedido>;
