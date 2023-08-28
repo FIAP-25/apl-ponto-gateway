@@ -10,7 +10,7 @@ import { ClienteRepository } from '@/infrastructure/repository/cliente/cliente.r
 import { PedidoProdutoRepository } from '@/infrastructure/repository/pedido-produto/pedido-produto.repository';
 import { PedidoStatusRepository } from '@/infrastructure/repository/pedido-status/pedido-status.repository';
 import { PedidoRepository } from '@/infrastructure/repository/pedido/pedido.repository';
-import { ProdutoRepository } from '@/infrastructure/repository/produto/produto.service';
+import { ProdutoRepository } from '@/infrastructure/repository/produto/produto.repository';
 import { AutoMap } from '@automapper/classes';
 import { createMap } from '@automapper/core';
 import { Injectable } from '@nestjs/common';

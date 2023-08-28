@@ -25,6 +25,5 @@ export class Pedido {
   @AutoMap()
   dataAtualizacao: Date;
 
-  // @AutoMap()
-  // preco: number;
+  pagamentoStatus: PagamentoStatus = PagamentoStatus.PENDENTE;
 }
