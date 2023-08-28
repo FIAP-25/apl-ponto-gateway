@@ -15,8 +15,8 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-@Controller('api/clientes')
-export class ClienteController {
+@Controller('api/pedidos')
+export class PedidoController {
   constructor(private pedidoUseCase: PedidoUseCase) {}
 
   @Post()
@@ -68,8 +68,8 @@ export class ClienteController {
     @Param('id') id: string,
     @Res() res: Response,
   ): Promise<any> {
-    const cliente = await this.pedidoUseCase.obterPedidoPorId(id);
+    const pedido = await this.pedidoUseCase.obterPedidoPorId(id);
 
-    return ok(cliente, res);
+    return ok(pedido, res);
   }
 }
