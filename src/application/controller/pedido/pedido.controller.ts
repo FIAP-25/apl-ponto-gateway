@@ -1,7 +1,7 @@
 import { created, noContent, ok } from '@/application/helper/http.helper';
 import { PedidoUseCase } from '@/domain/port/usecase/pedido.usecase';
-import { adicionarPedidoInput } from '@/infrastructure/dto/pedido/adicionarPedido.dto';
-import { atualizarStatusPedidoInput } from '@/infrastructure/dto/pedido/atualizarPedido.dto';
+import { AdicionarPedidoInput } from '@/infrastructure/dto/pedido/adicionarPedido.dto';
+import { AtualizarStatusPedidoInput } from '@/infrastructure/dto/pedido/atualizarPedido.dto';
 import {
   Body,
   Controller,
@@ -20,7 +20,10 @@ export class PedidoController {
   constructor(private pedidoUseCase: PedidoUseCase) {}
 
   @Post()
-  async adicionarPedido(@Body() body: adicionarPedidoInput, @Res() res: Response) {
+  async adicionarPedido(
+    @Body() body: AdicionarPedidoInput,
+    @Res() res: Response,
+  ) {
     const pedido = body;
     const pedidoAdicionado = await this.pedidoUseCase.adicionarPedido(pedido);
 
@@ -37,10 +40,10 @@ export class PedidoController {
     return noContent(res);
   }
 
-  @Patch(':id')
+  @Patch('status/:id')
   async atualizarPedidoStatusPorId(
     @Param('id') id: string,
-    @Body() body: atualizarStatusPedidoInput,
+    @Body() body: AtualizarStatusPedidoInput,
     @Res() res: Response,
   ): Promise<any> {
     const pedidoAtualizado =

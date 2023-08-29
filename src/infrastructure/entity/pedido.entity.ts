@@ -49,5 +49,5 @@ export class PedidoEntity {
   dataAtualizacao: Date;
 
   @Column()
-  pagamentoStatus: PagamentoStatus;
+  pagamentoStatus: String;
 }
