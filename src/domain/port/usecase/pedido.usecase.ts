@@ -6,6 +6,9 @@ import { Pedido } from '@/domain/entity/pedido.model';
 import { ErroNegocio } from '@/domain/exception/erro.module';
 import { adicionarPedidoInput } from '@/infrastructure/dto/pedido/adicionarPedido.dto';
 import { atualizarStatusPedidoInput } from '@/infrastructure/dto/pedido/atualizarPedido.dto';
+import { consultaPagamentoPedido } from '@/infrastructure/dto/pedido/consultaPagamentoPedido.dto';
+import { webhookPedido } from '@/infrastructure/dto/pedido/webhookPedido.dto';
+import { PedidoEntity } from '@/infrastructure/entity/pedido.entity';
 import { ClienteRepository } from '@/infrastructure/repository/cliente/cliente.repository';
 import { PedidoProdutoRepository } from '@/infrastructure/repository/pedido-produto/pedido-produto.repository';
 import { PedidoStatusRepository } from '@/infrastructure/repository/pedido-status/pedido-status.repository';
@@ -47,7 +50,11 @@ class Output {
 }
 
 createMap(mapper, Input, Cliente);
+createMap(mapper, adicionarPedidoInput, Pedido);
 createMap(mapper, Cliente, Output);
+createMap(mapper, Pedido, Output);
+createMap(mapper, PedidoEntity, consultaPagamentoPedido);
+
 
 @Injectable()
 export class PedidoUseCase {
@@ -60,6 +67,7 @@ export class PedidoUseCase {
   ) {}
 
   async adicionarPedido(input: adicionarPedidoInput): Promise<Output> {
+    console.log("chegou");
     const pedido: Pedido = mapper.map(input, adicionarPedidoInput, Pedido);
     pedido.pedidoProdutos = [];
 
@@ -102,9 +110,9 @@ export class PedidoUseCase {
 
     const produtos = await this.produtoService.find();
 
-    pedido.pedidoProdutos.forEach((produto) => {
+    input.pedidoProdutos.forEach((produto) => {
       const produtoEncontrado = produtos.find(
-        (produtoEncontrado) => produtoEncontrado.id === produto.id,
+        (produtoEncontrado) => produtoEncontrado.id === produto.produtoId,
       );
 
       if (!produtoEncontrado) {
@@ -112,10 +120,12 @@ export class PedidoUseCase {
       }
     });
 
-    pedido.valorTotal = pedido.pedidoProdutos
+    console.log(pedido.pedidoProdutos)
+
+    pedido.valorTotal = input.pedidoProdutos
       .map((pedidoProduto) => {
         const produto = produtos.find(
-          (produto) => produto.id === pedidoProduto.id,
+          (produto) => produto.id === pedidoProduto.produtoId,
         );
         if (produto) {
           return produto?.preco * pedidoProduto.quantidade;
@@ -195,9 +205,27 @@ export class PedidoUseCase {
   }
 
   async obterPedidos(): Promise<Output[]> {
-    const pedido = await this.pedidoService.find();
+    const pedidos = await this.pedidoService.find();
+    console.log(pedidos)
 
-    return mapper.mapArray(pedido, Pedido, Output);
+    return mapper.mapArray(pedidos, Pedido, Output);
+  }
+
+  async obterStatusPedidosPorId(id: string): Promise<string> {
+    const pedido = await this.pedidoService.findById(id);
+    console.log(pedido);
+    
+    return pedido.status.tag;
+  }
+
+  async webhookConfirmacaoPagamento(body: webhookPedido): Promise<Output> {
+    const pedidoEncontrado = await this.pedidoService.findById(body.id);
+    console.log(pedidoEncontrado);
+    pedidoEncontrado.status.tag = body.aprovado ? "pedido_aprovado" : "pedido_nao_aprovado";
+    const pedidoAtualizado = await this.pedidoService.save(pedidoEncontrado);
+    console.log(pedidoAtualizado);
+    
+    return pedidoAtualizado;
   }
 
   // async obterPedidosFila(): Promise<Output[]> {

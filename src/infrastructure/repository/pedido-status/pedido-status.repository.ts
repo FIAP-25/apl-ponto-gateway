@@ -19,13 +19,14 @@ export class PedidoStatusRepository implements IPedidoStatusRepository {
   ) {}
 
   async find(): Promise<PedidoStatus[]> {
-    const categoria = await this.pedidoRepositoy.find();
-    return mapper.mapArray(categoria, PedidoStatusEntity, PedidoStatus);
+    const pedido = await this.pedidoRepositoy.find();
+    return mapper.mapArray(pedido, PedidoStatusEntity, PedidoStatus);
   }
 
   async findByTag(tag: string):  Promise<PedidoStatus> {
-    const categorias = await this.pedidoRepositoy.findOneBy({ tag: tag });
-    return mapper.map(categorias, PedidoStatusEntity, PedidoStatus);
+    const pedido = await this.pedidoRepositoy.findOneBy({ tag: tag });
+    
+    return mapper.map(pedido, PedidoStatusEntity, PedidoStatus);
   }
 
   async removeById(id: string): Promise<void> {
