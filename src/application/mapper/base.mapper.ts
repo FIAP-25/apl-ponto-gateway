@@ -24,6 +24,8 @@ import {
 } from '@/infrastructure/dto/cliente/atualizarClientePorCpf.dto';
 import { ObterClientePorCpfOutput } from '@/infrastructure/dto/cliente/obterClientePorCpf.dto';
 import { ObterClientesOutput } from '@/infrastructure/dto/cliente/obterClientes.dto';
+import { AtualizarStatusPagamentoOutput } from '@/infrastructure/dto/pagamento/atualizarStatusPagamento.dto';
+import { ObterStatusPagamentoOutput } from '@/infrastructure/dto/pagamento/obterStatusPagamento.dto';
 import {
   AdicionarPedidoInput,
   AdicionarPedidoOutput,
@@ -375,4 +377,10 @@ createMap(mapper, AtualizarStatusPedidoInput, Pedido);
 createMap(mapper, Pedido, AtualizarStatusPedidoOutput);
 
 createMap(mapper, Pedido, ObterPedidoPorIdOutput);
+// #endregion
+
+// #region Pagamento
+
+createMap(mapper, Pedido, AtualizarStatusPagamentoOutput);
+createMap(mapper, Pedido, ObterStatusPagamentoOutput);
 // #endregion
