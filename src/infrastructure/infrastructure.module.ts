@@ -9,7 +9,7 @@ import { ProdutoEntity } from './entity/produto.entity';
 import { CategoriaRepository } from './repository/categoria/categoria.repository';
 import { ClienteRepository } from './repository/cliente/cliente.repository';
 import { ConnectionModule } from './repository/helper/connection.module';
-import { ProdutoRepository } from './repository/produto/produto.service';
+import { ProdutoRepository } from './repository/produto/produto.repository';
 import { PedidoRepository } from './repository/pedido/pedido.repository';
 import { PedidoStatusRepository } from './repository/pedido-status/pedido-status.repository';
 import { PedidoProdutoRepository } from './repository/pedido-produto/pedido-produto.repository';
@@ -24,11 +24,18 @@ import { PedidoProdutoRepository } from './repository/pedido-produto/pedido-prod
       PedidoStatusEntity,
       ProdutoEntity,
       PedidoEntity,
-      PedidoStatusEntity
+      PedidoStatusEntity,
     ]),
     ConnectionModule,
   ],
-  providers: [ClienteRepository, CategoriaRepository, ProdutoRepository, PedidoRepository, PedidoStatusRepository, PedidoProdutoRepository],
+  providers: [
+    ClienteRepository,
+    CategoriaRepository,
+    ProdutoRepository,
+    PedidoRepository,
+    PedidoStatusRepository,
+    PedidoProdutoRepository,
+  ],
   exports: [
     ClienteRepository,
     CategoriaRepository,

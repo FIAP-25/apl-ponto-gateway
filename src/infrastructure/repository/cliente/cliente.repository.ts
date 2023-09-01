@@ -14,13 +14,13 @@ export class ClienteRepository implements IClienteRepository {
   ) {}
 
   async find(): Promise<Cliente[]> {
-    const categoria = await this.repository.find();
-    return mapper.mapArray(categoria, ClienteEntity, Cliente);
+    const cliente = await this.repository.find();
+    return mapper.mapArray(cliente, ClienteEntity, Cliente);
   }
 
   async findByCPF(cpf: string): Promise<Cliente> {
-    const categorias = await this.repository.findOneBy({ cpf: cpf });
-    return mapper.map(categorias, ClienteEntity, Cliente);
+    const cliente = await this.repository.findOneBy({ cpf: cpf });
+    return mapper.map(cliente, ClienteEntity, Cliente);
   }
 
   async save(cliente: Cliente): Promise<Cliente> {

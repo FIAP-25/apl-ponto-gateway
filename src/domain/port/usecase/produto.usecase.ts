@@ -14,7 +14,7 @@ import { ObterProdutoPorCategoriaOutput } from '@/infrastructure/dto/produto/obt
 import { ObterProdutoPorIdOutput } from '@/infrastructure/dto/produto/obterProdutoPorId.dto';
 import { ObterProdutosOutput } from '@/infrastructure/dto/produto/obterProdutos.dto';
 import { CategoriaRepository } from '@/infrastructure/repository/categoria/categoria.repository';
-import { ProdutoRepository } from '@/infrastructure/repository/produto/produto.service';
+import { ProdutoRepository } from '@/infrastructure/repository/produto/produto.repository';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

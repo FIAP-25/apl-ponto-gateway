@@ -5,8 +5,8 @@ import {
   ok,
 } from '@/application/helper/http.helper';
 import { PedidoUseCase } from '@/domain/port/usecase/pedido.usecase';
-import { adicionarPedidoInput } from '@/infrastructure/dto/pedido/adicionarPedido.dto';
-import { atualizarStatusPedidoInput } from '@/infrastructure/dto/pedido/atualizarPedido.dto';
+import { AdicionarPedidoInput } from '@/infrastructure/dto/pedido/adicionarPedido.dto';
+import { AtualizarStatusPedidoInput } from '@/infrastructure/dto/pedido/atualizarPedido.dto';
 import { webhookPedido } from '@/infrastructure/dto/pedido/webhookPedido.dto';
 import {
   Body,
@@ -27,7 +27,7 @@ export class PedidoController {
 
   @Post()
   async adicionarPedido(
-    @Body() body: adicionarPedidoInput,
+    @Body() body: AdicionarPedidoInput,
     @Res() res: Response,
   ) {
     console.log(body);
@@ -50,7 +50,7 @@ export class PedidoController {
   @Patch('/status/:id')
   async atualizarPedidoStatusPorId(
     @Param('id') id: string,
-    @Body() body: atualizarStatusPedidoInput,
+    @Body() body: AtualizarStatusPedidoInput,
     @Res() res: Response,
   ): Promise<any> {
     const pedidoAtualizado =
@@ -99,8 +99,8 @@ export class PedidoController {
     @Param('id') id: string,
     @Res() res: Response,
   ): Promise<any> {
-    const cliente = await this.pedidoUseCase.obterPedidoPorId(id);
+    const pedido = await this.pedidoUseCase.obterPedidoPorId(id);
 
-    return ok(cliente, res);
+    return ok(pedido, res);
   }
 }
