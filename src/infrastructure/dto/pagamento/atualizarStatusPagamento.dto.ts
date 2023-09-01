@@ -10,5 +10,5 @@ export class AtualizarStatusPagamentoOutput {
   id: String;
 
   @AutoMap()
-  status: String;
+  pagamentoStatus: String;
 }

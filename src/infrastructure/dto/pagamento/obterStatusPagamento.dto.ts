@@ -5,5 +5,5 @@ export class ObterStatusPagamentoOutput {
   id: String;
 
   @AutoMap()
-  status: String;
+  pagamentoStatus: String;
 }
