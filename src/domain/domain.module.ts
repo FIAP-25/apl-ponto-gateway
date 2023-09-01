@@ -8,7 +8,19 @@ import { PagamentoUseCase } from './port/usecase/pagamento.usecase';
 
 @Module({
   imports: [InfrastructureModule],
-  providers: [ClienteUseCase, CategoriaUseCase, ProdutoUseCase, PedidoUseCase, PagamentoUseCase],
-  exports: [ClienteUseCase, CategoriaUseCase, ProdutoUseCase, PedidoUseCase, PagamentoUseCase],
+  providers: [
+    ClienteUseCase,
+    CategoriaUseCase,
+    ProdutoUseCase,
+    PedidoUseCase,
+    PagamentoUseCase,
+  ],
+  exports: [
+    ClienteUseCase,
+    CategoriaUseCase,
+    ProdutoUseCase,
+    PedidoUseCase,
+    PagamentoUseCase,
+  ],
 })
 export default class DomainModule {}

@@ -8,6 +8,12 @@ import { PagamentoController } from './controller/pagamento/pagamento.controller
 
 @Module({
   imports: [DomainModule],
-  controllers: [ClienteController, CategoriaController, ProdutoController, PedidoController, PagamentoController],
+  controllers: [
+    ClienteController,
+    CategoriaController,
+    ProdutoController,
+    PedidoController,
+    PagamentoController,
+  ],
 })
 export default class ApplicationModule {}

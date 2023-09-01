@@ -1,7 +1,13 @@
-import { created, noContent, ok } from '@/application/helper/http.helper';
+import {
+  created,
+  custom_response_success,
+  noContent,
+  ok,
+} from '@/application/helper/http.helper';
 import { PedidoUseCase } from '@/domain/port/usecase/pedido.usecase';
 import { AdicionarPedidoInput } from '@/infrastructure/dto/pedido/adicionarPedido.dto';
 import { AtualizarStatusPedidoInput } from '@/infrastructure/dto/pedido/atualizarPedido.dto';
+import { webhookPedido } from '@/infrastructure/dto/pedido/webhookPedido.dto';
 import {
   Body,
   Controller,
@@ -24,10 +30,11 @@ export class PedidoController {
     @Body() body: AdicionarPedidoInput,
     @Res() res: Response,
   ) {
+    console.log(body);
     const pedido = body;
     const pedidoAdicionado = await this.pedidoUseCase.adicionarPedido(pedido);
 
-    return created(pedidoAdicionado, res);
+    return custom_response_success(pedidoAdicionado.id, res);
   }
 
   @Delete(':id')
@@ -40,7 +47,7 @@ export class PedidoController {
     return noContent(res);
   }
 
-  @Patch('status/:id')
+  @Patch('/status/:id')
   async atualizarPedidoStatusPorId(
     @Param('id') id: string,
     @Body() body: AtualizarStatusPedidoInput,
@@ -55,6 +62,27 @@ export class PedidoController {
   @Get()
   async obterPedidos(@Res() res: Response): Promise<any> {
     const pedidos = await this.pedidoUseCase.obterPedidos();
+
+    return ok(pedidos, res);
+  }
+
+  @Get('/status/pagamento/:id')
+  async obterStatusPedidos(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<any> {
+    const pedidos = await await this.pedidoUseCase.obterStatusPedidosPorId(id);
+
+    return ok(pedidos, res);
+  }
+
+  @Patch('/webhook')
+  async webhookConfirmacaoPedido(
+    @Param('id') id: string,
+    @Body() body: webhookPedido,
+    @Res() res: Response,
+  ): Promise<any> {
+    const pedidos = await await this.pedidoUseCase.obterStatusPedidosPorId(id);
 
     return ok(pedidos, res);
   }

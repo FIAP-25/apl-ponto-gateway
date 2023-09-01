@@ -11,6 +11,7 @@ import {
   AtualizarStatusPedidoOutput,
 } from '@/infrastructure/dto/pedido/atualizarPedido.dto';
 import { ObterPedidoPorIdOutput } from '@/infrastructure/dto/pedido/obterPedidoPorId.dto';
+import { webhookPedido } from '@/infrastructure/dto/pedido/webhookPedido.dto';
 import { ClienteRepository } from '@/infrastructure/repository/cliente/cliente.repository';
 import { PedidoProdutoRepository } from '@/infrastructure/repository/pedido-produto/pedido-produto.repository';
 import { PedidoStatusRepository } from '@/infrastructure/repository/pedido-status/pedido-status.repository';
@@ -31,6 +32,7 @@ export class PedidoUseCase {
   async adicionarPedido(
     input: AdicionarPedidoInput,
   ): Promise<AdicionarPedidoOutput> {
+    console.log('chegou');
     const pedido: Pedido = mapper.map(input, AdicionarPedidoInput, Pedido);
     pedido.pedidoProdutos = [];
 
@@ -86,6 +88,8 @@ export class PedidoUseCase {
         throw new ErroNegocio('pedido-produto-nao-existe');
       }
     });
+
+    console.log(pedido.pedidoProdutos);
 
     pedido.valorTotal = input.pedidoProdutos
       .map((pedidoProduto) => {
@@ -172,9 +176,29 @@ export class PedidoUseCase {
   }
 
   async obterPedidos(): Promise<ObterPedidoPorIdOutput[]> {
-    const pedido = await this.pedidoRepository.find();
+    const pedidos = await this.pedidoRepository.find();
+    console.log(pedidos);
 
-    return mapper.mapArray(pedido, Pedido, ObterPedidoPorIdOutput);
+    return mapper.mapArray(pedidos, Pedido, ObterPedidoPorIdOutput);
+  }
+
+  async obterStatusPedidosPorId(id: string): Promise<string> {
+    const pedido = await this.pedidoRepository.findById(id);
+    console.log(pedido);
+
+    return pedido.status.tag;
+  }
+
+  async webhookConfirmacaoPagamento(body: webhookPedido): Promise<Pedido> {
+    const pedidoEncontrado = await this.pedidoRepository.findById(body.id);
+    console.log(pedidoEncontrado);
+    pedidoEncontrado.status.tag = body.aprovado
+      ? 'pedido_aprovado'
+      : 'pedido_nao_aprovado';
+    const pedidoAtualizado = await this.pedidoRepository.save(pedidoEncontrado);
+    console.log(pedidoAtualizado);
+
+    return pedidoAtualizado;
   }
 
   // async obterPedidosFila(): Promise<Output[]> {
