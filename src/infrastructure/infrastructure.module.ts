@@ -10,6 +10,9 @@ import { CategoriaRepository } from './repository/categoria/categoria.repository
 import { ClienteRepository } from './repository/cliente/cliente.repository';
 import { ConnectionModule } from './repository/helper/connection.module';
 import { ProdutoRepository } from './repository/produto/produto.service';
+import { PedidoRepository } from './repository/pedido/pedido.repository';
+import { PedidoStatusRepository } from './repository/pedido-status/pedido-status.repository';
+import { PedidoProdutoRepository } from './repository/pedido-produto/pedido-produto.repository';
 
 @Module({
   imports: [
@@ -20,14 +23,19 @@ import { ProdutoRepository } from './repository/produto/produto.service';
       PedidoProdutoEntity,
       PedidoStatusEntity,
       ProdutoEntity,
+      PedidoEntity,
+      PedidoStatusEntity
     ]),
     ConnectionModule,
   ],
-  providers: [ClienteRepository, CategoriaRepository, ProdutoRepository],
+  providers: [ClienteRepository, CategoriaRepository, ProdutoRepository, PedidoRepository, PedidoStatusRepository, PedidoProdutoRepository],
   exports: [
     ClienteRepository,
     CategoriaRepository,
     ProdutoRepository,
+    PedidoRepository,
+    PedidoStatusRepository,
+    PedidoProdutoRepository,
     ConnectionModule,
   ],
 })

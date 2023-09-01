@@ -3,9 +3,9 @@ import { Module } from '@nestjs/common';
 import { CategoriaController } from './controller/categoria/categoria.controller';
 import { ClienteController } from './controller/cliente/cliente.controller';
 import { ProdutoController } from './controller/produto/produto.controller';
-
+import { PedidoController } from './controller/pedido/pedido.controller';
 @Module({
   imports: [DomainModule],
-  controllers: [ClienteController, CategoriaController, ProdutoController],
+  controllers: [ClienteController, CategoriaController, ProdutoController, PedidoController],
 })
 export default class ApplicationModule {}
