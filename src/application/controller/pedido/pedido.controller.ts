@@ -66,33 +66,25 @@ export class PedidoController {
     return ok(pedidos, res);
   }
 
-  @Get('/status/pagamento/:id')
-  async obterStatusPedidos(
-    @Param('id') id: string,
-    @Res() res: Response,
-  ): Promise<any> {
-    const pedidos = await await this.pedidoUseCase.obterStatusPedidosPorId(id);
-
-    return ok(pedidos, res);
-  }
-
   @Patch('/webhook')
   async webhookConfirmacaoPedido(
     @Param('id') id: string,
     @Body() body: webhookPedido,
     @Res() res: Response,
   ): Promise<any> {
-    const pedidos = await await this.pedidoUseCase.obterStatusPedidosPorId(id);
+    const pedidos = await await this.pedidoUseCase.webhookConfirmacaoPagamento(
+      body,
+    );
 
     return ok(pedidos, res);
   }
 
-  // @Get()
-  // async obterPedidosFila(@Res() res: Response): Promise<any> {
-  //   const pedidos = await this.pedidoUseCase.obterPedidosFila();
+  @Get('/fila')
+  async obterPedidosFila(@Res() res: Response): Promise<any> {
+    const pedidos = await this.pedidoUseCase.obterFilaPedidos();
 
-  //   return ok(pedidos, res);
-  // }
+    return ok(pedidos, res);
+  }
 
   @Get(':id')
   async obterPedidoPorId(
