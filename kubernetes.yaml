@@ -46,7 +46,7 @@ spec:
             - name: PORT
               value: '3000'
             - name: DATABASE_HOST
-              value: mysql
+              value: service-mysql
             - name: DATABASE_PORT
               value: '3306'
             - name: DATABASE_USERNAME
@@ -60,6 +60,23 @@ spec:
           volumeMounts:
             - name: node-persistent-storage
               mountPath: /app/app-dist
+          # livenessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: 80
+          #   periodSeconds: 10
+          #   failureThreshold: 3
+          #   initialDelaySeconds: 20
+          # readinessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: 80
+          #   periodSeconds: 10
+          #   failureThreshold: 5
+          #   initialDelaySeconds: 20
+          # resources:
+          #   requests:
+          #     cpu: 10m
       volumes:
         - name: node-persistent-storage
           persistentVolumeClaim:
@@ -105,30 +122,29 @@ kind: Service
 metadata:
   name: service-node
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: node
   ports:
     - protocol: TCP
-      port: 80
-      nodePort: 31000
+      port: 3000
       targetPort: 3000
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
 metadata:
-  name: ingress-node
-  annotations:
-    kubernetes.io/ingress.class: alb # Use the ALB ingress controller
+  name: node-deployment-hpa
 spec:
-  rules:
-    - host: your-domain.com # Replace with your domain
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: service-node
-                port:
-                  number: 80
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: node-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
