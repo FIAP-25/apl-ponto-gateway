@@ -4,35 +4,35 @@ import { PedidoStatus } from '@/domain/entity/pedido-status.model';
 import { AutoMap } from '@automapper/classes';
 
 export class AdicionarPedidoInput {
-  @AutoMap()
-  clienteCPF: string;
+    @AutoMap()
+    clienteCPF: string;
 
-  @AutoMap()
-  pedidoProdutos: PedidoProduto[];
+    @AutoMap()
+    pedidoProdutos: PedidoProduto[];
 }
 
 export class AdicionarPedidoOutput {
-  @AutoMap()
-  id: string;
+    @AutoMap()
+    id: string;
 
-  @AutoMap()
-  status: PedidoStatus;
+    @AutoMap()
+    status: PedidoStatus;
 
-  @AutoMap()
-  cliente: Cliente;
+    @AutoMap()
+    cliente: Cliente;
 
-  @AutoMap()
-  valorTotal: number;
+    @AutoMap()
+    valorTotal: number;
 
-  @AutoMap()
-  pedidoProdutos: PedidoProduto[];
+    @AutoMap()
+    pedidoProdutos: PedidoProduto[];
 
-  @AutoMap()
-  dataCadastro: Date;
+    @AutoMap()
+    dataCadastro: Date;
 
-  @AutoMap()
-  dataAtualizacao: Date;
+    @AutoMap()
+    dataAtualizacao: Date;
 
-  @AutoMap()
-  pagamentoStatus: String;
+    @AutoMap()
+    pagamentoStatus: String;
 }

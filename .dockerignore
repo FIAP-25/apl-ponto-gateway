@@ -1,4 +1,7 @@
-Dockerfile
-.dockerignore
 node_modules
 npm-debug.log
+data
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

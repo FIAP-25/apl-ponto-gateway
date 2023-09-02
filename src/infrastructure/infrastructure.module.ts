@@ -15,35 +15,8 @@ import { PedidoStatusRepository } from './repository/pedido-status/pedido-status
 import { PedidoProdutoRepository } from './repository/pedido-produto/pedido-produto.repository';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      CategoriaEntity,
-      ClienteEntity,
-      PedidoEntity,
-      PedidoProdutoEntity,
-      PedidoStatusEntity,
-      ProdutoEntity,
-      PedidoEntity,
-      PedidoStatusEntity,
-    ]),
-    ConnectionModule,
-  ],
-  providers: [
-    ClienteRepository,
-    CategoriaRepository,
-    ProdutoRepository,
-    PedidoRepository,
-    PedidoStatusRepository,
-    PedidoProdutoRepository,
-  ],
-  exports: [
-    ClienteRepository,
-    CategoriaRepository,
-    ProdutoRepository,
-    PedidoRepository,
-    PedidoStatusRepository,
-    PedidoProdutoRepository,
-    ConnectionModule,
-  ],
+    imports: [TypeOrmModule.forFeature([CategoriaEntity, ClienteEntity, PedidoEntity, PedidoProdutoEntity, PedidoStatusEntity, ProdutoEntity, PedidoEntity, PedidoStatusEntity]), ConnectionModule],
+    providers: [ClienteRepository, CategoriaRepository, ProdutoRepository, PedidoRepository, PedidoStatusRepository, PedidoProdutoRepository],
+    exports: [ClienteRepository, CategoriaRepository, ProdutoRepository, PedidoRepository, PedidoStatusRepository, PedidoProdutoRepository, ConnectionModule]
 })
 export default class InfrastructureModule {}

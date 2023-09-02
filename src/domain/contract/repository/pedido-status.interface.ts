@@ -4,7 +4,6 @@ import { PedidoStatusEntity } from '@/infrastructure/entity/pedido-status.entity
 import { Repository } from 'typeorm';
 
 export interface IPedidoStatusRepository {
-
     find(): Promise<PedidoStatus[]>;
     findByTag(tag: string): Promise<PedidoStatus>;
     // save(pedidoStatus: PedidoStatus): Promise<PedidoStatus>;

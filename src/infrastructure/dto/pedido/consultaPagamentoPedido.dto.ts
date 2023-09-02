@@ -1,7 +1,6 @@
-import { AutoMap } from "@automapper/classes";
-
+import { AutoMap } from '@automapper/classes';
 
 export class consultaPagamentoPedido {
     @AutoMap()
-    statusTag: string
+    statusTag: string;
 }

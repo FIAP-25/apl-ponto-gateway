@@ -1,14 +1,14 @@
 import { AutoMap } from '@automapper/classes';
 
 export class AtualizarStatusPagamentoInput {
-  @AutoMap()
-  status: String;
+    @AutoMap()
+    status: String;
 }
 
 export class AtualizarStatusPagamentoOutput {
-  @AutoMap()
-  id: String;
+    @AutoMap()
+    id: String;
 
-  @AutoMap()
-  pagamentoStatus: String;
+    @AutoMap()
+    pagamentoStatus: String;
 }
