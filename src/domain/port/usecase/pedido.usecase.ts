@@ -192,7 +192,7 @@ export class PedidoUseCase {
   async webhookConfirmacaoPagamento(body: webhookPedido): Promise<Pedido> {
     const pedidoEncontrado = await this.pedidoRepository.findById(body.id);
     console.log(pedidoEncontrado);
-    pedidoEncontrado.status.tag = body.aprovado
+    pedidoEncontrado.pagamentoStatus = body.aprovado
       ? 'pedido_aprovado'
       : 'pedido_nao_aprovado';
     const pedidoAtualizado = await this.pedidoRepository.save(pedidoEncontrado);
@@ -201,16 +201,30 @@ export class PedidoUseCase {
     return pedidoAtualizado;
   }
 
-  // async obterPedidosFila(): Promise<Output[]> {
-  //   const pedidos = await this.pedidoService.findBy(
-  //     {
-  //         status: {
-  //             tag: Not('pedido_finalizado')
-  //         }
-  //     },
-  //     { dataCadastro: 'DESC' }
-  //   );
+  async obterFilaPedidos(): Promise<any> {
+    var pedidos = await this.pedidoRepository.find();
 
-  //   return mapper.mapArray(pedidos, Pedido, Output);
-  // }
+    pedidos = pedidos.filter(
+      (pedido) =>
+        pedido.status.tag != 'pedido_cancelado' &&
+        pedido.status.tag != 'pedido_finalizado',
+    );
+
+    const ordemTags = [
+      'pedido_pronto',
+      'pedido_em_preparacao',
+      'pedido_recebido',
+    ];
+
+    const listaOrdenada = pedidos.sort((a, b) => {
+      const tagA = a.status.tag;
+      const tagB = b.status.tag;
+      const ordemA = ordemTags.indexOf(tagA);
+      const ordemB = ordemTags.indexOf(tagB);
+
+      return ordemA - ordemB;
+    });
+
+    return listaOrdenada;
+  }
 }
