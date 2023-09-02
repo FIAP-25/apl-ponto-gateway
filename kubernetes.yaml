@@ -23,45 +23,10 @@ spec:
       persistentVolumeClaim:
         claimName: pvc-mysql
 ---
-apiVersion: v1
-kind: Pod
-metadata:
-  name: node
-  labels:
-    app: node
-spec:
-  containers:
-    - name: node
-      image: whocastr/apl-back-fiap:2.0.0
-      env:
-        - name: NODE_ENV
-          value: production
-        - name: PORT
-          value: '3000'
-        - name: DATABASE_HOST
-          value: mysql
-        - name: DATABASE_PORT
-          value: '3306'
-        - name: DATABASE_USERNAME
-          value: root
-        - name: DATABASE_PASSWORD
-          value: root
-        - name: DATABASE_SCHEMA
-          value: fiap
-      ports:
-        - containerPort: 3000
-      volumeMounts:
-        - name: node-persistent-storage
-          mountPath: /app/app-dist
-  volumes:
-    - name: node-persistent-storage
-      persistentVolumeClaim:
-        claimName: pvc-node
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: node-deployment
 spec:
   replicas: 2
   selector:
@@ -73,29 +38,32 @@ spec:
         app: node
     spec:
       containers:
-        - name: nginx-container
-          image: nginx:latest
+        - name: node
+          image: whocastr/apl-back-fiap:2.0.0
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: PORT
+              value: '3000'
+            - name: DATABASE_HOST
+              value: mysql
+            - name: DATABASE_PORT
+              value: '3306'
+            - name: DATABASE_USERNAME
+              value: root
+            - name: DATABASE_PASSWORD
+              value: root
+            - name: DATABASE_SCHEMA
+              value: fiap
           ports:
-            - containerPort: 80
----
-apiVersion: apps/v1
-kind: ReplicaSet
-metadata:
-  name: nginx-replicaset
-spec:
-  template:
-    metadata:
-      name: node
-      labels:
-        app: node
-    spec:
-      containers:
-        - name: nginx-container
-          image: nginx:latest
-  replicas: 3
-  selector:
-    matchLabels:
-      app: node
+            - containerPort: 3000
+          volumeMounts:
+            - name: node-persistent-storage
+              mountPath: /app/app-dist
+      volumes:
+        - name: node-persistent-storage
+          persistentVolumeClaim:
+            claimName: pvc-node
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -122,7 +90,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: service-mysql
 spec:
   selector:
     app: mysql
@@ -135,13 +103,32 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: node
+  name: service-node
 spec:
   type: NodePort
   selector:
     app: node
   ports:
     - protocol: TCP
-      port: 3000
+      port: 80
       nodePort: 31000
       targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-node
+  annotations:
+    kubernetes.io/ingress.class: alb # Use the ALB ingress controller
+spec:
+  rules:
+    - host: your-domain.com # Replace with your domain
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-node
+                port:
+                  number: 80
