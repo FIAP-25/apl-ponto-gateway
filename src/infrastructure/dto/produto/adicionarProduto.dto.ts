@@ -2,31 +2,31 @@ import { Categoria } from '@/domain/entity/categoria.model';
 import { AutoMap } from '@automapper/classes';
 
 export class AdicionarProdutoInput {
-  @AutoMap()
-  descricao: string;
+    @AutoMap()
+    descricao: string;
 
-  @AutoMap()
-  nome: string;
+    @AutoMap()
+    nome: string;
 
-  categoriaId: string;
+    categoriaId: string;
 
-  @AutoMap()
-  preco: number;
+    @AutoMap()
+    preco: number;
 }
 
 export class AdicionarProdutoOutput {
-  @AutoMap()
-  id: string;
+    @AutoMap()
+    id: string;
 
-  @AutoMap()
-  descricao: string;
+    @AutoMap()
+    descricao: string;
 
-  @AutoMap()
-  nome: string;
+    @AutoMap()
+    nome: string;
 
-  @AutoMap()
-  categoria: Categoria;
+    @AutoMap()
+    categoria: Categoria;
 
-  @AutoMap()
-  preco: number;
+    @AutoMap()
+    preco: number;
 }

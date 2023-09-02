@@ -1,9 +1,9 @@
 import { AutoMap } from '@automapper/classes';
 
 export class ObterCategoriasOutput {
-  @AutoMap()
-  id: string;
+    @AutoMap()
+    id: string;
 
-  @AutoMap()
-  descricao: string;
+    @AutoMap()
+    descricao: string;
 }

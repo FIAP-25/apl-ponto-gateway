@@ -1,13 +1,12 @@
-import { AutoMap } from "@automapper/classes";
-
+import { AutoMap } from '@automapper/classes';
 
 export class webhookPedido {
     @AutoMap()
-    id: string
-    
-    @AutoMap()
-    aprovado: boolean
+    id: string;
 
     @AutoMap()
-    motivo: string
+    aprovado: boolean;
+
+    @AutoMap()
+    motivo: string;
 }

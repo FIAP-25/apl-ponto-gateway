@@ -1,33 +1,33 @@
 version: '3'
 
 networks:
-  my-network:
-    driver: bridge
+    my-network:
+        driver: bridge
 
 services:
-  mysql:
-    image: mysql
-    container_name: mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=fiap
-    ports:
-      - '3306:3306'
-    volumes:
-      - ./data:/data/db
-    healthcheck:
-      test: mysqladmin ping -h localhost -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
-      timeout: 2s
-      retries: 10
+    mysql:
+        image: mysql
+        container_name: mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=fiap
+        ports:
+            - '3306:3306'
+        volumes:
+            - ./data:/data/db
+        healthcheck:
+            test: mysqladmin ping -h localhost -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+            timeout: 2s
+            retries: 10
 
-  node:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
-    container_name: node
-    ports:
-      - '3000:3000'
-    depends_on:
-      mysql:
-        condition: service_healthy
+    node:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: always
+        container_name: node
+        ports:
+            - '3000:3000'
+        depends_on:
+            mysql:
+                condition: service_healthy
