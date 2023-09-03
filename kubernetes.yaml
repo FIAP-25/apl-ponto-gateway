@@ -40,23 +40,26 @@ spec:
             containers:
                 - name: node
                   image: whocastr/apl-back-fiap:2.0.0
-                  env:
-                      - name: NODE_ENV
-                        value: production
-                      - name: PORT
-                        value: '3000'
-                      - name: DATABASE_HOST
-                        value: service-mysql
-                      - name: DATABASE_PORT
-                        value: '3306'
-                      - name: DATABASE_USERNAME
-                        value: root
-                      - name: DATABASE_PASSWORD
-                        value: root
-                      - name: DATABASE_SCHEMA
-                        value: fiap
+                  # env:
+                  #   - name: NODE_ENV
+                  #     value: production
+                  #   - name: PORT
+                  #     value: '3000'
+                  #   - name: DATABASE_HOST
+                  #     value: service-mysql
+                  #   - name: DATABASE_PORT
+                  #     value: '3306'
+                  #   - name: DATABASE_USERNAME
+                  #     value: root
+                  #   - name: DATABASE_PASSWORD
+                  #     value: root
+                  #   - name: DATABASE_SCHEMA
+                  #     value: fiap
                   ports:
                       - containerPort: 3000
+                  envFrom:
+                      - secretRef:
+                            name: secret-fiap
                   volumeMounts:
                       - name: node-persistent-storage
                         mountPath: /app/app-dist
@@ -81,98 +84,6 @@ spec:
                 - name: node-persistent-storage
                   persistentVolumeClaim:
                       claimName: pvc-node
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-    name: pvc-mysql
-spec:
-    accessModes:
-        - ReadWriteOnce
-    resources:
-        requests:
-            storage: 1Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-    name: pvc-node
-spec:
-    accessModes:
-        - ReadWriteOnce
-    resources:
-        requests:
-            storage: 1Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-    name: service-mysql
-spec:
-    selector:
-        app: mysql
-    ports:
-        - protocol: TCP
-          port: 3306
-          targetPort: 3306
-    clusterIP: None
----
-apiVersion: v1
-kind: Service
-metadata:
-    name: service-node
-spec:
-    type: LoadBalancer
-    selector:
-        app: node
-    spec:
-        containers:
-            - name: node
-              image: whocastr/apl-back-fiap:2.0.0
-              # env:
-              #   - name: NODE_ENV
-              #     value: production
-              #   - name: PORT
-              #     value: '3000'
-              #   - name: DATABASE_HOST
-              #     value: service-mysql
-              #   - name: DATABASE_PORT
-              #     value: '3306'
-              #   - name: DATABASE_USERNAME
-              #     value: root
-              #   - name: DATABASE_PASSWORD
-              #     value: root
-              #   - name: DATABASE_SCHEMA
-              #     value: fiap
-              ports:
-                  - containerPort: 3000
-              envFrom:
-                  - secretRef:
-                        name: secret-fiap
-              volumeMounts:
-                  - name: node-persistent-storage
-                    mountPath: /app/app-dist
-              # livenessProbe:
-              #   httpGet:
-              #     path: /health
-              #     port: 80
-              #   periodSeconds: 10
-              #   failureThreshold: 3
-              #   initialDelaySeconds: 20
-              # readinessProbe:
-              #   httpGet:
-              #     path: /health
-              #     port: 80
-              #   periodSeconds: 10
-              #   failureThreshold: 5
-              #   initialDelaySeconds: 20
-              # resources:
-              #   requests:
-              #     cpu: 10m
-        volumes:
-            - name: node-persistent-storage
-              persistentVolumeClaim:
-                  claimName: pvc-node
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
