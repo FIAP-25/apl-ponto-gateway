@@ -40,23 +40,26 @@ spec:
       containers:
         - name: node
           image: whocastr/apl-back-fiap:2.0.0
-          env:
-            - name: NODE_ENV
-              value: production
-            - name: PORT
-              value: '3000'
-            - name: DATABASE_HOST
-              value: service-mysql
-            - name: DATABASE_PORT
-              value: '3306'
-            - name: DATABASE_USERNAME
-              value: root
-            - name: DATABASE_PASSWORD
-              value: root
-            - name: DATABASE_SCHEMA
-              value: fiap
+          # env:
+          #   - name: NODE_ENV
+          #     value: production
+          #   - name: PORT
+          #     value: '3000'
+          #   - name: DATABASE_HOST
+          #     value: service-mysql
+          #   - name: DATABASE_PORT
+          #     value: '3306'
+          #   - name: DATABASE_USERNAME
+          #     value: root
+          #   - name: DATABASE_PASSWORD
+          #     value: root
+          #   - name: DATABASE_SCHEMA
+          #     value: fiap
           ports:
             - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: secret-fiap
           volumeMounts:
             - name: node-persistent-storage
               mountPath: /app/app-dist
