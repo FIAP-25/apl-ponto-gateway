@@ -1,22 +1,22 @@
 import { AutoMap } from '@automapper/classes';
 
 export class AtualizarClientePorCpfInput {
-  cpf?: string;
+    cpf?: string;
 
-  @AutoMap()
-  email: string;
+    @AutoMap()
+    email: string;
 
-  @AutoMap()
-  nomeCompleto: string;
+    @AutoMap()
+    nomeCompleto: string;
 }
 
 export class AtualizarClientePorCpfOutput {
-  @AutoMap()
-  cpf: string;
+    @AutoMap()
+    cpf: string;
 
-  @AutoMap()
-  email: string;
+    @AutoMap()
+    email: string;
 
-  @AutoMap()
-  nomeCompleto: string;
+    @AutoMap()
+    nomeCompleto: string;
 }

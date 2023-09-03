@@ -5,15 +5,10 @@ import { ClienteController } from './controller/cliente/cliente.controller';
 import { ProdutoController } from './controller/produto/produto.controller';
 import { PedidoController } from './controller/pedido/pedido.controller';
 import { PagamentoController } from './controller/pagamento/pagamento.controller';
+import UseCaseModule from '@/usecase/usecase.module';
 
 @Module({
-  imports: [DomainModule],
-  controllers: [
-    ClienteController,
-    CategoriaController,
-    ProdutoController,
-    PedidoController,
-    PagamentoController,
-  ],
+    imports: [UseCaseModule],
+    controllers: [ClienteController, CategoriaController, ProdutoController, PedidoController, PagamentoController]
 })
 export default class ApplicationModule {}

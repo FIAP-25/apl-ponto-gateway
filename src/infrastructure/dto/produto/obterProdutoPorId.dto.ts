@@ -2,18 +2,18 @@ import { Categoria } from '@/domain/entity/categoria.model';
 import { AutoMap } from '@automapper/classes';
 
 export class ObterProdutoPorIdOutput {
-  @AutoMap()
-  id: string;
+    @AutoMap()
+    id: string;
 
-  @AutoMap()
-  nome: string;
+    @AutoMap()
+    nome: string;
 
-  @AutoMap()
-  descricao: string;
+    @AutoMap()
+    descricao: string;
 
-  @AutoMap()
-  categoria: Categoria;
+    @AutoMap()
+    categoria: Categoria;
 
-  @AutoMap()
-  preco: number;
+    @AutoMap()
+    preco: number;
 }

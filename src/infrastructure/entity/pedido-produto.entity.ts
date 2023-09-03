@@ -4,15 +4,15 @@ import { ProdutoEntity } from './produto.entity';
 
 @Entity('pedido_produto')
 export class PedidoProdutoEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-  @Column()
-  quantidade: number;
+    @Column()
+    quantidade: number;
 
-  @ManyToOne(() => PedidoEntity, (pedido) => pedido.pedidoProdutos)
-  pedido: PedidoEntity;
+    @ManyToOne(() => PedidoEntity, (pedido) => pedido.pedidoProdutos)
+    pedido: PedidoEntity;
 
-  @ManyToOne(() => ProdutoEntity, (produto) => produto.pedidoProdutos)
-  produto: ProdutoEntity;
+    @ManyToOne(() => ProdutoEntity, (produto) => produto.pedidoProdutos)
+    produto: ProdutoEntity;
 }

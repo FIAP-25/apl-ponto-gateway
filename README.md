@@ -1,73 +1,78 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# apl-back-fiap
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Repositório da aplicação back-end.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Instalação
 
-## Description
+Para rodar a aplicação siga as etapas abaixo:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
+Clone o projeto
 
 ```bash
-$ npm install
+  git clone https://github.com/FIAP-25/apl-back-fiap.git
 ```
 
-## Running the app
+Instale a versão do Node:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+  Node 18.16.0
 ```
 
-## Test
+Instale as dependências:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+  npm install
 ```
 
-## Support
+Para subir os containers do docker, rode o comando:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+  npm run docker
+```
 
-## Stay in touch
+Isso, irá subir dois containers, um com a aplicação Node, mapeada na porta 3000 e o outro container MYSQL mapeado na porta 3306.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+O swagger da aplicação pode ser visualizado pelo endereço:
 
-## License
+```bash
+  http://localhost:3000/
+```
 
-Nest is [MIT licensed](LICENSE).
+As collections de exemplo, podem ser visualizadas pelo postman:
+
+```bash
+  https://www.postman.com/crimson-trinity-772896/workspace/fiap/documentation/28408712-7c8d89db-fa3c-4998-86f2-6c49c0fcb2bf
+```
+
+O Miro com a linguagem ubíqua + event storming pode ser acessado pelo link:
+
+```bash
+  https://miro.com/app/board/uXjVMK9Y4Zw=/
+```
+
+## Variáveis de Ambiente
+
+Caso queria rodar o projeto localmente, você vai precisar configurar as váriaveis de ambiente no arquivo .env
+
+`PORT=4000`
+
+`DATABASE_HOST=127.0.0.1`
+
+`DATABASE_PORT=3306`
+
+`DATABASE_USERNAME=`
+
+`DATABASE_PASSWORD=`
+
+`DATABASE_SCHEMA=fiap`
+
+## Diagrama de Entidades e Relacionamentos - MYSQL
+
+![diagrama_mysql](https://github.com/FIAP-25/apl-back-fiap/assets/39955568/993dd91f-cb1b-4168-b0b9-b12ea77bcdea)
+
+## Autores
+
+-   Eduardo Vinicius Rodrigues Lima - RM430119
+-   Leonardo Covelo da Paz - RM350311
+-   Luik de Castro da Silva - RM348546
+-   Ricardo Souza Reis - RM348610

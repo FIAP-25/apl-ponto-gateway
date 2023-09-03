@@ -3,12 +3,12 @@ import { PedidoEntity } from './pedido.entity';
 
 @Entity('pedido_status')
 export class PedidoStatusEntity {
-  @PrimaryColumn()
-  tag: string;
+    @PrimaryColumn()
+    tag: string;
 
-  @Column()
-  descricao: string;
+    @Column()
+    descricao: string;
 
-  @OneToMany(() => PedidoEntity, (pedido) => pedido.status)
-  pedidos: PedidoEntity[];
+    @OneToMany(() => PedidoEntity, (pedido) => pedido.status)
+    pedidos: PedidoEntity[];
 }
