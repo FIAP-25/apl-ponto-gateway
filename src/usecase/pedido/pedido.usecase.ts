@@ -155,7 +155,7 @@ export class PedidoUseCase implements IPedidoUseCase {
     async obterFilaPedidos(): Promise<any> {
         let pedidos = await this.pedidoRepository.find();
 
-        pedidos = pedidos.filter((pedido) => pedido.status.tag !== 'pedido_cancelado' && pedido.status.tag !== 'pedido_finalizado');
+        pedidos = pedidos.filter((pedido) => pedido?.status?.tag !== 'pedido_cancelado' && pedido?.status?.tag !== 'pedido_finalizado');
 
         const ordemTags = ['pedido_pronto', 'pedido_em_preparacao', 'pedido_recebido'];
 
