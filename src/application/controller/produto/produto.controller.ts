@@ -3,7 +3,7 @@ import { IProdutoUseCase } from '@/domain/contract/usecase/produto.interface';
 import { AdicionarProdutoInput } from '@/infrastructure/dto/produto/adicionarProduto.dto';
 import { AtualizarProdutoPorIdInput } from '@/infrastructure/dto/produto/atualizarProdutoPorId.dto';
 import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 @ApiTags('Produtos')
@@ -12,6 +12,7 @@ export class ProdutoController {
     constructor(private produtoUseCase: IProdutoUseCase) {}
 
     @Post()
+    @ApiOperation({ summary: 'Adiciona um produto' })
     async adicionarProduto(@Body() body: AdicionarProdutoInput, @Res() res: Response): Promise<any> {
         const produto = body;
 
@@ -21,6 +22,7 @@ export class ProdutoController {
     }
 
     @Delete(':id')
+    @ApiOperation({ summary: 'Remove um produto pelo id' })
     async removerProdutoPorId(@Param('id') id: string, @Res() res: Response): Promise<any> {
         await this.produtoUseCase.removerProdutoPorId(id);
 
@@ -28,6 +30,7 @@ export class ProdutoController {
     }
 
     @Put(':id')
+    @ApiOperation({ summary: 'Atualiza um produto pelo id' })
     async atualizarProdutoPorId(@Param('id') id: string, @Body() body: AtualizarProdutoPorIdInput, @Res() res: Response): Promise<any> {
         const produto = body;
 
@@ -39,6 +42,7 @@ export class ProdutoController {
     }
 
     @Get()
+    @ApiOperation({ summary: 'Obtém a lista de produtos' })
     async obterProdutos(@Res() res: Response): Promise<any> {
         const produtos = await this.produtoUseCase.obterProdutos();
 
@@ -46,14 +50,16 @@ export class ProdutoController {
     }
 
     @Get(':id')
+    @ApiOperation({ summary: 'Obtém um produto pelo id' })
     async obterProdutoPorId(@Param('id') id: string, @Res() res: Response): Promise<any> {
         const produto = await this.produtoUseCase.obterProdutoPorId(id);
 
         return ok(produto, res);
     }
 
-    @Get()
-    async obterProdutosPorCategoria(@Param('id') id: string, @Res() res: Response): Promise<any> {
+    @Get('/categorias/:categoriaId')
+    @ApiOperation({ summary: 'Obtém a lista de produtos pela categoriaId' })
+    async obterProdutosPorCategoria(@Param('categoriaId') id: string, @Res() res: Response): Promise<any> {
         const produtos = await this.produtoUseCase.obterProdutosPorCategoria(id);
 
         return ok(produtos, res);

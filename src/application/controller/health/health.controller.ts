@@ -1,11 +1,12 @@
 import { Controller, Get, Res } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 @ApiTags('Health')
 @Controller('api/health')
 export class HeatlhController {
     @Get()
+    @ApiOperation({ summary: 'Obtém a saúde do sistema' })
     health(@Res() res: Response): any {
         const healthcheck: any = {
             uptime: process.uptime(),
