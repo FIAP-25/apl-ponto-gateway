@@ -29,8 +29,8 @@ export class PedidoProdutoRepository implements IPedidoProdutoRepository {
         return resultado;
     }
 
-    async saveMany(pedido: PedidoProduto[]): Promise<PedidoProduto[]> {
-        const resultado = await this.pedidoRepositoy.save(pedido);
+    async saveMany(pedidos: PedidoProduto[]): Promise<PedidoProduto[]> {
+        const resultado = await this.pedidoRepositoy.save(pedidos);
         return resultado;
     }
 

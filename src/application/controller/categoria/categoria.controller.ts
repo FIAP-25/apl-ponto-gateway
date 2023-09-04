@@ -1,11 +1,10 @@
 import { created, noContent, ok } from '@/application/helper/http.helper';
-import { CategoriaUseCase } from '@/usecase/categoria/categoria.usecase';
+import { ICategoriaUseCase } from '@/domain/contract/usecase/categoria.interface';
 import { AdicionarCategoriaInput } from '@/infrastructure/dto/categoria/adicionarCategoria.dto';
 import { AtualizarCategoriaPorIdInput } from '@/infrastructure/dto/categoria/atualizarCategoriaPorId.dto';
 import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common';
-import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
-import { ICategoriaUseCase } from '@/domain/contract/usecase/categoria.interface';
+import { Response } from 'express';
 
 @ApiTags('Categorias')
 @Controller('api/categorias')

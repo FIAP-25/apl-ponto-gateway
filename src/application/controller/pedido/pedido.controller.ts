@@ -1,4 +1,4 @@
-import { custom_response_success, noContent, ok } from '@/application/helper/http.helper';
+import { customResponseSuccess, noContent, ok } from '@/application/helper/http.helper';
 import { IPedidoUseCase } from '@/domain/contract/usecase/pedido.interface';
 
 import { AdicionarPedidoInput } from '@/infrastructure/dto/pedido/adicionarPedido.dto';
@@ -19,7 +19,7 @@ export class PedidoController {
         const pedido = body;
         const pedidoAdicionado = await this.pedidoUseCase.adicionarPedido(pedido);
 
-        return custom_response_success(pedidoAdicionado.id, res);
+        return customResponseSuccess(pedidoAdicionado.id, res);
     }
 
     @Delete(':id')

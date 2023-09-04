@@ -1,3 +1,6 @@
+/* eslint-disable import/first */
+require('dotenv').config();
+
 import { ExceptionInterceptor } from '@/application/interceptor/exception.interceptor';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';

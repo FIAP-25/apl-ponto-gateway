@@ -34,5 +34,5 @@ export class AdicionarPedidoOutput {
     dataAtualizacao: Date;
 
     @AutoMap()
-    pagamentoStatus: String;
+    pagamentoStatus: string;
 }

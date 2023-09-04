@@ -5,6 +5,6 @@ export abstract class IPedidoProdutoRepository {
     abstract find(): Promise<Pedido[]>;
     abstract findById(id: string): Promise<Pedido>;
     abstract save(pedido: Pedido): Promise<Pedido>;
-    abstract saveMany(pedido: PedidoProduto[]): Promise<PedidoProduto[]>;
+    abstract saveMany(pedidos: PedidoProduto[]): Promise<PedidoProduto[]>;
     abstract removeById(id: string): Promise<void>;
 }

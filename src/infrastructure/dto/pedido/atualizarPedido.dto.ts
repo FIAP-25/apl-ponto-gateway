@@ -31,5 +31,5 @@ export class AtualizarStatusPedidoOutput {
     dataAtualizacao: Date;
 
     @AutoMap()
-    pagamentoStatus: String;
+    pagamentoStatus: string;
 }

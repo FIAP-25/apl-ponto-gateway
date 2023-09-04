@@ -26,5 +26,5 @@ export class ObterPedidoPorIdOutput {
     dataAtualizacao: Date;
 
     @AutoMap()
-    pagamentoStatus: String;
+    pagamentoStatus: string;
 }

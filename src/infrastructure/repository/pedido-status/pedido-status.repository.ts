@@ -1,13 +1,8 @@
 import { mapper } from '@/application/mapper/base.mapper';
-import { Cliente } from '@/domain/entity/cliente.model';
-import { PedidoStatus } from '@/domain/entity/pedido-status.model';
-import { Pedido } from '@/domain/entity/pedido.model';
 import { IPedidoStatusRepository } from '@/domain/contract/repository/pedido-status.interface';
-import { ClienteEntity } from '@/infrastructure/entity/cliente.entity';
-import { PedidoProdutoEntity } from '@/infrastructure/entity/pedido-produto.entity';
+import { PedidoStatus } from '@/domain/entity/pedido-status.model';
 import { PedidoStatusEntity } from '@/infrastructure/entity/pedido-status.entity';
-import { PedidoEntity } from '@/infrastructure/entity/pedido.entity';
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 
