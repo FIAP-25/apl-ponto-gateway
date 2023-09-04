@@ -5,8 +5,6 @@ import { Response } from 'express';
 @ApiTags('Health')
 @Controller('api/health')
 export class HeatlhController {
-    constructor() {}
-
     @Get()
     health(@Res() res: Response): any {
         const healthcheck: any = {
