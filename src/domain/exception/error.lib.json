@@ -1,4 +1,8 @@
 {
+    "body-vazio": {
+        "mensagem": "Parâmetros inválidos",
+        "mensagemDetalhe": "Os parâmetros fornecidos são inválidos."
+    },
     "categoria-descricao-vazia": {
         "mensagem": "Descrição da categoria vazia.",
         "mensagemDetalhe": "A descrição da categoria não pode ser vazia."

@@ -1,13 +1,17 @@
 import { AutoMap } from '@automapper/classes';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class AdicionarClienteInput {
     @AutoMap()
-    cpf: string;
+    @ApiProperty({ required: true })
+    cpf: number;
 
     @AutoMap()
+    @ApiPropertyOptional()
     email: string;
 
     @AutoMap()
+    @ApiProperty({ required: true })
     nomeCompleto: string;
 }
 

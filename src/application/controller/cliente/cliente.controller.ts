@@ -1,7 +1,9 @@
 import { created, noContent, ok } from '@/application/helper/http.helper';
 import { IClienteUseCase } from '@/domain/contract/usecase/cliente.interface';
+import { AdicionarClienteInput } from '@/infrastructure/dto/cliente/adicionarCliente.dto';
+import { AtualizarClientePorCpfInput } from '@/infrastructure/dto/cliente/atualizarClientePorCpf.dto';
 import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 @ApiTags('Clientes')
@@ -10,7 +12,8 @@ export class ClienteController {
     constructor(private clienteUseCase: IClienteUseCase) {}
 
     @Post()
-    async adicionarCliente(@Body() body: any, @Res() res: Response): Promise<any> {
+    @ApiOperation({ summary: 'Adiciona um cliente' })
+    async adicionarCliente(@Body() body: AdicionarClienteInput, @Res() res: Response): Promise<any> {
         const cliente = body;
 
         const clienteAdicionado = await this.clienteUseCase.adicionarCliente(cliente);
@@ -19,6 +22,7 @@ export class ClienteController {
     }
 
     @Delete(':cpf')
+    @ApiOperation({ summary: 'Remove um cliente pelo cpf' })
     async removerClientePorCPF(@Param('cpf') cpf: string, @Res() res: Response): Promise<any> {
         await this.clienteUseCase.removerClientePorCpf(cpf);
 
@@ -26,7 +30,8 @@ export class ClienteController {
     }
 
     @Put(':cpf')
-    async atualizarClientePorCPF(@Param('cpf') cpf: string, @Body() body: any, @Res() res: Response): Promise<any> {
+    @ApiOperation({ summary: 'Atualiza um cliente pelo CPF' })
+    async atualizarClientePorCPF(@Param('cpf') cpf: string, @Body() body: AtualizarClientePorCpfInput, @Res() res: Response): Promise<any> {
         const cliente = body;
 
         cliente.cpf = cpf;
@@ -37,6 +42,7 @@ export class ClienteController {
     }
 
     @Get()
+    @ApiOperation({ summary: 'Obtém a lista de clientes' })
     async obterClientes(@Res() res: Response): Promise<any> {
         const cliente = await this.clienteUseCase.obterClientes();
 
@@ -44,6 +50,7 @@ export class ClienteController {
     }
 
     @Get(':cpf')
+    @ApiOperation({ summary: 'Obtém um cliente pelo cpf' })
     async obterClientePorCPF(@Param('cpf') cpf: string, @Res() res: Response): Promise<any> {
         const cliente = await this.clienteUseCase.obterClientePorCpf(cpf);
 
