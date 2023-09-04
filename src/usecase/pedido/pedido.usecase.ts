@@ -1,4 +1,9 @@
 import { mapper } from '@/application/mapper/base.mapper';
+import { IClienteRepository } from '@/domain/contract/repository/cliente.interface';
+import { IPedidoProdutoRepository } from '@/domain/contract/repository/pedido-produto.interface';
+import { IPedidoStatusRepository } from '@/domain/contract/repository/pedido-status.interface';
+import { IPedidoRepository } from '@/domain/contract/repository/pedido.interface';
+import { IProdutoRepository } from '@/domain/contract/repository/produto.interface';
 import { IPedidoUseCase } from '@/domain/contract/usecase/pedido.interface';
 import { PedidoProduto } from '@/domain/entity/pedido-produto.model';
 import { Pedido } from '@/domain/entity/pedido.model';
@@ -7,16 +12,11 @@ import { AdicionarPedidoInput, AdicionarPedidoOutput } from '@/infrastructure/dt
 import { AtualizarStatusPedidoInput, AtualizarStatusPedidoOutput } from '@/infrastructure/dto/pedido/atualizarPedido.dto';
 import { ObterPedidoPorIdOutput } from '@/infrastructure/dto/pedido/obterPedidoPorId.dto';
 import { webhookPedido } from '@/infrastructure/dto/pedido/webhookPedido.dto';
-import { ClienteRepository } from '@/infrastructure/repository/cliente/cliente.repository';
-import { PedidoProdutoRepository } from '@/infrastructure/repository/pedido-produto/pedido-produto.repository';
-import { PedidoStatusRepository } from '@/infrastructure/repository/pedido-status/pedido-status.repository';
-import { PedidoRepository } from '@/infrastructure/repository/pedido/pedido.repository';
-import { ProdutoRepository } from '@/infrastructure/repository/produto/produto.repository';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class PedidoUseCase implements IPedidoUseCase {
-    constructor(private clienteRepository: ClienteRepository, private pedidoRepository: PedidoRepository, private pedidoStatusRepository: PedidoStatusRepository, private pedidoProdutoRepository: PedidoProdutoRepository, private produtoRepository: ProdutoRepository) {}
+    constructor(private clienteRepository: IClienteRepository, private pedidoRepository: IPedidoRepository, private pedidoStatusRepository: IPedidoStatusRepository, private pedidoProdutoRepository: IPedidoProdutoRepository, private produtoRepository: IProdutoRepository) {}
 
     async adicionarPedido(input: AdicionarPedidoInput): Promise<AdicionarPedidoOutput> {
         console.log('chegou');
@@ -80,13 +80,11 @@ export class PedidoUseCase implements IPedidoUseCase {
         const pedidoProduto = input.pedidoProdutos.map((pedidoProduto) => {
             const produto = produtos.find((produto) => produto.id === pedidoProduto.id);
 
-            if (produto) {
-                return {
-                    pedido: { ...pedidoAdicionado },
-                    produto: produto,
-                    quantidade: pedidoProduto.quantidade
-                };
-            }
+            return {
+                pedido: { ...pedidoAdicionado },
+                produto: produto,
+                quantidade: pedidoProduto.quantidade
+            };
         });
 
         if (pedidoProduto) {
@@ -161,9 +159,9 @@ export class PedidoUseCase implements IPedidoUseCase {
     }
 
     async obterFilaPedidos(): Promise<any> {
-        var pedidos = await this.pedidoRepository.find();
+        let pedidos = await this.pedidoRepository.find();
 
-        pedidos = pedidos.filter((pedido) => pedido.status.tag != 'pedido_cancelado' && pedido.status.tag != 'pedido_finalizado');
+        pedidos = pedidos.filter((pedido) => pedido.status.tag !== 'pedido_cancelado' && pedido.status.tag !== 'pedido_finalizado');
 
         const ordemTags = ['pedido_pronto', 'pedido_em_preparacao', 'pedido_recebido'];
 

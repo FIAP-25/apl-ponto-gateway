@@ -1,15 +1,15 @@
 import { mapper } from '@/application/mapper/base.mapper';
+import { IPedidoRepository } from '@/domain/contract/repository/pedido.interface';
 import { IPagamentoUseCase } from '@/domain/contract/usecase/pagamento.interface';
 import { Pedido } from '@/domain/entity/pedido.model';
 import { ErroNegocio } from '@/domain/exception/erro.module';
 import { AtualizarStatusPagamentoInput, AtualizarStatusPagamentoOutput } from '@/infrastructure/dto/pagamento/atualizarStatusPagamento.dto';
 import { ObterStatusPagamentoOutput } from '@/infrastructure/dto/pagamento/obterStatusPagamento.dto';
-import { PedidoRepository } from '@/infrastructure/repository/pedido/pedido.repository';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class PagamentoUseCase implements IPagamentoUseCase {
-    constructor(private pedidoRepository: PedidoRepository) {}
+    constructor(private pedidoRepository: IPedidoRepository) {}
 
     async obterStatusPagamento(pedidoId: string): Promise<ObterStatusPagamentoOutput> {
         const pedido: Pedido = await this.pedidoRepository.findById(pedidoId);

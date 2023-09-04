@@ -1,4 +1,5 @@
 import { mapper } from '@/application/mapper/base.mapper';
+import { IClienteRepository } from '@/domain/contract/repository/cliente.interface';
 import { IClienteUseCase } from '@/domain/contract/usecase/cliente.interface';
 import { Cliente } from '@/domain/entity/cliente.model';
 import { ErroNegocio } from '@/domain/exception/erro.module';
@@ -6,12 +7,11 @@ import { AdicionarClienteInput, AdicionarClienteOutput } from '@/infrastructure/
 import { AtualizarClientePorCpfInput, AtualizarClientePorCpfOutput } from '@/infrastructure/dto/cliente/atualizarClientePorCpf.dto';
 import { ObterClientePorCpfOutput } from '@/infrastructure/dto/cliente/obterClientePorCpf.dto';
 import { ObterClientesOutput } from '@/infrastructure/dto/cliente/obterClientes.dto';
-import { ClienteRepository } from '@/infrastructure/repository/cliente/cliente.repository';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ClienteUseCase implements IClienteUseCase {
-    constructor(private clienteRepository: ClienteRepository) {}
+    constructor(private clienteRepository: IClienteRepository) {}
 
     async adicionarCliente(input: AdicionarClienteInput): Promise<AdicionarClienteOutput> {
         const cliente: Cliente = mapper.map(input, AdicionarClienteInput, Cliente);

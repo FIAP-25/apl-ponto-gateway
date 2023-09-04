@@ -1,8 +1,8 @@
 import { Pedido } from '@/domain/entity/pedido.model';
 
-export interface IPedidoRepository {
-    find(): Promise<Pedido[]>;
-    findById(id: string): Promise<Pedido>;
-    save(pedido: Pedido): Promise<Pedido>;
-    removeById(id: string): Promise<void>;
+export abstract class IPedidoRepository {
+    abstract find(): Promise<Pedido[]>;
+    abstract findById(id: string): Promise<Pedido>;
+    abstract save(pedido: Pedido): Promise<Pedido>;
+    abstract removeById(id: string): Promise<void>;
 }

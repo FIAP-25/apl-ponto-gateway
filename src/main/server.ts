@@ -1,3 +1,6 @@
+/* eslint-disable import/first */
+require('dotenv').config();
+
 import { ExceptionInterceptor } from '@/application/interceptor/exception.interceptor';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -6,6 +9,7 @@ import { ServerModule } from './server.module';
 const port = process.env.PORT ?? 3000;
 
 async function bootstrap(): Promise<void> {
+    console.log('env: ', process.env);
     if (process.env.NODE_ENV !== 'production') {
         require('dotenv').config();
 

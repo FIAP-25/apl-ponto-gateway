@@ -1,7 +1,7 @@
 import { created, noContent, ok } from '@/application/helper/http.helper';
+import { IProdutoUseCase } from '@/domain/contract/usecase/produto.interface';
 import { AdicionarProdutoInput } from '@/infrastructure/dto/produto/adicionarProduto.dto';
 import { AtualizarProdutoPorIdInput } from '@/infrastructure/dto/produto/atualizarProdutoPorId.dto';
-import { ProdutoUseCase } from '@/usecase/produto/produto.usecase';
 import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -9,10 +9,10 @@ import { Response } from 'express';
 @ApiTags('Produtos')
 @Controller('api/produtos')
 export class ProdutoController {
-    constructor(private produtoUseCase: ProdutoUseCase) {}
+    constructor(private produtoUseCase: IProdutoUseCase) {}
 
     @Post()
-    async adicionarProduto(@Body() body: AdicionarProdutoInput, @Res() res: Response) {
+    async adicionarProduto(@Body() body: AdicionarProdutoInput, @Res() res: Response): Promise<any> {
         const produto = body;
 
         const produtoAdicionado = await this.produtoUseCase.adicionarProduto(produto);

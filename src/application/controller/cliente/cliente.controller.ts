@@ -1,5 +1,5 @@
 import { created, noContent, ok } from '@/application/helper/http.helper';
-import { ClienteUseCase } from '@/usecase/cliente/cliente.usecase';
+import { IClienteUseCase } from '@/domain/contract/usecase/cliente.interface';
 import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -7,10 +7,10 @@ import { Response } from 'express';
 @ApiTags('Clientes')
 @Controller('api/clientes')
 export class ClienteController {
-    constructor(private clienteUseCase: ClienteUseCase) {}
+    constructor(private clienteUseCase: IClienteUseCase) {}
 
     @Post()
-    async adicionarCliente(@Body() body: any, @Res() res: Response) {
+    async adicionarCliente(@Body() body: any, @Res() res: Response): Promise<any> {
         const cliente = body;
 
         const clienteAdicionado = await this.clienteUseCase.adicionarCliente(cliente);
