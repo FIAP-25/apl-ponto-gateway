@@ -54,7 +54,7 @@ spec:
                       initialDelaySeconds: 20
                   readinessProbe:
                       httpGet:
-                          path: api/categoria
+                          path: api/categorias
                           port: 3000
                       periodSeconds: 10
                       failureThreshold: 5
