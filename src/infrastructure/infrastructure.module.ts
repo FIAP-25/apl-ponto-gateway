@@ -13,10 +13,22 @@ import { ProdutoRepository } from './repository/produto/produto.repository';
 import { PedidoRepository } from './repository/pedido/pedido.repository';
 import { PedidoStatusRepository } from './repository/pedido-status/pedido-status.repository';
 import { PedidoProdutoRepository } from './repository/pedido-produto/pedido-produto.repository';
-
+import { IClienteRepository } from '@/domain/contract/repository/cliente.interface';
+import { ICategoriaRepository } from '@/domain/contract/repository/categoria.interface';
+import { IPedidoProdutoRepository } from '@/domain/contract/repository/pedido-produto.interface';
+import { IPedidoStatusRepository } from '@/domain/contract/repository/pedido-status.interface';
+import { IPedidoRepository } from '@/domain/contract/repository/pedido.interface';
+import { IProdutoRepository } from '@/domain/contract/repository/produto.interface';
 @Module({
     imports: [TypeOrmModule.forFeature([CategoriaEntity, ClienteEntity, PedidoEntity, PedidoProdutoEntity, PedidoStatusEntity, ProdutoEntity, PedidoEntity, PedidoStatusEntity]), ConnectionModule],
-    providers: [ClienteRepository, CategoriaRepository, ProdutoRepository, PedidoRepository, PedidoStatusRepository, PedidoProdutoRepository],
-    exports: [ClienteRepository, CategoriaRepository, ProdutoRepository, PedidoRepository, PedidoStatusRepository, PedidoProdutoRepository, ConnectionModule]
+    providers: [
+        { provide: IClienteRepository, useClass: ClienteRepository },
+        { provide: ICategoriaRepository, useClass: CategoriaRepository },
+        { provide: IProdutoRepository, useClass: ProdutoRepository },
+        { provide: IPedidoRepository, useClass: PedidoRepository },
+        { provide: IPedidoStatusRepository, useClass: PedidoStatusRepository },
+        { provide: IPedidoProdutoRepository, useClass: PedidoProdutoRepository }
+    ],
+    exports: [IClienteRepository, ICategoriaRepository, IProdutoRepository, IPedidoRepository, IPedidoStatusRepository, IPedidoProdutoRepository, ConnectionModule]
 })
 export default class InfrastructureModule {}

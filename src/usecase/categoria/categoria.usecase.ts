@@ -1,4 +1,5 @@
 import { mapper } from '@/application/mapper/base.mapper';
+import { ICategoriaRepository } from '@/domain/contract/repository/categoria.interface';
 import { ICategoriaUseCase } from '@/domain/contract/usecase/categoria.interface';
 import { Categoria } from '@/domain/entity/categoria.model';
 import { ErroNegocio } from '@/domain/exception/erro.module';
@@ -6,12 +7,11 @@ import { AdicionarCategoriaInput, AdicionarCategoriaOutput } from '@/infrastruct
 import { AtualizarCategoriaPorIdInput, AtualizarCategoriaPorIdOutput } from '@/infrastructure/dto/categoria/atualizarCategoriaPorId.dto';
 import { ObterCategoriaPorIdOutput } from '@/infrastructure/dto/categoria/obterCategoriaPorId.dto';
 import { ObterCategoriasOutput } from '@/infrastructure/dto/categoria/obterCategorias.dto';
-import { CategoriaRepository } from '@/infrastructure/repository/categoria/categoria.repository';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CategoriaUseCase implements ICategoriaUseCase {
-    constructor(private categoriaRepository: CategoriaRepository) {}
+    constructor(private categoriaRepository: ICategoriaRepository) {}
 
     async adicionarCategoria(input: AdicionarCategoriaInput): Promise<AdicionarCategoriaOutput> {
         const categoria: Categoria = mapper.map(input, AdicionarCategoriaInput, Categoria);

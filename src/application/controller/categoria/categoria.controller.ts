@@ -5,14 +5,15 @@ import { AtualizarCategoriaPorIdInput } from '@/infrastructure/dto/categoria/atu
 import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
+import { ICategoriaUseCase } from '@/domain/contract/usecase/categoria.interface';
 
 @ApiTags('Categorias')
 @Controller('api/categorias')
 export class CategoriaController {
-    constructor(private categoriaUseCase: CategoriaUseCase) {}
+    constructor(private categoriaUseCase: ICategoriaUseCase) {}
 
     @Post()
-    async adicionarCategoria(@Body() body: AdicionarCategoriaInput, @Res() res: Response) {
+    async adicionarCategoria(@Body() body: AdicionarCategoriaInput, @Res() res: Response): Promise<any> {
         const categoriaAdicionada = await this.categoriaUseCase.adicionarCategoria(body);
 
         return created(categoriaAdicionada, res);

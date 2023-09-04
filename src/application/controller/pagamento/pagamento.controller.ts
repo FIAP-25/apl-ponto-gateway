@@ -1,6 +1,6 @@
 import { ok } from '@/application/helper/http.helper';
+import { IPagamentoUseCase } from '@/domain/contract/usecase/pagamento.interface';
 import { AtualizarStatusPagamentoInput } from '@/infrastructure/dto/pagamento/atualizarStatusPagamento.dto';
-import { PagamentoUseCase } from '@/usecase/pagamento/pagamento.usecase';
 import { Body, Controller, Get, Param, Patch, Query, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -8,7 +8,7 @@ import { Response } from 'express';
 @ApiTags('Pagamentos')
 @Controller('api/pagamentos')
 export class PagamentoController {
-    constructor(private pagamentoUseCase: PagamentoUseCase) {}
+    constructor(private pagamentoUseCase: IPagamentoUseCase) {}
 
     @Get('status/:pedidoId')
     async obterStatusPagamento(@Query('pedidoId') pedidoId: string, @Res() res: Response): Promise<any> {

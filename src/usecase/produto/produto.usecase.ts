@@ -1,4 +1,6 @@
 import { mapper } from '@/application/mapper/base.mapper';
+import { ICategoriaRepository } from '@/domain/contract/repository/categoria.interface';
+import { IProdutoRepository } from '@/domain/contract/repository/produto.interface';
 import { IProdutoUseCase } from '@/domain/contract/usecase/produto.interface';
 import { Produto } from '@/domain/entity/produto.model';
 import { ErroNegocio } from '@/domain/exception/erro.module';
@@ -8,13 +10,11 @@ import { AtualizarProdutoPorIdInput, AtualizarProdutoPorIdOutput } from '@/infra
 import { ObterProdutoPorCategoriaOutput } from '@/infrastructure/dto/produto/obterProdutoPorCategoria.dto';
 import { ObterProdutoPorIdOutput } from '@/infrastructure/dto/produto/obterProdutoPorId.dto';
 import { ObterProdutosOutput } from '@/infrastructure/dto/produto/obterProdutos.dto';
-import { CategoriaRepository } from '@/infrastructure/repository/categoria/categoria.repository';
-import { ProdutoRepository } from '@/infrastructure/repository/produto/produto.repository';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ProdutoUseCase implements IProdutoUseCase {
-    constructor(private categoriaRepository: CategoriaRepository, private produtoRepository: ProdutoRepository) {}
+    constructor(private categoriaRepository: ICategoriaRepository, private produtoRepository: IProdutoRepository) {}
 
     async adicionarProduto(input: AdicionarProdutoInput): Promise<AdicionarProdutoOutput> {
         if (!input.categoriaId) {
