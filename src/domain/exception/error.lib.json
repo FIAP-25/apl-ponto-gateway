@@ -1,7 +1,15 @@
 {
+    "body-vazio": {
+        "mensagem": "Parâmetros inválidos",
+        "mensagemDetalhe": "Os parâmetros fornecidos são inválidos."
+    },
     "categoria-descricao-vazia": {
         "mensagem": "Descrição da categoria vazia.",
         "mensagemDetalhe": "A descrição da categoria não pode ser vazia."
+    },
+    "categoria-nao-cadastrada": {
+        "mensagem": "Categoria não cadastrada.",
+        "mensagemDetalhe": "A categoria informada não está cadastrada."
     },
     "cliente-cpf-cadastrado": {
         "mensagem": "CPF cadastrado.",
@@ -17,7 +25,7 @@
     },
     "cliente-nao-cadastrado": {
         "mensagem": "Cliente não cadastrado.",
-        "mensagemDetalhe": "O cliente informado não esta cadastrado no sistema."
+        "mensagemDetalhe": "O cliente informado não está cadastrado no sistema."
     },
     "cliente-nome-invalido": {
         "mensagem": "Nome inválido.",

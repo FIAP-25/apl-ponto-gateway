@@ -36,7 +36,7 @@ export class CategoriaUseCase implements ICategoriaUseCase {
         const categoriaExiste = await this.categoriaRepository.findById(categoria.id);
 
         if (!categoriaExiste) {
-            throw new ErroNegocio('cliente-nao-cadastrado');
+            throw new ErroNegocio('categoria-nao-cadastrada');
         }
 
         categoria.id = categoriaExiste.id;
@@ -49,7 +49,7 @@ export class CategoriaUseCase implements ICategoriaUseCase {
         const categoria = await this.categoriaRepository.findById(id);
 
         if (!categoria) {
-            throw new ErroNegocio('cliente-nao-cadastrado');
+            throw new ErroNegocio('categoria-nao-cadastrada');
         }
 
         return mapper.map(categoria, Categoria, ObterCategoriaPorIdOutput);

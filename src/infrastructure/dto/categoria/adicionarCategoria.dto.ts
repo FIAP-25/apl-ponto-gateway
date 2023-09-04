@@ -1,7 +1,9 @@
 import { AutoMap } from '@automapper/classes';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class AdicionarCategoriaInput {
     @AutoMap()
+    @ApiProperty({ required: true })
     descricao: string;
 }
 

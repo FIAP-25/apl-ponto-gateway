@@ -1,12 +1,15 @@
 import { AutoMap } from '@automapper/classes';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class AtualizarClientePorCpfInput {
     cpf?: string;
 
     @AutoMap()
+    @ApiPropertyOptional()
     email: string;
 
     @AutoMap()
+    @ApiPropertyOptional()
     nomeCompleto: string;
 }
 

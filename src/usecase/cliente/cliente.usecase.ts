@@ -15,8 +15,8 @@ export class ClienteUseCase implements IClienteUseCase {
 
     async adicionarCliente(input: AdicionarClienteInput): Promise<AdicionarClienteOutput> {
         const cliente: Cliente = mapper.map(input, AdicionarClienteInput, Cliente);
-
-        cliente.validarClienteAdicionar();
+        cliente.cpf = cliente?.cpf?.toString();
+        cliente.email = cliente.email ?? '';
 
         const clienteExiste = await this.clienteRepository.findByCPF(cliente.cpf);
 
@@ -24,18 +24,31 @@ export class ClienteUseCase implements IClienteUseCase {
             throw new ErroNegocio('cliente-cpf-cadastrado');
         }
 
+        cliente.validarClienteAdicionar();
+
         const clienteAdicionado = await this.clienteRepository.save(cliente);
         return mapper.map(clienteAdicionado, Cliente, AdicionarClienteOutput);
     }
 
     async removerClientePorCpf(cpf: string): Promise<void> {
+        const clienteExiste = await this.clienteRepository.findByCPF(cpf);
+
+        if (!clienteExiste) {
+            throw new ErroNegocio('cliente-nao-cadastrado');
+        }
+
         await this.clienteRepository.remove(cpf);
     }
 
     async atualizarClientePorCpf(input: AtualizarClientePorCpfInput): Promise<AtualizarClientePorCpfOutput> {
         const cliente: Cliente = mapper.map(input, AtualizarClientePorCpfInput, Cliente);
 
-        cliente.validarClienteAtualizar();
+        if (!cliente?.email && !cliente?.nomeCompleto) {
+            throw new ErroNegocio('body-vazio');
+        }
+
+        cliente.cpf = cliente?.cpf?.toString();
+        cliente.email = cliente.email ?? '';
 
         const clienteExiste = await this.clienteRepository.findByCPF(cliente.cpf);
 
@@ -43,7 +56,8 @@ export class ClienteUseCase implements IClienteUseCase {
             throw new ErroNegocio('cliente-nao-cadastrado');
         }
 
-        cliente.cpf = clienteExiste.cpf;
+        cliente.validarClienteAtualizar();
+
         const produtoAtualizado = await this.clienteRepository.save(cliente);
 
         return mapper.map(produtoAtualizado, Cliente, AtualizarClientePorCpfOutput);
