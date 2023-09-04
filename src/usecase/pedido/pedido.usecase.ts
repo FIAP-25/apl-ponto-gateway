@@ -19,7 +19,6 @@ export class PedidoUseCase implements IPedidoUseCase {
     constructor(private clienteRepository: IClienteRepository, private pedidoRepository: IPedidoRepository, private pedidoStatusRepository: IPedidoStatusRepository, private pedidoProdutoRepository: IPedidoProdutoRepository, private produtoRepository: IProdutoRepository) {}
 
     async adicionarPedido(input: AdicionarPedidoInput): Promise<AdicionarPedidoOutput> {
-        console.log('chegou');
         const pedido: Pedido = mapper.map(input, AdicionarPedidoInput, Pedido);
         pedido.pedidoProdutos = [];
 
@@ -62,8 +61,6 @@ export class PedidoUseCase implements IPedidoUseCase {
                 throw new ErroNegocio('pedido-produto-nao-existe');
             }
         });
-
-        console.log(pedido.pedidoProdutos);
 
         pedido.valorTotal = input.pedidoProdutos
             .map((pedidoProduto) => {
@@ -136,24 +133,21 @@ export class PedidoUseCase implements IPedidoUseCase {
 
     async obterPedidos(): Promise<ObterPedidoPorIdOutput[]> {
         const pedidos = await this.pedidoRepository.find();
-        console.log(pedidos);
 
         return mapper.mapArray(pedidos, Pedido, ObterPedidoPorIdOutput);
     }
 
     async obterStatusPedidosPorId(id: string): Promise<string> {
         const pedido = await this.pedidoRepository.findById(id);
-        console.log(pedido);
 
         return pedido.status.tag;
     }
 
     async webhookConfirmacaoPagamento(body: webhookPedido): Promise<Pedido> {
         const pedidoEncontrado = await this.pedidoRepository.findById(body.id);
-        console.log(pedidoEncontrado);
+
         pedidoEncontrado.pagamentoStatus = body.aprovado ? 'pedido_aprovado' : 'pedido_nao_aprovado';
         const pedidoAtualizado = await this.pedidoRepository.save(pedidoEncontrado);
-        console.log(pedidoAtualizado);
 
         return pedidoAtualizado;
     }
