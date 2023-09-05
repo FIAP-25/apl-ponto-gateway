@@ -1,7 +1,9 @@
 import { AutoMap } from '@automapper/classes';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class AtualizarStatusPagamentoInput {
     @AutoMap()
+    @ApiProperty({ required: true })
     status: string;
 }
 
