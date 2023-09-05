@@ -1,0 +1,94 @@
+{
+    "body-vazio": {
+        "mensagem": "Parâmetros inválidos",
+        "mensagemDetalhe": "Os parâmetros fornecidos são inválidos."
+    },
+    "categoria-descricao-vazia": {
+        "mensagem": "Descrição da categoria vazia.",
+        "mensagemDetalhe": "A descrição da categoria não pode ser vazia."
+    },
+    "categoria-nao-cadastrada": {
+        "mensagem": "Categoria não cadastrada.",
+        "mensagemDetalhe": "A categoria informada não está cadastrada."
+    },
+    "cliente-cpf-cadastrado": {
+        "mensagem": "CPF cadastrado.",
+        "mensagemDetalhe": "O CPF informado está cadastrado no sistema."
+    },
+    "cliente-cpf-invalido": {
+        "mensagem": "CPF inválido.",
+        "mensagemDetalhe": "O CPF informado é inválido."
+    },
+    "cliente-email-invalido": {
+        "mensagem": "E-mail inválido.",
+        "mensagemDetalhe": "O E-mail informado é inválido."
+    },
+    "cliente-nao-cadastrado": {
+        "mensagem": "Cliente não cadastrado.",
+        "mensagemDetalhe": "O cliente informado não está cadastrado no sistema."
+    },
+    "cliente-nome-invalido": {
+        "mensagem": "Nome inválido.",
+        "mensagemDetalhe": "O nome informado é inválido."
+    },
+    "produto-nao-existe": {
+        "mensagem": "O produto não existe.",
+        "mensagemDetalhe": "O produto não existe na base da dados."
+    },
+    "produto-categoria-nao-existe": {
+        "mensagem": "A categoria do produto não existe.",
+        "mensagemDetalhe": "A categoria de produto não existe na base da dados."
+    },
+    "produto-descricao-vazia": {
+        "mensagem": "Descrição do produto vazia.",
+        "mensagemDetalhe": "A descrição do produto não pode ser vazia."
+    },
+    "produto-nome-vazio": {
+        "mensagem": "Nome do produto vazio.",
+        "mensagemDetalhe": "O nome do produto não pode ser vazio."
+    },
+    "produto-preco-menor-zero": {
+        "mensagem": "Preço do produto inválido.",
+        "mensagemDetalhe": "O preço do produto não pode ser menor ou igual a zero reais."
+    },
+    "produto-sem-categoria": {
+        "mensagem": "Produto sem categoria.",
+        "mensagemDetalhe": "É obrigatório um produto estar associado à uma categoria."
+    },
+    "pedido-sem-produtos": {
+        "mensagem": "Pedido sem produtos.",
+        "mensagemDetalhe": "É obrigatório um pedido ter pelo menos um produto."
+    },
+    "pedido-nao-existe": {
+        "mensagem": "Pedido não existe.",
+        "mensagemDetalhe": "O pedido informado não existe."
+    },
+    "pedido-produtos-sem-id": {
+        "mensagem": "Pedido com produtos sem id.",
+        "mensagemDetalhe": "É obrigatório um produto ter um id."
+    },
+    "pedido-produtos-duplicados": {
+        "mensagem": "Pedido com produtos duplicados.",
+        "mensagemDetalhe": "É obrigatório não ter produtos duplicados no pedido."
+    },
+    "pedido-preco-menor-zero": {
+        "mensagem": "Pedido com preço menor ou igual a zero.",
+        "mensagemDetalhe": "É obrigatório o preço do pedido ser maior que zero."
+    },
+    "pedido-produto-nao-existe": {
+        "mensagem": "Pedido com produto não existente.",
+        "mensagemDetalhe": "É obrigatório que o produto exista para ser adicionado ao pedido."
+    },
+    "pedido-produto-quantidade-invalida": {
+        "mensagem": "Pedido com produto em quantidade inválida",
+        "mensagemDetalhe": "É obrigatório que a quantidade do produto seja maior que zero."
+    },
+    "pedido-produto-duplicado": {
+        "mensagem": "Pedido com produto duplicado.",
+        "mensagemDetalhe": "É obrigatório que o produto não esteja duplicado no pedido."
+    },
+    "produtos-nao-estao-no-mesmo-pedido": {
+        "mensagem": "Produtos não estão no mesmo pedido.",
+        "mensagemDetalhe": "É obrigatório que os produtos estejam no mesmo pedido."
+    }
+}
