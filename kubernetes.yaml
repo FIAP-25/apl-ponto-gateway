@@ -39,7 +39,7 @@ spec:
         spec:
             containers:
                 - name: node
-                  image: whocastr/apl-back-fiap:3.0.0
+                  image: whocastr/apl-back-fiap:4.0.0
                   ports:
                       - containerPort: 3000
                   envFrom:
