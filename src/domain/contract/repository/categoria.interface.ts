@@ -6,4 +6,6 @@ export abstract class ICategoriaRepository {
     abstract save(categoria: Categoria): Promise<Categoria>;
     abstract saveMany(categoria: Categoria[]): Promise<Categoria[]>;
     abstract remove(id: string): Promise<void>;
+
+    abstract initialPopulate(): Promise<void>;
 }

@@ -36,4 +36,22 @@ export class CategoriaRepository implements ICategoriaRepository {
     async remove(id: string): Promise<void> {
         await this.repository.delete(id);
     }
+
+    async initialPopulate(): Promise<void> {
+        let categorias: Categoria[] = [];
+        const categoriasBase = ['Lanches', 'Bebida', 'Sobremesa', 'Acompanhamento'];
+        categorias = categoriasBase.map((descricao) => {
+            const categoria = new Categoria();
+            categoria.descricao = descricao;
+            return categoria;
+        });
+
+        await this.saveMany(categorias)
+            .then(() => {
+                console.log('[Database]: Categorias iniciais incluídas com sucesso!');
+            })
+            .catch((error) => {
+                console.log('[Database]: Categorias iniciais já existem! - ', error.code);
+            });
+    }
 }
