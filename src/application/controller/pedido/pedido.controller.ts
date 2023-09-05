@@ -16,7 +16,6 @@ export class PedidoController {
     @Post()
     @ApiOperation({ summary: 'Adiciona um pedido' })
     async adicionarPedido(@Body() body: AdicionarPedidoInput, @Res() res: Response): Promise<any> {
-        console.log(body);
         const pedido = body;
         const pedidoAdicionado = await this.pedidoUseCase.adicionarPedido(pedido);
 
