@@ -1,42 +1,62 @@
-# apl-back-fiap
+# apl-nest-fiap
 
 Repositório da aplicação back-end.
 
-## Instalação
+## Rodando Localmente
 
-Para rodar a aplicação siga as etapas abaixo:
+Para rodar a aplicação localmente siga as etapas abaixo:
 
 Clone o projeto
 
 ```bash
-  git clone https://github.com/FIAP-25/apl-back-fiap.git
+  git clone https://github.com/FIAP-25/apl-nest-fiap.git
 ```
 
 Instale a versão do Node:
 
 ```bash
-  Node 18.16.0
+  Node 18.17.1
 ```
 
 Instale as dependências:
 
 ```bash
-  npm install
+  npm install --legacy-peer-deps
 ```
 
-Para subir os containers do docker, rode o comando:
+Criar um arquivo .env a partir do .env-example (no arquivo .env-example estão as configurações padrões do projeto)
 
 ```bash
-  npm run docker
+  Criar arquivo .env
 ```
 
-Isso, irá subir dois containers, um com a aplicação Node, mapeada na porta 3000 e o outro container MYSQL mapeado na porta 3306.
+Rodar o comando para inicialização
+
+```bash
+  npm run start
+```
 
 O swagger da aplicação pode ser visualizado pelo endereço:
 
 ```bash
-  http://localhost:3000/
+  http://localhost:3000/api
 ```
+
+## Rodando com o Kubernetes
+
+Para subir os containers do Kubernetes executar o comando
+
+```bash
+  npm run k8:create
+```
+
+Para derrubar os containers executar o comando
+
+```bash
+  npm run k8:delete
+```
+
+## Mais Informações
 
 As collections de exemplo, podem ser visualizadas pelo postman:
 
@@ -49,22 +69,6 @@ O Miro com a linguagem ubíqua + event storming pode ser acessado pelo link:
 ```bash
   https://miro.com/app/board/uXjVMK9Y4Zw=/
 ```
-
-## Variáveis de Ambiente
-
-Caso queria rodar o projeto localmente, você vai precisar configurar as váriaveis de ambiente no arquivo .env
-
-`PORT=4000`
-
-`DATABASE_HOST=127.0.0.1`
-
-`DATABASE_PORT=3306`
-
-`DATABASE_USERNAME=`
-
-`DATABASE_PASSWORD=`
-
-`DATABASE_SCHEMA=fiap`
 
 ## Diagrama de Entidades e Relacionamentos - MYSQL
 
