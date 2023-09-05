@@ -72,7 +72,7 @@ O Miro com a linguagem ubíqua + event storming pode ser acessado pelo link:
 
 ## Diagrama de Entidades e Relacionamentos - MYSQL
 
-![diagrama_mysql](https://github.com/FIAP-25/apl-back-fiap/assets/39955568/993dd91f-cb1b-4168-b0b9-b12ea77bcdea)
+![diagrama-banco](https://github.com/FIAP-25/apl-nest-fiap/assets/39955568/4320329f-42a2-47b9-84eb-d22e0493e049)
 
 ## Autores
 
