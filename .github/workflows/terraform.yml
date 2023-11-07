@@ -42,7 +42,7 @@
 #       with:
 #         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-name: 'Terraform'
+name: 'Terraform ECR'
 
 on:
     push:
@@ -54,7 +54,7 @@ permissions:
 
 jobs:
     terraform:
-        name: 'Terraform'
+        name: 'Terraform ECR'
         runs-on: ubuntu-latest
         environment: production
 
@@ -99,3 +99,35 @@ jobs:
             - name: Terraform Apply
               if: github.ref == 'refs/heads/"master"' && github.event_name == 'push'
               run: terraform apply -auto-approve -input=false
+
+        outputs:
+            ecr_registry: ${{ steps.login-ecr.outputs.registry }}
+            ecr_repository: 'apl-nest-fiap'
+            image_tag: 'latest'
+    build:
+        name: Build Image
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check out code
+              uses: actions/checkout@v2
+
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: ap-south-1
+
+            - name: Login to Amazon ECR
+              id: login-ecr
+              uses: aws-actions/amazon-ecr-login@v1
+
+            - name: Build, tag, and push image to Amazon ECR
+              env:
+                  ECR_REGISTRY: ${{ needs.terraform.outputs.ecr_registry }}
+                  ECR_REPOSITORY: ${{ needs.terraform.outputs.ecr_repository }}
+                  IMAGE_TAG: ${{ needs.terraform.outputs.image_tag }}
+              run: |
+                  docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+                  docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
