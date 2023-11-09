@@ -13,6 +13,9 @@ export class ClienteEntity {
     @Column()
     nomeCompleto: string;
 
+    @Column()
+    token: string;
+
     // Relação para indicar os pedidos desse cliente
     @OneToMany(() => PedidoEntity, (produto) => produto.cliente)
     pedidos: ProdutoEntity[];
