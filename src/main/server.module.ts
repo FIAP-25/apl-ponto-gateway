@@ -1,12 +1,11 @@
 import ApplicationModule from '@/application/application.module';
 import InfrastructureModule from '@/infrastructure/infrastructure.module';
-import { InitialPopulateService } from '@/infrastructure/repository/helper/initialPopulate.service';
 import UseCaseModule from '@/usecase/usecase.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
     imports: [ConfigModule.forRoot(), ApplicationModule, InfrastructureModule, UseCaseModule],
-    providers: [InitialPopulateService]
+    providers: []
 })
 export class ServerModule {}
