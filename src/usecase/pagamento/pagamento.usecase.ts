@@ -1,3 +1,4 @@
+import { mapper } from '@/application/mapper/base.mapper';
 import { IPagamentoRepository } from '@/domain/contract/repository/pagamento.interface';
 import { IPagamentoUseCase } from '@/domain/contract/usecase/pagamento.interface';
 import { Pagamento } from '@/domain/entity/pagamento.model';
@@ -42,19 +43,14 @@ export class PagamentoUseCase implements IPagamentoUseCase {
     async realizarPagamento(pedidoId: string): Promise<RealizarPagamentoOutput> {
         const notaFiscal = this.gerarNotaFiscal();
         const pagamento: Pagamento = {
-            id: '',
             pedidoId: pedidoId,
             notaFiscal: notaFiscal,
             pagamentoStatus: 'PAGO'
         };
 
-        console.log(pagamento);
-        this.pagamentoRepository.save(pagamento);
+        const pagamentoSalvo = await this.pagamentoRepository.save(pagamento);
 
-        return {
-            id: pedidoId,
-            notaFiscal: 'NF123456'
-        };
+        return mapper.map(pagamentoSalvo, Pagamento, RealizarPagamentoOutput);
     }
 
     private gerarNotaFiscal(): string {

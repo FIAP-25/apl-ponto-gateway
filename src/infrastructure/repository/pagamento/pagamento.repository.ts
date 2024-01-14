@@ -24,7 +24,7 @@ export class PagamentoRepository implements IPagamentoRepository {
     //     return mapper.map(pagamento, PagamentoEntity, Pagamento);
     // }
 
-    async save(pagamento: Pagamento): Promise<void> {
-        await this.pagamentoRepository.save(pagamento);
+    async save(pagamento: Pagamento): Promise<Pagamento> {
+        return await this.pagamentoRepository.save(pagamento);
     }
 }
