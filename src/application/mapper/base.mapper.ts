@@ -1,5 +1,5 @@
-import { AtualizarStatusPagamentoOutput } from '@/infrastructure/dto/pagamento/atualizarStatusPagamento.dto';
-import { ObterStatusPagamentoOutput } from '@/infrastructure/dto/pagamento/obterStatusPagamento.dto';
+import { Pagamento } from '@/domain/entity/pagamento.model';
+import { PagamentoEntity } from '@/infrastructure/entity/pagamento.entity';
 import { classes } from '@automapper/classes';
 import { createMap, createMapper } from '@automapper/core';
 
@@ -9,6 +9,5 @@ export const mapper = createMapper({
 
 // #region Pagamento
 
-// createMap(mapper, Pedido, AtualizarStatusPagamentoOutput);
-// createMap(mapper, Pedido, ObterStatusPagamentoOutput);
+createMap(mapper, PagamentoEntity, Pagamento);
 // #endregion

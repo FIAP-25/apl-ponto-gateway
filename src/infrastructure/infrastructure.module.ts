@@ -1,22 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConnectionModule } from './repository/helper/connection.module';
+import { PagamentoEntity } from './entity/pagamento.entity';
+import { IPagamentoRepository } from '@/domain/contract/repository/pagamento.interface';
+import { PagamentoRepository } from './repository/pagamento/pagamento.repository';
 @Module({
-    imports: [
-        TypeOrmModule
-            .forFeature
-            // [CategoriaEntity, ClienteEntity, PedidoEntity, PedidoProdutoEntity, PedidoStatusEntity, ProdutoEntity, PedidoEntity, PedidoStatusEntity]
-            (),
-        ConnectionModule
-    ],
-    providers: [
-        // { provide: IClienteRepository, useClass: ClienteRepository },
-        // { provide: ICategoriaRepository, useClass: CategoriaRepository },
-        // { provide: IProdutoRepository, useClass: ProdutoRepository },
-        // { provide: IPedidoRepository, useClass: PedidoRepository },
-        // { provide: IPedidoStatusRepository, useClass: PedidoStatusRepository },
-        // { provide: IPedidoProdutoRepository, useClass: PedidoProdutoRepository }
-    ],
-    exports: [ConnectionModule]
+    imports: [TypeOrmModule.forFeature([PagamentoEntity]), ConnectionModule],
+    providers: [{ provide: IPagamentoRepository, useClass: PagamentoRepository }],
+    exports: [ConnectionModule, IPagamentoRepository]
 })
 export default class InfrastructureModule {}

@@ -1,7 +1,7 @@
 import { ok } from '@/application/helper/http.helper';
 import { IPagamentoUseCase } from '@/domain/contract/usecase/pagamento.interface';
 import { AtualizarStatusPagamentoInput } from '@/infrastructure/dto/pagamento/atualizarStatusPagamento.dto';
-import { Body, Controller, Get, Param, Patch, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, Res } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
@@ -23,6 +23,14 @@ export class PagamentoController {
     async atualizarStatusPagamento(@Param('pedidoId') pedidoId: string, @Body() body: AtualizarStatusPagamentoInput, @Res() res: Response): Promise<any> {
         const pedidoAtualizado = await this.pagamentoUseCase.atualizarStatusPagamento(pedidoId, body);
 
+        return ok(pedidoAtualizado, res);
+    }
+
+    @Post('pagar/:pedidoId')
+    @ApiOperation({ summary: 'Paga um pedido' })
+    async pagarPedido(@Param('pedidoId') pedidoId: string, @Res() res: Response): Promise<any> {
+        console.log('entrou pedido: ', pedidoId);
+        const pedidoAtualizado = await this.pagamentoUseCase.realizarPagamento(pedidoId);
         return ok(pedidoAtualizado, res);
     }
 }
