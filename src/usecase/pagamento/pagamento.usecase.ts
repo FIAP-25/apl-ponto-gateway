@@ -3,6 +3,7 @@ import { IPagamentoRepository } from '@/domain/contract/repository/pagamento.int
 import { IPagamentoUseCase } from '@/domain/contract/usecase/pagamento.interface';
 import { Pagamento } from '@/domain/entity/pagamento.model';
 import { AtualizarStatusPagamentoInput, AtualizarStatusPagamentoOutput } from '@/infrastructure/dto/pagamento/atualizarStatusPagamento.dto';
+import { ObterPagamentoOutput } from '@/infrastructure/dto/pagamento/obterPagamento.dto';
 import { ObterStatusPagamentoOutput } from '@/infrastructure/dto/pagamento/obterStatusPagamento.dto';
 import { RealizarPagamentoOutput } from '@/infrastructure/dto/pagamento/realizarPagamento.dto';
 import { Injectable } from '@nestjs/common';
@@ -10,6 +11,13 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class PagamentoUseCase implements IPagamentoUseCase {
     constructor(private pagamentoRepository: IPagamentoRepository) {}
+
+    async obterPagamentos(): Promise<ObterPagamentoOutput[]> {
+        const pagamentos = await this.pagamentoRepository.find();
+        console.log('pagamentos: ', pagamentos);
+        return mapper.mapArray(pagamentos, Pagamento, ObterPagamentoOutput);
+    }
+
     async obterStatusPagamento(pedidoId: string): Promise<ObterStatusPagamentoOutput> {
         // const pedido: Pedido = await this.pedidoRepository.findById(pedidoId);
 

@@ -10,6 +10,14 @@ import { Response } from 'express';
 export class PagamentoController {
     constructor(private pagamentoUseCase: IPagamentoUseCase) {}
 
+    @Get()
+    @ApiOperation({ summary: 'Obter pagamentos' })
+    async obterPagamentos(@Res() res: Response): Promise<any> {
+        const pagamentos = await this.pagamentoUseCase.obterPagamentos();
+
+        return ok(pagamentos, res);
+    }
+
     @Get('status/:pedidoId')
     @ApiOperation({ summary: 'Obtem status pagamento pelo id do pedido' })
     async obterStatusPagamento(@Query('pedidoId') pedidoId: string, @Res() res: Response): Promise<any> {

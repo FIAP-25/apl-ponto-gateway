@@ -14,7 +14,8 @@ export class PagamentoRepository implements IPagamentoRepository {
     ) {}
 
     async find(): Promise<Pagamento[]> {
-        const pagamentos = await this.pagamentoRepository.find();
+        const pagamentos: PagamentoEntity[] = await this.pagamentoRepository.find();
+        console.log('pagamentos repository: ', pagamentos);
         return mapper.mapArray(pagamentos, PagamentoEntity, Pagamento);
     }
 
