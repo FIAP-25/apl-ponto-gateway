@@ -5,12 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
     imports: [
         TypeOrmModule.forRoot({
+            // url: 'mongodb://root:example@mongo:27017/fiap?authSource=admin',
             type: 'mongodb',
             host: 'mongo',
             username: 'root',
             password: 'example',
-            port: 27017,
             database: 'fiap',
+            authSource: 'admin',
+            port: 27017,
             entities: [PagamentoEntity],
             synchronize: true
         })
