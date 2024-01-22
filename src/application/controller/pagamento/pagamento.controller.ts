@@ -41,4 +41,11 @@ export class PagamentoController {
         const pedidoAtualizado = await this.pagamentoUseCase.realizarPagamento(pedidoId);
         return ok(pedidoAtualizado, res);
     }
+
+    @Get('pedidos')
+    @ApiOperation({ summary: 'Paga um pedido' })
+    async obterPedidosFila(@Res() res: Response): Promise<any> {
+        const pedidos = this.pagamentoUseCase.obterPedidosFila();
+        return ok(pedidos, res);
+    }
 }

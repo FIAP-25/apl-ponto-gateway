@@ -8,4 +8,5 @@ export abstract class IPagamentoUseCase {
     abstract atualizarStatusPagamento(pedidoId: string, input: AtualizarStatusPagamentoInput): Promise<AtualizarStatusPagamentoOutput>;
     abstract realizarPagamento(pedidoId: string): Promise<RealizarPagamentoOutput>;
     abstract obterPagamentos(): Promise<ObterPagamentoOutput[]>;
+    abstract obterPedidosFila(): Promise<any[]>;
 }

@@ -6,11 +6,12 @@ import { AtualizarStatusPagamentoInput, AtualizarStatusPagamentoOutput } from '@
 import { ObterPagamentoOutput } from '@/infrastructure/dto/pagamento/obterPagamento.dto';
 import { ObterStatusPagamentoOutput } from '@/infrastructure/dto/pagamento/obterStatusPagamento.dto';
 import { RealizarPagamentoOutput } from '@/infrastructure/dto/pagamento/realizarPagamento.dto';
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class PagamentoUseCase implements IPagamentoUseCase {
-    constructor(private pagamentoRepository: IPagamentoRepository) {}
+    constructor(private pagamentoRepository: IPagamentoRepository, private httpService: HttpService) {}
 
     async obterPagamentos(): Promise<ObterPagamentoOutput[]> {
         const pagamentos = await this.pagamentoRepository.find();
@@ -59,6 +60,16 @@ export class PagamentoUseCase implements IPagamentoUseCase {
         const pagamentoSalvo = await this.pagamentoRepository.save(pagamento);
 
         return mapper.map(pagamentoSalvo, Pagamento, RealizarPagamentoOutput);
+    }
+
+    async obterPedidosFila(): Promise<any[]> {
+        let pedidos: any[] = [];
+
+        this.httpService.get<any[]>('http://localhost:3000/api/pedidos/fila').subscribe((valor: any) => {
+            pedidos = valor;
+        });
+
+        return pedidos;
     }
 
     private gerarNotaFiscal(): string {
