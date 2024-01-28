@@ -1,9 +1,8 @@
 import { AutoMap } from '@automapper/classes';
-import { ObjectId } from 'typeorm';
 
-export class Pagamento {
+export class CadastrarPagamentoOutput {
     @AutoMap()
-    _id?: ObjectId | string;
+    id?: string;
 
     @AutoMap()
     pedidoId: string;

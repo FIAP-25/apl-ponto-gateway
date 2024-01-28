@@ -5,6 +5,7 @@ import { PagamentoEntity } from '@/infrastructure/entity/pagamento.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class PagamentoRepository implements IPagamentoRepository {
@@ -19,13 +20,15 @@ export class PagamentoRepository implements IPagamentoRepository {
         return mapper.mapArray(pagamentos, PagamentoEntity, Pagamento);
     }
 
-    // async findByPedidoId(pedidoId: string): Promise<Pagamento> {
-    //     const pagamento = await this.pagamentoRepository.findOneBy({ pedidoId: pedidoId });
+    async findByPagamentoId(pagamentoId: string): Promise<Pagamento> {
+        const id = new ObjectId(pagamentoId);
+        const pagamento = await this.pagamentoRepository.findOneBy({ _id: id });
 
-    //     return mapper.map(pagamento, PagamentoEntity, Pagamento);
-    // }
+        return mapper.map(pagamento, PagamentoEntity, Pagamento);
+    }
 
     async save(pagamento: Pagamento): Promise<Pagamento> {
+        pagamento._id = new ObjectId(pagamento._id);
         return await this.pagamentoRepository.save(pagamento);
     }
 }

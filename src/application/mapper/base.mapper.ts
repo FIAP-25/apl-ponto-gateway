@@ -1,4 +1,5 @@
 import { Pagamento } from '@/domain/entity/pagamento.model';
+import { CadastrarPagamentoOutput } from '@/infrastructure/dto/pagamento/cadastrarPagamento.dto';
 import { ObterPagamentoOutput } from '@/infrastructure/dto/pagamento/obterPagamento.dto';
 import { RealizarPagamentoOutput } from '@/infrastructure/dto/pagamento/realizarPagamento.dto';
 import { PagamentoEntity } from '@/infrastructure/entity/pagamento.entity';
@@ -16,8 +17,8 @@ createMap(
     PagamentoEntity,
     Pagamento,
     forMember(
-        (destination) => destination.id,
-        mapFrom((source) => String(source.id))
+        (destination) => destination._id,
+        mapFrom((source) => String(source._id))
     ),
     forMember(
         (destination) => destination.pedidoId,
@@ -39,7 +40,7 @@ createMap(
     RealizarPagamentoOutput,
     forMember(
         (destination) => destination.id,
-        mapFrom((source) => String(source.id))
+        mapFrom((source) => String(source._id))
     ),
     forMember(
         (destination) => destination.pedidoId,
@@ -61,7 +62,51 @@ createMap(
     ObterPagamentoOutput,
     forMember(
         (destination) => destination.id,
-        mapFrom((source) => String(source.id))
+        mapFrom((source) => String(source._id))
+    ),
+    forMember(
+        (destination) => destination.pedidoId,
+        mapFrom((source) => source.pedidoId)
+    ),
+    forMember(
+        (destination) => destination.notaFiscal,
+        mapFrom((source) => source.notaFiscal)
+    ),
+    forMember(
+        (destination) => destination.pagamentoStatus,
+        mapFrom((source) => source.pagamentoStatus)
+    )
+);
+
+createMap(
+    mapper,
+    Pagamento,
+    CadastrarPagamentoOutput,
+    forMember(
+        (destination) => destination.id,
+        mapFrom((source) => String(source._id))
+    ),
+    forMember(
+        (destination) => destination.pedidoId,
+        mapFrom((source) => source.pedidoId)
+    ),
+    forMember(
+        (destination) => destination.notaFiscal,
+        mapFrom((source) => source.notaFiscal)
+    ),
+    forMember(
+        (destination) => destination.pagamentoStatus,
+        mapFrom((source) => source.pagamentoStatus)
+    )
+);
+
+createMap(
+    mapper,
+    Pagamento,
+    RealizarPagamentoOutput,
+    forMember(
+        (destination) => destination.id,
+        mapFrom((source) => String(source._id))
     ),
     forMember(
         (destination) => destination.pedidoId,
