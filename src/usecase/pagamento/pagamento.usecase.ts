@@ -42,8 +42,8 @@ export class PagamentoUseCase implements IPagamentoUseCase {
 
         const pagamentoSalvo = await this.pagamentoRepository.save(pagamentoPendente);
 
-        this.axiosClient
-            .executarChamada('post', `/pedidos/webhook`, { id: pagamentoSalvo.pedidoId, aprovado: true, motivo: 'Pagamento realizado com sucesso' })
+        await this.axiosClient
+            .executarChamada('post', `pedidos/webhook`, { id: pagamentoSalvo.pedidoId, aprovado: true, motivo: 'Pagamento realizado com sucesso' })
             .then((resultado) => {
                 console.log('resultado: ', resultado);
             })

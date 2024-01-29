@@ -2,12 +2,13 @@ FROM node:18.17.1
 
 WORKDIR /app
 
-ENV URL_BASE 'http://node_pagamento/api'
+ENV NODE_ENV 'development'
+ENV PORT 6000
+ENV URL_BASE 'http://node_pedido:3000/api/'
 
 COPY package.json package-lock.json ./
 
 COPY . .
-
 
 RUN npm install --legacy-peer-deps --no-package-lock && npm run build
 

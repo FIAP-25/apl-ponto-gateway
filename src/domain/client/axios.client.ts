@@ -8,15 +8,15 @@ export class AxiosClient implements IAxiosClient {
         const url = `${this.urlBase}${path}`;
         switch (metodo) {
             case 'get':
-                return await axios.get(url);
+                return axios.get(url);
             case 'post':
-                return await axios.post(url, body);
+                return axios.post(url, body);
             case 'put':
-                return await axios.put(url, body);
+                return axios.put(url, body);
             case 'patch':
-                return await axios.patch(url, body);
+                return axios.patch(url, body);
             case 'delete':
-                return await axios.delete(url);
+                return axios.delete(url);
             default:
                 break;
         }
