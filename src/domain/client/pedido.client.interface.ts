@@ -1,3 +1,3 @@
 export abstract class IPedidoClient {
-    abstract atualizarPedidoStatusPagamento(pedidoId: string, status: string): Promise<any>;
+    abstract atualizarPedidoStatusPagamento(pedidoId: string, aprovado: boolean, motivo: string): Promise<any>;
 }

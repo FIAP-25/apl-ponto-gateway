@@ -42,7 +42,7 @@ export class PagamentoUseCase implements IPagamentoUseCase {
 
         const pagamentoSalvo = await this.pagamentoRepository.save(pagamentoPendente);
 
-        this.pedidoClient.atualizarPedidoStatusPagamento(pagamentoSalvo.pedidoId, pagamentoSalvo.pagamentoStatus);
+        this.pedidoClient.atualizarPedidoStatusPagamento(pagamentoSalvo.pedidoId, true, 'Pagamento realizado com sucesso');
 
         return mapper.map(pagamentoSalvo, Pagamento, RealizarPagamentoOutput);
     }
