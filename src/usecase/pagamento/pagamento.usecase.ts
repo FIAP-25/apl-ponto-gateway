@@ -13,8 +13,7 @@ export class PagamentoUseCase implements IPagamentoUseCase {
     constructor(private pagamentoRepository: IPagamentoRepository, private axiosClient: IAxiosClient) {}
 
     async obterPagamentos(): Promise<ObterPagamentoOutput[]> {
-        const pagamentos = await this.pagamentoRepository.find();
-        console.log('pagamentos: ', pagamentos);
+        const pagamentos = await this.pagamentoRepository.find();        
         return mapper.mapArray(pagamentos, Pagamento, ObterPagamentoOutput);
     }
 
@@ -30,20 +29,21 @@ export class PagamentoUseCase implements IPagamentoUseCase {
         return mapper.map(pagamentoSalvo, Pagamento, CadastrarPagamentoOutput);
     }
 
-    async realizarPagamento(pagamentoId: string): Promise<RealizarPagamentoOutput> {
-        const pagamentoPendente: Pagamento = await this.pagamentoRepository.findByPagamentoId(pagamentoId);
+    async realizarPagamento(pedidoId: string): Promise<RealizarPagamentoOutput> {
+        
+        const pagamentoPendente: Pagamento = await this.pagamentoRepository.findByPedidoId(pedidoId);        
 
         if (!pagamentoPendente) {
             throw new Error('pagamento-nao-encontrado');
         }
 
         pagamentoPendente.pagamentoStatus = 'PAGO';
-        pagamentoPendente.notaFiscal = this.gerarNotaFiscal();
+        pagamentoPendente.notaFiscal = this.gerarNotaFiscal();      
 
         const pagamentoSalvo = await this.pagamentoRepository.save(pagamentoPendente);
 
         await this.axiosClient
-            .executarChamada('post', `pedidos/webhook`, { id: pagamentoSalvo.pedidoId, aprovado: true, motivo: 'Pagamento realizado com sucesso' })
+            .executarChamada('patch', `pedidos/webhook`, { id: pagamentoSalvo.pedidoId, aprovado: true, motivo: 'Pagamento realizado com sucesso' })
             .then((resultado) => {
                 console.log('resultado: ', resultado);
             })

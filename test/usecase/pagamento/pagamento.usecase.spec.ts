@@ -1,30 +1,33 @@
+import { IAxiosClient } from '@/domain/contract/client/axios.interface';
 import { IPagamentoRepository } from '@/domain/contract/repository/pagamento.interface';
 import { Pagamento } from '@/domain/entity/pagamento.model';
+import { ObterPagamentoOutput } from '@/infrastructure/dto/pagamento/obterPagamento.dto';
+import { RealizarPagamentoOutput } from '@/infrastructure/dto/pagamento/realizarPagamento.dto';
 import { PagamentoUseCase } from '@/usecase/pagamento/pagamento.usecase';
-import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Axios } from 'axios';
 import { of } from 'rxjs';
 
 describe('PagamentoUseCase', () => {
     let useCase: PagamentoUseCase;
     let mockPagamentoRepository: jest.Mocked<IPagamentoRepository>;
-    let mockHttpService: jest.Mocked<HttpService>;
+    let mockHttpService: jest.Mocked<IAxiosClient>;
 
     beforeEach(async () => {
         mockPagamentoRepository = {
             find: jest.fn(),
             findByPagamentoId: jest.fn(),
-            save: jest.fn()
+            findByPedidoId: jest.fn(),
+            save: jest.fn(),
+            update: jest.fn()
         };
 
         mockHttpService = {
-            get: jest.fn().mockImplementation(() => of({ data: [] })),
-            post: jest.fn(),
-            put: jest.fn()
-        } as unknown as jest.Mocked<HttpService>;
+            executarChamada: jest.fn()
+        };
 
         const module: TestingModule = await Test.createTestingModule({
-            providers: [PagamentoUseCase, { provide: IPagamentoRepository, useValue: mockPagamentoRepository }, { provide: HttpService, useValue: mockHttpService }]
+            providers: [PagamentoUseCase, { provide: IPagamentoRepository, useValue: mockPagamentoRepository }, { provide: IAxiosClient, useValue: mockHttpService }]
         }).compile();
 
         useCase = module.get<PagamentoUseCase>(PagamentoUseCase);
@@ -35,9 +38,9 @@ describe('PagamentoUseCase', () => {
         const pedidoId = '123';
         const notaFiscal = 'NF000001';
         const pagamentoStatus = 'PAGO';
-        const mockData: Pagamento[] = [
+        const mockData: ObterPagamentoOutput[] = [
             {
-                _id: id,
+                id: id,
                 pedidoId: pedidoId,
                 notaFiscal: notaFiscal,
                 pagamentoStatus: pagamentoStatus
@@ -65,14 +68,14 @@ describe('PagamentoUseCase', () => {
         const notaFiscal = 'NF000001';
         const pagamentoStatus = 'PAGO';
 
-        const mockData: Pagamento = {
-            _id: id,
+        const mockData: RealizarPagamentoOutput = {
+            id: id,
             pedidoId: pedidoId,
             notaFiscal: notaFiscal,
             pagamentoStatus: pagamentoStatus
         };
 
-        mockPagamentoRepository.findByPagamentoId.mockResolvedValue({
+        mockPagamentoRepository.findByPedidoId.mockResolvedValue({
             _id: id,
             pedidoId: pedidoId,
             notaFiscal: notaFiscal,
@@ -86,36 +89,12 @@ describe('PagamentoUseCase', () => {
             pagamentoStatus: pagamentoStatus
         });
 
+        mockHttpService.executarChamada.mockResolvedValue({})
+
         const resultado = await useCase.realizarPagamento(pedidoId);
 
         expect(resultado).toEqual(mockData);
-        expect(mockPagamentoRepository.findByPagamentoId).toHaveBeenCalled();
+        expect(mockPagamentoRepository.findByPedidoId).toHaveBeenCalled();
         expect(mockPagamentoRepository.save).toHaveBeenCalled();
-    });
-
-    it('deve obter um pagamento por Id', async () => {
-        const id = '1';
-        const pedidoId = '123';
-        const notaFiscal = 'NF000001';
-        const pagamentoStatus = 'PAGO';
-
-        const mockData: Pagamento = {
-            _id: id,
-            pedidoId: pedidoId,
-            notaFiscal: notaFiscal,
-            pagamentoStatus: pagamentoStatus
-        };
-
-        mockPagamentoRepository.findByPagamentoId.mockResolvedValue({
-            _id: id,
-            pedidoId: pedidoId,
-            notaFiscal: notaFiscal,
-            pagamentoStatus: pagamentoStatus
-        });
-
-        const resultado = await useCase.realizarPagamento(pedidoId);
-
-        expect(resultado).toEqual(mockData);
-        expect(mockPagamentoRepository.findByPagamentoId).toHaveBeenCalled();
-    });
+    });    
 });

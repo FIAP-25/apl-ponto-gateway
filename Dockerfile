@@ -3,7 +3,7 @@ FROM node:18.17.1
 WORKDIR /app
 
 ENV NODE_ENV 'development'
-ENV PORT 6000
+ENV PORT 5001
 ENV URL_BASE 'http://node_pedido:3000/api/'
 
 COPY package.json package-lock.json ./

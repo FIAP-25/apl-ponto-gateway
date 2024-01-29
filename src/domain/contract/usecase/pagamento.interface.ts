@@ -4,6 +4,6 @@ import { RealizarPagamentoOutput } from '@/infrastructure/dto/pagamento/realizar
 
 export abstract class IPagamentoUseCase {
     abstract obterPagamentos(): Promise<ObterPagamentoOutput[]>;
-    abstract realizarPagamento(pagamentoId: string): Promise<RealizarPagamentoOutput>;
+    abstract realizarPagamento(pedidoId: string): Promise<RealizarPagamentoOutput>;
     abstract cadastrarPagamento(pedidoId: string): Promise<CadastrarPagamentoOutput>;
 }
