@@ -1,4 +1,7 @@
+import { PedidoClient } from '@/domain/client/pedido.client';
+import { IPedidoClient } from '@/domain/client/pedido.client.interface';
 import { IPagamentoRepository } from '@/domain/contract/repository/pagamento.interface';
+import { Pagamento } from '@/domain/entity/pagamento.model';
 import { RealizarPagamentoOutput } from '@/infrastructure/dto/pagamento/realizarPagamento.dto';
 import { PagamentoUseCase } from '@/usecase/pagamento/pagamento.usecase';
 import { HttpService } from '@nestjs/axios';
@@ -13,7 +16,7 @@ describe('PagamentoUseCase', () => {
     beforeEach(async () => {
         mockPagamentoRepository = {
             find: jest.fn(),
-            // findByPedidoId: jest.fn(), TODO ativar quando for implementado findByPedidoId
+            findByPagamentoId: jest.fn(),
             save: jest.fn()
         };
 
@@ -24,15 +27,34 @@ describe('PagamentoUseCase', () => {
         } as unknown as jest.Mocked<HttpService>;
 
         const module: TestingModule = await Test.createTestingModule({
-            providers: [PagamentoUseCase, { provide: IPagamentoRepository, useValue: mockPagamentoRepository }, { provide: HttpService, useValue: mockHttpService }]
+            providers: [PagamentoUseCase, { provide: IPagamentoRepository, useValue: mockPagamentoRepository }, { provide: HttpService, useValue: mockHttpService }, { provide: IPedidoClient, useClass: PedidoClient }]
         }).compile();
 
         useCase = module.get<PagamentoUseCase>(PagamentoUseCase);
     });
 
     it('deve obter pagamentos', async () => {
-        const mockData = [];
-        mockPagamentoRepository.find.mockResolvedValue(mockData);
+        const id = '1';
+        const pedidoId = '123';
+        const notaFiscal = 'NF000001';
+        const pagamentoStatus = 'PAGO';
+        const mockData: Pagamento[] = [
+            {
+                _id: id,
+                pedidoId: pedidoId,
+                notaFiscal: notaFiscal,
+                pagamentoStatus: pagamentoStatus
+            }
+        ];
+
+        mockPagamentoRepository.find.mockResolvedValue([
+            {
+                _id: id,
+                pedidoId: pedidoId,
+                notaFiscal: notaFiscal,
+                pagamentoStatus: pagamentoStatus
+            }
+        ]);
 
         const resultado = await useCase.obterPagamentos();
 
@@ -40,46 +62,28 @@ describe('PagamentoUseCase', () => {
         expect(mockPagamentoRepository.find).toHaveBeenCalled();
     });
 
-    // it('deve obter status de pagamento', async () => { TODO ativar quando for implementado findByPedidoId
-    //     const pedidoId = '123';
-    //     const mockData = { id: pedidoId, pagamentoStatus: 'PAGO' };
-    //     mockPagamentoRepository.findByPedidoId.mockResolvedValue(new Pagamento());
-
-    //     const resultado = await useCase.obterStatusPagamento(pedidoId);
-
-    //     expect(resultado).toEqual(mockData);
-    //     expect(mockPagamentoRepository.findByPedidoId).toHaveBeenCalledWith(pedidoId);
-    // });
-
-    // it('deve atualizar status de pagamento', async () => { TODO ativar quando for implementado findByPedidoId
-    //     const pedidoId = '123';
-    //     const input = new AtualizarStatusPagamentoInput();
-    //     const mockData = { id: pedidoId, pagamentoStatus: input.status };
-    //     mockPagamentoRepository.findByPedidoId.mockResolvedValue(new Pagamento());
-
-    //     const resultado = await useCase.atualizarStatusPagamento(pedidoId, input);
-
-    //     expect(resultado).toEqual(mockData);
-    //     expect(mockPagamentoRepository.findByPedidoId).toHaveBeenCalledWith(pedidoId);
-    //     expect(mockPagamentoRepository.save).toHaveBeenCalled();
-    // });
-
-    // ... (outras partes do seu arquivo de teste)
-
     it('deve realizar pagamento', async () => {
         const id = '1';
         const pedidoId = '123';
         const notaFiscal = 'NF000001';
         const pagamentoStatus = 'PAGO';
-        const mockData: RealizarPagamentoOutput = {
-            id: id,
+
+        const mockData: Pagamento = {
+            _id: id,
             pedidoId: pedidoId,
             notaFiscal: notaFiscal,
             pagamentoStatus: pagamentoStatus
         };
 
+        mockPagamentoRepository.findByPagamentoId.mockResolvedValue({
+            _id: id,
+            pedidoId: pedidoId,
+            notaFiscal: notaFiscal,
+            pagamentoStatus: pagamentoStatus
+        });
+
         mockPagamentoRepository.save.mockResolvedValue({
-            id: id,
+            _id: id,
             pedidoId: pedidoId,
             notaFiscal: notaFiscal,
             pagamentoStatus: pagamentoStatus
@@ -88,15 +92,33 @@ describe('PagamentoUseCase', () => {
         const resultado = await useCase.realizarPagamento(pedidoId);
 
         expect(resultado).toEqual(mockData);
+        expect(mockPagamentoRepository.findByPagamentoId).toHaveBeenCalled();
         expect(mockPagamentoRepository.save).toHaveBeenCalled();
     });
 
-    it('deve obter pedidos na fila', async () => {
-        const mockData = [];
-        jest.spyOn(useCase, 'obterPedidosFila').mockResolvedValueOnce(mockData);
+    it('deve obter um pagamento por Id', async () => {
+        const id = '1';
+        const pedidoId = '123';
+        const notaFiscal = 'NF000001';
+        const pagamentoStatus = 'PAGO';
 
-        const resultado = await useCase.obterPedidosFila();
+        const mockData: Pagamento = {
+            _id: id,
+            pedidoId: pedidoId,
+            notaFiscal: notaFiscal,
+            pagamentoStatus: pagamentoStatus
+        };
+
+        mockPagamentoRepository.findByPagamentoId.mockResolvedValue({
+            _id: id,
+            pedidoId: pedidoId,
+            notaFiscal: notaFiscal,
+            pagamentoStatus: pagamentoStatus
+        });
+
+        const resultado = await useCase.realizarPagamento(pedidoId);
 
         expect(resultado).toEqual(mockData);
+        expect(mockPagamentoRepository.findByPagamentoId).toHaveBeenCalled();
     });
 });

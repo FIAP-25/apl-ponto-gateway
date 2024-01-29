@@ -1,5 +1,4 @@
 import { Pagamento } from '@/domain/entity/pagamento.model';
-import { ObjectId } from 'typeorm';
 
 export abstract class IPagamentoRepository {
     abstract find(): Promise<Pagamento[]>;

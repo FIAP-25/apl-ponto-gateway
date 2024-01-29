@@ -1,8 +1,6 @@
 import { PagamentoController } from '@/application/controller/pagamento/pagamento.controller';
 import { IPagamentoUseCase } from '@/domain/contract/usecase/pagamento.interface';
-import { AtualizarStatusPagamentoInput, AtualizarStatusPagamentoOutput } from '@/infrastructure/dto/pagamento/atualizarStatusPagamento.dto';
 import { ObterPagamentoOutput } from '@/infrastructure/dto/pagamento/obterPagamento.dto';
-import { ObterStatusPagamentoOutput } from '@/infrastructure/dto/pagamento/obterStatusPagamento.dto';
 import { RealizarPagamentoOutput } from '@/infrastructure/dto/pagamento/realizarPagamento.dto';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Response } from 'express';
@@ -15,10 +13,8 @@ describe('PagamentoController', () => {
     beforeEach(async () => {
         mockPagamentoUseCase = {
             obterPagamentos: jest.fn(),
-            obterStatusPagamento: jest.fn(),
-            atualizarStatusPagamento: jest.fn(),
-            realizarPagamento: jest.fn(),
-            obterPedidosFila: jest.fn()
+            cadastrarPagamento: jest.fn(),
+            realizarPagamento: jest.fn()
         };
 
         response = {
@@ -44,41 +40,12 @@ describe('PagamentoController', () => {
         expect(response.json).toHaveBeenCalledWith({ dados: mockData });
     });
 
-    it('deve obter status do pagamento pelo id do pedido', async () => {
-        const pedidoId = '123';
-        const mockData: ObterStatusPagamentoOutput = {
-            id: pedidoId,
-            pagamentoStatus: 'pagamento_pendente'
-        };
-        mockPagamentoUseCase.obterStatusPagamento.mockResolvedValue(mockData);
-
-        await controller.obterStatusPagamento(pedidoId, response);
-
-        expect(mockPagamentoUseCase.obterStatusPagamento).toHaveBeenCalledWith(pedidoId);
-        expect(response.json).toHaveBeenCalledWith({ dados: mockData });
-    });
-
-    it('deve atualizar status do pagamento pelo id do pedido', async () => {
-        const pedidoId = '123';
-        const input = new AtualizarStatusPagamentoInput();
-        const mockData: AtualizarStatusPagamentoOutput = {
-            id: pedidoId,
-            pagamentoStatus: 'pagamento_pendente'
-        };
-        mockPagamentoUseCase.atualizarStatusPagamento.mockResolvedValue(mockData);
-
-        await controller.atualizarStatusPagamento(pedidoId, input, response);
-
-        expect(mockPagamentoUseCase.atualizarStatusPagamento).toHaveBeenCalledWith(pedidoId, input);
-        expect(response.json).toHaveBeenCalledWith({ dados: mockData });
-    });
-
-    it('deve pagar um pedido', async () => {
+    it('deve realizar um pagamento', async () => {
         const pedidoId = '123';
         const mockData: RealizarPagamentoOutput = {
             pedidoId: pedidoId,
             notaFiscal: '123123123',
-            pagamentoStatus: 'pagamento_pendente'
+            pagamentoStatus: 'PENDENTE'
         };
         mockPagamentoUseCase.realizarPagamento.mockResolvedValue(mockData);
 
@@ -88,13 +55,18 @@ describe('PagamentoController', () => {
         expect(response.json).toHaveBeenCalledWith({ dados: mockData });
     });
 
-    // it('deve obter pedidos na fila', async () => { TODO Precisa realizar tipagem para retorno de obterPedidosFila e não any[]
-    //     const mockData = Array();
-    //     mockPagamentoUseCase.obterPagamentos.mockResolvedValue(mockData);
+    it('deve cadastrar um pagamento', async () => {
+        const pedidoId = '123';
+        const mockData: RealizarPagamentoOutput = {
+            pedidoId: pedidoId,
+            notaFiscal: '123123123',
+            pagamentoStatus: 'PENDENTE'
+        };
+        mockPagamentoUseCase.cadastrarPagamento.mockResolvedValue(mockData);
 
-    //     await controller.obterPedidosFila(response);
+        await controller.cadastrarPagamento(pedidoId, response);
 
-    //     expect(mockPagamentoUseCase.obterPedidosFila).toHaveBeenCalled();
-    //     expect(response.json).toHaveBeenCalledWith({ dados: mockData });
-    // });
+        expect(mockPagamentoUseCase.cadastrarPagamento).toHaveBeenCalledWith(pedidoId);
+        expect(response.json).toHaveBeenCalledWith({ dados: mockData });
+    });
 });
