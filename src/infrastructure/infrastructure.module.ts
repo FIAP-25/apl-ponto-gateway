@@ -1,17 +1,17 @@
+import { AxiosClient } from '@/domain/client/axios.client';
+import { IAxiosClient } from '@/domain/contract/client/axios.interface';
+import { IPagamentoRepository } from '@/domain/contract/repository/pagamento.interface';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConnectionModule } from './repository/helper/connection.module';
 import { PagamentoEntity } from './entity/pagamento.entity';
-import { IPagamentoRepository } from '@/domain/contract/repository/pagamento.interface';
+import { ConnectionModule } from './repository/helper/connection.module';
 import { PagamentoRepository } from './repository/pagamento/pagamento.repository';
-import { IPedidoClient } from '@/domain/client/pedido.client.interface';
-import { PedidoClient } from '@/domain/client/pedido.client';
 @Module({
     imports: [TypeOrmModule.forFeature([PagamentoEntity]), ConnectionModule],
     providers: [
         { provide: IPagamentoRepository, useClass: PagamentoRepository },
-        { provide: IPedidoClient, useClass: PedidoClient }
+        { provide: IAxiosClient, useClass: AxiosClient }
     ],
-    exports: [ConnectionModule, IPagamentoRepository, IPedidoClient]
+    exports: [ConnectionModule, IPagamentoRepository, IAxiosClient]
 })
 export default class InfrastructureModule {}

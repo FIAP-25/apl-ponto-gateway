@@ -1,5 +1,5 @@
 import { mapper } from '@/application/mapper/base.mapper';
-import { IPedidoClient } from '@/domain/client/pedido.client.interface';
+import { IAxiosClient } from '@/domain/contract/client/axios.interface';
 import { IPagamentoRepository } from '@/domain/contract/repository/pagamento.interface';
 import { IPagamentoUseCase } from '@/domain/contract/usecase/pagamento.interface';
 import { Pagamento } from '@/domain/entity/pagamento.model';
@@ -10,7 +10,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class PagamentoUseCase implements IPagamentoUseCase {
-    constructor(private pagamentoRepository: IPagamentoRepository, private pedidoClient: IPedidoClient) {}
+    constructor(private pagamentoRepository: IPagamentoRepository, private axiosClient: IAxiosClient) {}
 
     async obterPagamentos(): Promise<ObterPagamentoOutput[]> {
         const pagamentos = await this.pagamentoRepository.find();
@@ -42,7 +42,14 @@ export class PagamentoUseCase implements IPagamentoUseCase {
 
         const pagamentoSalvo = await this.pagamentoRepository.save(pagamentoPendente);
 
-        this.pedidoClient.atualizarPedidoStatusPagamento(pagamentoSalvo.pedidoId, true, 'Pagamento realizado com sucesso');
+        this.axiosClient
+            .executarChamada('post', `api/pedidos/webhook`, { id: pagamentoSalvo.pedidoId, aprovado: true, motivo: 'Pagamento realizado com sucesso' })
+            .then((resultado) => {
+                console.log('resultado: ', resultado);
+            })
+            .catch((erro) => {
+                console.error('erro: ', erro);
+            });
 
         return mapper.map(pagamentoSalvo, Pagamento, RealizarPagamentoOutput);
     }

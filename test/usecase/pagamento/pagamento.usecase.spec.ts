@@ -1,8 +1,5 @@
-import { PedidoClient } from '@/domain/client/pedido.client';
-import { IPedidoClient } from '@/domain/client/pedido.client.interface';
 import { IPagamentoRepository } from '@/domain/contract/repository/pagamento.interface';
 import { Pagamento } from '@/domain/entity/pagamento.model';
-import { RealizarPagamentoOutput } from '@/infrastructure/dto/pagamento/realizarPagamento.dto';
 import { PagamentoUseCase } from '@/usecase/pagamento/pagamento.usecase';
 import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -27,7 +24,7 @@ describe('PagamentoUseCase', () => {
         } as unknown as jest.Mocked<HttpService>;
 
         const module: TestingModule = await Test.createTestingModule({
-            providers: [PagamentoUseCase, { provide: IPagamentoRepository, useValue: mockPagamentoRepository }, { provide: HttpService, useValue: mockHttpService }, { provide: IPedidoClient, useClass: PedidoClient }]
+            providers: [PagamentoUseCase, { provide: IPagamentoRepository, useValue: mockPagamentoRepository }, { provide: HttpService, useValue: mockHttpService }]
         }).compile();
 
         useCase = module.get<PagamentoUseCase>(PagamentoUseCase);
