@@ -24,7 +24,7 @@ describe('PagamentoUseCase', () => {
 
         mockHttpService = {
             executarChamada: jest.fn()
-        };
+        }
 
         const module: TestingModule = await Test.createTestingModule({
             providers: [PagamentoUseCase, { provide: IPagamentoRepository, useValue: mockPagamentoRepository }, { provide: IAxiosClient, useValue: mockHttpService }]
@@ -89,7 +89,13 @@ describe('PagamentoUseCase', () => {
             pagamentoStatus: pagamentoStatus
         });
 
-        mockHttpService.executarChamada.mockResolvedValue({})
+        mockHttpService.executarChamada.mockResolvedValue({ 
+            data: 'Mocked response data', 
+            status: 200,             
+            statusText: 'OK', 
+            headers: {}, 
+            config: {} 
+        });
 
         const resultado = await useCase.realizarPagamento(pedidoId);
 
