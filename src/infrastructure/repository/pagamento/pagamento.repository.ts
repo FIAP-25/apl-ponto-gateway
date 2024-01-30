@@ -13,22 +13,32 @@ export class PagamentoRepository implements IPagamentoRepository {
         @InjectRepository(PagamentoEntity)
         private pagamentoRepository: Repository<PagamentoEntity>
     ) {}
+    
 
     async find(): Promise<Pagamento[]> {
-        const pagamentos: PagamentoEntity[] = await this.pagamentoRepository.find();
-        console.log('pagamentos repository: ', pagamentos);
+        const pagamentos: PagamentoEntity[] = await this.pagamentoRepository.find();        
         return mapper.mapArray(pagamentos, PagamentoEntity, Pagamento);
     }
 
-    async findByPagamentoId(pagamentoId: string): Promise<Pagamento> {
-        const id = new ObjectId(pagamentoId);
+    async findByPagamentoId(pagamentoId: string): Promise<Pagamento> {        
+        const id = new ObjectId(pagamentoId);        
         const pagamento = await this.pagamentoRepository.findOneBy({ _id: id });
-
+        
         return mapper.map(pagamento, PagamentoEntity, Pagamento);
     }
 
+    async findByPedidoId(pedidoId: string): Promise<Pagamento> {      
+        const pagamento = await this.pagamentoRepository.findOneBy({ pedidoId: pedidoId });
+        return mapper.map(pagamento, PagamentoEntity, Pagamento);
+    }
+    
+
     async save(pagamento: Pagamento): Promise<Pagamento> {
         pagamento._id = new ObjectId(pagamento._id);
+        return await this.pagamentoRepository.save(pagamento);
+    }
+
+    async update(pagamento: Pagamento): Promise<Pagamento> {       
         return await this.pagamentoRepository.save(pagamento);
     }
 }

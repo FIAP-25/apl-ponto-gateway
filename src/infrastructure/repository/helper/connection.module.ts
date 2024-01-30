@@ -7,13 +7,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         TypeOrmModule.forRoot({
             // url: 'mongodb://root:example@mongo:27017/fiap?authSource=admin',
             type: 'mongodb',
-            url: 'mongodb://localhost:27017/fiap?authSource=admin',
-            // host: 'mongo',
-            // username: 'root',
-            // password: 'example',
-            // database: 'fiap',
-            // authSource: 'admin',
-            // port: 27017,
+            host: process.env.DATABASE_HOST,
+            username: process.env.DATABASE_USERNAME,
+            password: process.env.DATABASE_PASSWORD,
+            database: process.env.DATABASE_SCHEMA,
+            authSource: process.env.DATABASE_AUTHSOURCE,
+            port: Number(process.env.DATABASE_PORT),
             entities: [PagamentoEntity],
             synchronize: true
         })

@@ -14,7 +14,6 @@ export class PagamentoUseCase implements IPagamentoUseCase {
 
     async obterPagamentos(): Promise<ObterPagamentoOutput[]> {
         const pagamentos = await this.pagamentoRepository.find();
-        console.log('pagamentos: ', pagamentos);
         return mapper.mapArray(pagamentos, Pagamento, ObterPagamentoOutput);
     }
 
@@ -30,8 +29,8 @@ export class PagamentoUseCase implements IPagamentoUseCase {
         return mapper.map(pagamentoSalvo, Pagamento, CadastrarPagamentoOutput);
     }
 
-    async realizarPagamento(pagamentoId: string): Promise<RealizarPagamentoOutput> {
-        const pagamentoPendente: Pagamento = await this.pagamentoRepository.findByPagamentoId(pagamentoId);
+    async realizarPagamento(pedidoId: string): Promise<RealizarPagamentoOutput> {
+        const pagamentoPendente: Pagamento = await this.pagamentoRepository.findByPedidoId(pedidoId);
 
         if (!pagamentoPendente) {
             throw new Error('pagamento-nao-encontrado');
@@ -42,16 +41,20 @@ export class PagamentoUseCase implements IPagamentoUseCase {
 
         const pagamentoSalvo = await this.pagamentoRepository.save(pagamentoPendente);
 
-        this.axiosClient
-            .executarChamada('post', `/pedidos/webhook`, { id: pagamentoSalvo.pedidoId, aprovado: true, motivo: 'Pagamento realizado com sucesso' })
+        await this.pagamentoWebhook(pedidoId, true, 'Pagamento realizado com sucesso');
+
+        return mapper.map(pagamentoSalvo, Pagamento, RealizarPagamentoOutput);
+    }
+
+    async pagamentoWebhook(pedidoId: string, sucesso: boolean, motivo: string): Promise<void> {
+        await this.axiosClient
+            .executarChamada('patch', `pedidos/webhook`, { id: pedidoId, aprovado: sucesso, motivo: motivo })
             .then((resultado) => {
                 console.log('resultado: ', resultado);
             })
             .catch((erro) => {
                 console.error('erro: ', erro);
             });
-
-        return mapper.map(pagamentoSalvo, Pagamento, RealizarPagamentoOutput);
     }
 
     private gerarNotaFiscal(): string {

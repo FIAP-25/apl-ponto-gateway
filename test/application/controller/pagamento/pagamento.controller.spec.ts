@@ -14,7 +14,8 @@ describe('PagamentoController', () => {
         mockPagamentoUseCase = {
             obterPagamentos: jest.fn(),
             cadastrarPagamento: jest.fn(),
-            realizarPagamento: jest.fn()
+            realizarPagamento: jest.fn(),
+            pagamentoWebhook: jest.fn()
         };
 
         response = {

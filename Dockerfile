@@ -2,12 +2,21 @@ FROM node:18.17.1
 
 WORKDIR /app
 
-ENV URL_BASE 'http://node_pagamento/api'
+ENV NODE_ENV 'development'
+ENV PORT 5001
+
+ENV DATABASE_HOST 'mongo_pagamento' 
+ENV DATABASE_PORT 27019 
+ENV DATABASE_USERNAME 'root' 
+ENV DATABASE_PASSWORD 'example' 
+ENV DATABASE_SCHEMA 'fiap'
+ENV DATABASE_AUTHSOURCE 'admin'
+
+ENV URL_BASE 'http://node_pedido:3000/api/'
 
 COPY package.json package-lock.json ./
 
 COPY . .
-
 
 RUN npm install --legacy-peer-deps --no-package-lock && npm run build
 
