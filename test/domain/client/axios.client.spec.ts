@@ -2,7 +2,6 @@ import { AxiosClient } from '@/domain/client/axios.client';
 import axios from 'axios';
 
 jest.mock('axios');
-
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('AxiosClient', () => {
@@ -12,6 +11,7 @@ describe('AxiosClient', () => {
     beforeEach(() => {
         axiosClient = new AxiosClient();
         axiosClient.urlBase = urlBase;
+        jest.clearAllMocks();
     });
 
     it('deve fazer uma chamada GET corretamente', async () => {
