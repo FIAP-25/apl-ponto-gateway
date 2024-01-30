@@ -13,7 +13,7 @@ export class PagamentoUseCase implements IPagamentoUseCase {
     constructor(private pagamentoRepository: IPagamentoRepository, private axiosClient: IAxiosClient) {}
 
     async obterPagamentos(): Promise<ObterPagamentoOutput[]> {
-        const pagamentos = await this.pagamentoRepository.find();        
+        const pagamentos = await this.pagamentoRepository.find();
         return mapper.mapArray(pagamentos, Pagamento, ObterPagamentoOutput);
     }
 
@@ -30,28 +30,31 @@ export class PagamentoUseCase implements IPagamentoUseCase {
     }
 
     async realizarPagamento(pedidoId: string): Promise<RealizarPagamentoOutput> {
-        
-        const pagamentoPendente: Pagamento = await this.pagamentoRepository.findByPedidoId(pedidoId);        
+        const pagamentoPendente: Pagamento = await this.pagamentoRepository.findByPedidoId(pedidoId);
 
         if (!pagamentoPendente) {
             throw new Error('pagamento-nao-encontrado');
         }
 
         pagamentoPendente.pagamentoStatus = 'PAGO';
-        pagamentoPendente.notaFiscal = this.gerarNotaFiscal();      
+        pagamentoPendente.notaFiscal = this.gerarNotaFiscal();
 
         const pagamentoSalvo = await this.pagamentoRepository.save(pagamentoPendente);
 
+        await this.pagamentoWebhook(pedidoId, true, 'Pagamento realizado com sucesso');
+
+        return mapper.map(pagamentoSalvo, Pagamento, RealizarPagamentoOutput);
+    }
+
+    async pagamentoWebhook(pedidoId: string, sucesso: boolean, motivo: string): Promise<void> {
         await this.axiosClient
-            .executarChamada('patch', `pedidos/webhook`, { id: pagamentoSalvo.pedidoId, aprovado: true, motivo: 'Pagamento realizado com sucesso' })
+            .executarChamada('patch', `pedidos/webhook`, { id: pedidoId, aprovado: sucesso, motivo: motivo })
             .then((resultado) => {
                 console.log('resultado: ', resultado);
             })
             .catch((erro) => {
                 console.error('erro: ', erro);
             });
-
-        return mapper.map(pagamentoSalvo, Pagamento, RealizarPagamentoOutput);
     }
 
     private gerarNotaFiscal(): string {

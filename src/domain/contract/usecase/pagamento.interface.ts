@@ -6,4 +6,5 @@ export abstract class IPagamentoUseCase {
     abstract obterPagamentos(): Promise<ObterPagamentoOutput[]>;
     abstract realizarPagamento(pedidoId: string): Promise<RealizarPagamentoOutput>;
     abstract cadastrarPagamento(pedidoId: string): Promise<CadastrarPagamentoOutput>;
+    abstract pagamentoWebhook(pedidoId: string, sucesso: boolean, motivo: string): Promise<void>;
 }
