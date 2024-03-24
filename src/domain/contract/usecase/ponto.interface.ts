@@ -1,5 +1,5 @@
-import { MarcarPontoInput } from '@/infrastructure/dto/marcarPonto.dto';
+import { MarcarPontoInput } from '@/infrastructure/dto/ponto/marcarPonto.dto';
 
 export abstract class IPontoUseCase {
-    abstract enviaRegistroFila(dados: MarcarPontoInput): Promise<void>;
+    abstract enviaRegistroFila(dados: MarcarPontoInput & { matricula: string }): Promise<void>;
 }

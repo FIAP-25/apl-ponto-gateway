@@ -5,6 +5,7 @@ import { BaseController } from './controller/base/base.controller';
 import { HealthController } from './controller/health/health.controller';
 import { PontoController } from './controller/ponto/ponto.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { AutenticacaoController } from './controller/autenticacao/autenticacao.controller';
 
 @Module({
     imports: [
@@ -24,7 +25,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
             }
         ])
     ],
-    controllers: [PontoController, HealthController, BaseController],
+    controllers: [PontoController, HealthController, BaseController, AutenticacaoController],
     exports: [HttpModule]
 })
 export default class ApplicationModule {}

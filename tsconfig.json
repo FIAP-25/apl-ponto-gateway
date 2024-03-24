@@ -22,7 +22,8 @@
         "noImplicitOverride": true,
         "useUnknownInCatchVariables": false,
         "strictPropertyInitialization": false,
-        "noImplicitAny": false
+        "noImplicitAny": false,
+        "typeRoots": ["./src/application/types", "./node_modules/@types"]
     },
     "include": ["src", "test"],
     "exclude": []

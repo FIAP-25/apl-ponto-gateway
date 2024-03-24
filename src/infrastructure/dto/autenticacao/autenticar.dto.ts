@@ -1,16 +1,17 @@
 import { AutoMap } from '@automapper/classes';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class MarcarPontoInput {
+export class AutenticarInput {
     @AutoMap()
     @ApiProperty({ required: true })
     matricula: string;
 
     @AutoMap()
     @ApiProperty({ required: true })
-    latitude: number;
+    senha: string;
+}
 
+export class AutenticarOutput {
     @AutoMap()
-    @ApiProperty({ required: true })
-    longitude: number;
+    token: string;
 }
