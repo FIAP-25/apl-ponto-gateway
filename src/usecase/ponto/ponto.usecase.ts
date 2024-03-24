@@ -1,13 +1,16 @@
 import { IAxiosClient } from '@/domain/contract/client/axios.interface';
 import { IPontoUseCase } from '@/domain/contract/usecase/ponto.interface';
 import { MarcarPontoInput } from '@/infrastructure/dto/marcarPonto.dto';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { Client } from '@nestjs/microservices/external/nats-client.interface';
 
 @Injectable()
 export class PontoUseCase implements IPontoUseCase {
-    constructor(private axiosClient: IAxiosClient) {}
+    constructor(private axiosClient: IAxiosClient, @Inject('PONTO_SERVICE') private readonly client: ClientProxy) {}
 
     async enviaRegistroFila(dados: MarcarPontoInput): Promise<void> {
+        this.client.emit('ponto_created', dados);
         return new Promise(function (resolve) {
             setTimeout(resolve);
         });
