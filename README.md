@@ -1,1 +1,0 @@
-# apl-ponto-gateway
