@@ -1,8 +1,8 @@
-import { IPagamentoUseCase } from '@/domain/contract/usecase/pagamento.interface';
-import InfrastructureModule from '@/infrastructure/infrastructure.module';
-import { Module } from '@nestjs/common';
-import { PagamentoUseCase } from './pagamento/pagamento.usecase';
+import { IPontoUseCase } from '@/domain/contract/usecase/ponto.interface';
 import { HttpModule } from '@nestjs/axios';
+import { Module } from '@nestjs/common';
+import { PontoUseCase } from './ponto/ponto.usecase';
+import InfrastructureModule from '@/infrastructure/infrastructure.module';
 
 @Module({
     imports: [
@@ -12,7 +12,7 @@ import { HttpModule } from '@nestjs/axios';
             maxRedirects: 5
         })
     ],
-    providers: [{ provide: IPagamentoUseCase, useClass: PagamentoUseCase }],
-    exports: [IPagamentoUseCase]
+    providers: [{ provide: IPontoUseCase, useClass: PontoUseCase }],
+    exports: [IPontoUseCase]
 })
 export default class UseCaseModule {}

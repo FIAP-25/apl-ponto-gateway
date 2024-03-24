@@ -1,16 +1,16 @@
 import { AutoMap } from '@automapper/classes';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class AtualizarStatusPagamentoInput {
+export class MarcarPontoInput {
     @AutoMap()
     @ApiProperty({ required: true })
-    status: string;
-}
-
-export class AtualizarStatusPagamentoOutput {
-    @AutoMap()
-    id: string;
+    matricula: string;
 
     @AutoMap()
-    pagamentoStatus: string;
+    @ApiProperty({ required: true })
+    latitude: number;
+
+    @AutoMap()
+    @ApiProperty({ required: true })
+    longitude: number;
 }

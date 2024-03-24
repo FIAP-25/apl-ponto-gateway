@@ -3,11 +3,11 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { BaseController } from './controller/base/base.controller';
 import { HealthController } from './controller/health/health.controller';
-import { PagamentoController } from './controller/pagamento/pagamento.controller';
+import { PontoController } from './controller/ponto/ponto.controller';
 
 @Module({
     imports: [UseCaseModule, HttpModule],
-    controllers: [PagamentoController, HealthController, BaseController],
+    controllers: [PontoController, HealthController, BaseController],
     exports: [HttpModule]
 })
 export default class ApplicationModule {}
